@@ -241,6 +241,25 @@
             color: var(--primary-dark);
         }
 
+        /* Pre and Code Formatting */
+        pre {
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+            padding: 16px 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        pre code {
+            background: none !important;
+            color: var(--text-main) !important;
+            padding: 0 !important;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88rem;
+            font-weight: 400;
+        }
+
         /* Tables */
         table {
             width: 100%;
@@ -527,6 +546,7 @@
             <li class="nav-item" data-section="objectives"><a href="#objectives">🎯 Objectives</a></li>
             <li class="nav-item" data-section="workflow"><a href="#workflow">🔄 System Workflow</a></li>
             <li class="nav-item" data-section="tech-stack"><a href="#tech-stack">🛠️ Technology Stack</a></li>
+            <li class="nav-item" data-section="backend"><a href="#backend">🛡️ Backend Security</a></li>
             <li class="nav-item" data-section="database"><a href="#database">💾 Database Schema</a></li>
             <li class="nav-item" data-section="viva"><a href="#viva">❓ Viva Guide (25 Q&A)</a></li>
         </ul>
@@ -620,9 +640,82 @@
             </ol>
         </section>
 
+        <!-- Backend Security Section -->
+        <section id="backend">
+            <h2 class="section-title">6. Backend Cloud Architecture & Security</h2>
+            
+            <h3>Firebase Authentication Backend Flow</h3>
+            <p>The system uses <strong>Firebase Authentication</strong> for passwordless onboarding.</p>
+            <ul>
+                <li><strong>Client Side:</strong> One-tap Google Sign-In is initiated via <code>signInWithPopup(auth, googleProvider)</code>.</li>
+                <li><strong>Identity Provider (IDP):</strong> Google validates the user credentials and returns a secure OAuth credential token.</li>
+                <li><strong>Backend Service:</strong> Firebase Auth verifies the token and generates a unique <strong>UID (User ID)</strong> for the session.</li>
+                <li><strong>Session Persistence:</strong> The session is cached in the browser's <code>IndexedDB</code> storage, allowing automatic reconnection.</li>
+            </ul>
+
+            <h3>Cloud Firestore Security Rules</h3>
+            <p>We enforce authorization using declarative security rules in Cloud Firestore to block unauthorized write and read attempts:</p>
+            <pre><code class="language-javascript">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Authenticated users can read any profile, but can only write their own profile
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Authenticated users can read or create jobs
+    match /jobs/{jobId} {
+      allow read, create: if request.auth != null;
+      allow update, delete: if request.auth != null && resource.data.hirerId == request.auth.uid;
+    }
+    
+    // Users can access bookings if they are the worker or the hirer involved
+    match /bookings/{bookingId} {
+      allow read, write: if request.auth != null && 
+        (resource.data.hirerId == request.auth.uid || resource.data.workerId == request.auth.uid || request.resource.data.hirerId == request.auth.uid);
+    }
+  }
+}</code></pre>
+
+            <h3>Firebase Realtime Database Security Rules</h3>
+            <p>To secure real-time chat messages and online status tracking, we enforce access rules on the JSON database tree:</p>
+            <pre><code class="language-json">{
+  "rules": {
+    "chats": {
+      "$bookingId": {
+        // Enforce reading/writing messages only to authenticated clients
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "presence": {
+      "$userId": {
+        ".read": "auth != null",
+        ".write": "auth != null && auth.uid === $userId"
+      }
+    }
+  }
+}</code></pre>
+
+            <h3>Firebase Hosting Redirects (<code>firebase.json</code>)</h3>
+            <p>Since React Router handles page transitions entirely on the client side (Single Page Application), we configure Firebase Hosting to rewrite all incoming server requests back to <code>index.html</code>:</p>
+            <pre><code class="language-json">{
+  "hosting": {
+    "public": "dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}</code></pre>
+        </section>
+
         <!-- Database Schema Section -->
         <section id="database">
-            <h2 class="section-title">6. Data Storage Details (Where & What)</h2>
+            <h2 class="section-title">7. Data Storage Details (Where & What)</h2>
             <p>We divide the data into two databases to optimize read/write costs and messaging speeds:</p>
             <table>
                 <thead>
@@ -676,7 +769,7 @@
 
         <!-- Viva Guide Section -->
         <section id="viva">
-            <h2 class="section-title">7. 25 High-Yield Viva Questions & Answers</h2>
+            <h2 class="section-title">8. 25 High-Yield Viva Questions & Answers</h2>
             <div class="viva-controls">
                 <div class="search-wrapper">
                     <span class="search-icon">🔍</span>
