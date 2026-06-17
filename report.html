@@ -1,214 +1,274 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <title>KelasaGaara Project Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KelasaGaara (ಕೆಲಸಗಾರ) — Academic Documentation & Viva Guide</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Baloo+Tamma+2:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Baloo+Tamma+2:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+        :root {
+            --primary: #E8590C;
+            --primary-light: #FFEDD5;
+            --primary-dark: #C2410C;
+            --bg-body: #F8FAFC;
+            --bg-sidebar: #FFFFFF;
+            --bg-card: #FFFFFF;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0B0F19;
+            --bg-sidebar: #111827;
+            --bg-card: #1F2937;
+            --text-main: #F3F4F6;
+            --text-muted: #9CA3AF;
+            --border: #374151;
+            --primary-light: #451A03;
+            --card-shadow: 0 4px 25px -5px rgba(0, 0, 0, 0.3), 0 2px 10px -3px rgba(0, 0, 0, 0.2);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            color: #1E293B;
-            line-height: 1.6;
-            font-size: 14px;
-            background: #fff;
-            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            transition: var(--transition);
         }
 
-        /* Page Setup for A4 PDF Print */
-        @page {
-            size: A4;
-            margin: 20mm;
-        }
-
-        /* Avoid page breaks inside key sections */
-        .qa-card, .flowchart-container, table, tr, blockquote {
-            page-break-inside: avoid;
-        }
-
-        h2, h3 {
-            page-break-after: avoid;
-        }
-
-        /* Cover Page */
-        .cover-page {
-            height: 250mm;
+        /* Sidebar styling */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            padding: 30px 24px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px;
-            background: linear-gradient(135deg, #FFF9F6 0%, #FFF3EB 100%);
-            border-bottom: 8px solid #E8590C;
-            page-break-after: always;
+            gap: 30px;
+            z-index: 100;
+            transition: var(--transition);
         }
 
-        .logo-circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #E8590C, #F77F00);
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), #F77F00);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3.5rem;
             font-family: 'Baloo Tamma 2', cursive;
-            font-weight: 700;
-            box-shadow: 0 10px 25px rgba(232, 89, 12, 0.2);
-            margin-bottom: 30px;
+            font-weight: 800;
+            font-size: 1.6rem;
+            box-shadow: 0 4px 12px rgba(232, 89, 12, 0.3);
         }
 
-        .cover-title {
+        .logo-text {
             font-family: 'Baloo Tamma 2', cursive;
-            font-size: 3rem;
+            font-size: 1.4rem;
             font-weight: 800;
-            color: #E8590C;
-            margin-bottom: 15px;
+            color: var(--primary);
             line-height: 1.2;
         }
 
-        .cover-subtitle {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1.3rem;
+        .logo-text span {
+            color: var(--text-main);
+            font-size: 0.8rem;
+            display: block;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 500;
-            color: #475569;
-            margin-bottom: 50px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
-        .cover-meta {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.95rem;
-            color: #64748B;
-            line-height: 1.8;
-            margin-top: 50px;
-            border-top: 1.5px solid #E2E8F0;
-            padding-top: 25px;
-            width: 100%;
-            max-width: 400px;
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            list-style: none;
+            overflow-y: auto;
+            flex-grow: 1;
         }
 
-        .cover-meta strong {
-            color: #0F172A;
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
         }
 
-        /* Content Wrapper */
-        .content-wrapper {
-            padding: 0 10px;
+        .nav-item a:hover, .nav-item.active a {
+            color: var(--primary);
+            background: var(--primary-light);
         }
 
-        h1 {
+        /* Main Content Panel */
+        .main-content {
+            margin-left: 280px;
+            padding: 50px 60px;
+            flex-grow: 1;
+            max-width: 1000px;
+            transition: var(--transition);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .header-title h1 {
             font-family: 'Baloo Tamma 2', cursive;
-            color: #E8590C;
             font-size: 2.2rem;
-            text-align: center;
-            margin-top: 0px;
-            margin-bottom: 25px;
-            font-weight: 700;
+            color: var(--primary);
+            font-weight: 800;
         }
 
-        h2 {
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Buttons and Toggles */
+        .btn-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-main);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            font-family: inherit;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .btn-action:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary-action {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary-action:hover {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        /* Sections */
+        section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .section-title {
             font-family: 'Baloo Tamma 2', cursive;
-            color: #E8590C;
-            font-size: 1.7rem;
-            margin-top: 45px;
-            margin-bottom: 20px;
-            border-bottom: 2.5px solid #FFEDD5;
-            padding-bottom: 8px;
+            font-size: 1.8rem;
             font-weight: 700;
-        }
-
-        h3 {
-            font-family: 'DM Sans', sans-serif;
-            color: #0F172A;
-            font-size: 1.25rem;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
         }
 
         p {
-            margin-bottom: 16px;
-            color: #334155;
-            text-align: justify;
-            font-size: 0.95rem;
+            font-size: 0.98rem;
             line-height: 1.7;
+            color: var(--text-main);
+            margin-bottom: 18px;
+            text-align: justify;
         }
 
+        /* Lists */
         ul, ol {
-            margin-bottom: 20px;
-            padding-left: 25px;
+            margin-bottom: 22px;
+            padding-left: 24px;
         }
 
         li {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: var(--text-main);
             margin-bottom: 10px;
-            color: #334155;
-            font-size: 0.95rem;
-            line-height: 1.6;
         }
 
         li strong {
-            color: #0F172A;
+            color: var(--primary-dark);
         }
 
-        code {
-            background: #FFEDD5;
-            color: #C2410C;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: Consolas, Monaco, 'Andale Mono', monospace;
-            font-size: 0.9em;
-            font-weight: 600;
-        }
-
-        /* Page Breaks */
-        hr {
-            border: none;
-            height: 0;
-            margin: 50px 0;
-            border-top: 2px dashed #E2E8F0;
-            page-break-after: always;
-        }
-
-        /* Table Design */
+        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 30px 0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            border-radius: 8px;
+            margin: 25px 0;
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid #E2E8F0;
+            border: 1px solid var(--border);
         }
 
         th, td {
-            padding: 12px 16px;
+            padding: 14px 18px;
             text-align: left;
             font-size: 0.9rem;
         }
 
         th {
-            background: #E8590C;
+            background: var(--primary);
             color: white;
             font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
             text-transform: uppercase;
             font-size: 0.78rem;
             letter-spacing: 0.05em;
-            border: none;
         }
 
         td {
-            border-bottom: 1px solid #E2E8F0;
-            color: #334155;
-            line-height: 1.5;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
         }
 
         tr:last-child td {
@@ -216,49 +276,30 @@
         }
 
         tr:nth-child(even) td {
-            background-color: #FFFDFB;
+            background-color: var(--bg-body);
         }
 
-        /* Q&A Cards Design */
-        .qa-card {
-            background: #FFFFFF;
-            border: 1.5px solid #F1F5F9;
-            border-left: 5px solid #E8590C;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
-            margin-bottom: 22px;
-            overflow: hidden;
+        code {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88em;
+            font-weight: 600;
         }
 
-        .question-title {
-            background: #FAF8F6;
-            padding: 15px 20px;
-            font-weight: 700;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1rem;
-            color: #0F172A;
-            border-bottom: 1.5px solid #F1F5F9;
-        }
-
-        .answer-body {
-            padding: 18px 20px;
-            color: #334155;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            background: #FFFDFB;
-        }
-
-        /* Workflow Diagram Styling */
+        /* Flowchart styling */
         .flowchart-container {
-            background: #FAF8F6;
-            border: 1.5px solid #F1F5F9;
+            background: var(--bg-body);
+            border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 25px;
-            margin: 25px 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+            overflow-x: auto;
+            margin: 20px 0;
         }
 
         .flowchart-container svg {
@@ -266,286 +307,520 @@
             height: auto;
         }
 
+        /* Viva Section & Search */
+        .viva-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
+            box-shadow: var(--card-shadow);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(232, 89, 12, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.82rem;
+            transition: var(--transition);
+        }
+
+        .filter-tab.active, .filter-tab:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .qa-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .qa-card {
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .qa-header {
+            background: var(--bg-body);
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .qa-header:hover {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .qa-title {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .qa-id {
+            background: var(--primary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
+        }
+
+        .qa-toggle-btn {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .qa-card.open .qa-toggle-btn {
+            transform: rotate(180deg);
+        }
+
+        .qa-body {
+            padding: 20px 24px;
+            background: var(--bg-card);
+            font-size: 0.98rem;
+            line-height: 1.7;
+            display: none;
+        }
+
+        .qa-card.open .qa-body {
+            display: block;
+        }
+
+        .qa-badge {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            background: var(--border);
+            color: var(--text-muted);
+        }
+
+        .badge-database { background: #E0F2FE; color: #0369A1; }
+        .badge-frontend { background: #F3E8FF; color: #6B21A8; }
+        .badge-maps { background: #ECFDF5; color: #047857; }
+        .badge-bookings { background: #FFF7ED; color: #C2410C; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 30px 20px;
+            }
+        }
+
+        /* Print styles */
         @media print {
             body {
-                padding: 0;
+                background: white;
+                color: #000;
                 font-size: 12px;
             }
-            .cover-page {
-                height: 100vh;
+            .sidebar, .header-actions, .viva-controls, .qa-toggle-btn, .theme-toggle, hr {
+                display: none !important;
+            }
+            .main-content {
+                margin-left: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+            section {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 20px 0 !important;
+                page-break-inside: avoid;
+            }
+            .qa-card {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                margin-bottom: 15px !important;
+                page-break-inside: avoid;
+            }
+            .qa-body {
+                display: block !important;
+                background: white !important;
+            }
+            .flowchart-container {
+                page-break-inside: avoid;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 1. Cover Page -->
-    <div class="cover-page">
-        <div class="logo-circle">ಕ</div>
-        <div class="cover-title">KelasaGaara (ಕೆಲಸಗಾರ)</div>
-        <div class="cover-subtitle">Academic Project Report & Viva Defense Guide</div>
-        <div class="cover-meta">
-            <p><strong>Platform:</strong> React (Vite), Firebase Firestore, RTDB, Leaflet JS</p>
-            <p><strong>Repository:</strong> github.com/anandaram240-wq/Kelasagara</p>
-            <p><strong>Deployment:</strong> kelasagara-f127a.web.app</p>
-            <p><strong>Developer:</strong> Anandaram</p>
-            <p><strong>Session:</strong> 2026 Academic Evaluation</p>
-        </div>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <a href="#" class="logo-section">
+            <div class="logo-box">ಕ</div>
+            <div class="logo-text">
+                KelasaGaara
+                <span>Project Dashboard</span>
+            </div>
+        </a>
+        <ul class="nav-menu">
+            <li class="nav-item active" data-section="intro"><a href="#intro">🏠 Introduction</a></li>
+            <li class="nav-item" data-section="problem"><a href="#problem">⚠️ Problem Statement</a></li>
+            <li class="nav-item" data-section="objectives"><a href="#objectives">🎯 Objectives</a></li>
+            <li class="nav-item" data-section="workflow"><a href="#workflow">🔄 System Workflow</a></li>
+            <li class="nav-item" data-section="tech-stack"><a href="#tech-stack">🛠️ Technology Stack</a></li>
+            <li class="nav-item" data-section="database"><a href="#database">💾 Database Schema</a></li>
+            <li class="nav-item" data-section="viva"><a href="#viva">❓ Viva Guide (25 Q&A)</a></li>
+        </ul>
     </div>
 
-    <!-- 2. Main Content -->
-    <div class="content-wrapper">
-        <h1>KelasaGaara (ಕೆಲಸಗಾರ) — Academic Project Report &amp; Viva Defense Guide</h1>
-<p>This document is compiled as a detailed, structured, and easy-to-understand reference for your project panel. It contains a full technical report, workflow diagrams, database structures, and exactly 25 high-yield viva questions.</p>
-<hr />
-<h2>Part 1: Project Report</h2>
-<h3>1. Introduction</h3>
-<p><strong>KelasaGaara (ಕೆಲಸಗಾರ)</strong> is a hyper-local, bilingual (English and Kannada) service marketplace application developed for blue-collar daily-wage workers in Karnataka. The application organizes the informal job sector by enabling direct hiring, chat communication, and GPS map coordinates, eliminating middlemen and agency commissions.</p>
-<h3>2. Problem Statement</h3>
-<p>The blue-collar and daily-wage hiring market in India, specifically in Karnataka, is highly fragmented.
-- <strong>Workers</strong> (Masons, Plumbers, Electricians, Carpenters, Painters, etc.) have no digital presence and rely on physical assembly at labor stands.
-- <strong>Hirers</strong> face issues locating reliable service providers, negotiating wages, and communicating exact project addresses in rural or semi-urban taluks.
-- <strong>Existing platforms</strong> (like LinkedIn or Indeed) are built for formal white-collar jobs. Commercial home service directories (like Urban Company) charge high commissions (20% to 30%) and do not support small towns or rural areas.</p>
-<h3>3. Objectives</h3>
-<ul>
-<li><strong>Zero-Commission Ecosystem</strong>: To facilitate direct worker-to-hirer connection.</li>
-<li><strong>Bilingual Interface</strong>: Support English and Kannada natively across all pages, categories, and inputs.</li>
-<li><strong>Bypass passwords</strong>: Utilize one-tap Google Sign-In to increase accessibility for users.</li>
-<li><strong>Interactive Location Pinning</strong>: Integrate a map canvas so hirers can pin exact work coordinates instead of typing long, ambiguous addresses.</li>
-<li><strong>Instant Synchronization</strong>: Establish low-latency WebSocket connections for real-time messaging, typing indicators, and immediate push alerts.</li>
-</ul>
-<hr />
-<h3>4. Proposed System Workflow</h3>
-<p>The workflow supports two separate user journeys: <strong>Hirers</strong> and <strong>Workers</strong>.</p>
-<div class='flowchart-container'><svg id="mermaid-svg" width="100%" xmlns="http://www.w3.org/2000/svg" class="flowchart" style="max-width: 823.5px;" viewBox="0 0 823.5 2439.71875" role="graphics-document document" aria-roledescription="flowchart-v2" xmlns:xlink="http://www.w3.org/1999/xlink"><style xmlns="http://www.w3.org/1999/xhtml">@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css");</style><style>#mermaid-svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-svg .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-svg .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-svg .error-icon{fill:#552222;}#mermaid-svg .error-text{fill:#552222;stroke:#552222;}#mermaid-svg .edge-thickness-normal{stroke-width:1px;}#mermaid-svg .edge-thickness-thick{stroke-width:3.5px;}#mermaid-svg .edge-pattern-solid{stroke-dasharray:0;}#mermaid-svg .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-svg .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-svg .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-svg .marker{fill:#333333;stroke:#333333;}#mermaid-svg .marker.cross{stroke:#333333;}#mermaid-svg svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-svg p{margin:0;}#mermaid-svg .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#mermaid-svg .cluster-label text{fill:#333;}#mermaid-svg .cluster-label span{color:#333;}#mermaid-svg .cluster-label span p{background-color:transparent;}#mermaid-svg .label text,#mermaid-svg span{fill:#333;color:#333;}#mermaid-svg .node rect,#mermaid-svg .node circle,#mermaid-svg .node ellipse,#mermaid-svg .node polygon,#mermaid-svg .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg .rough-node .label text,#mermaid-svg .node .label text,#mermaid-svg .image-shape .label,#mermaid-svg .icon-shape .label{text-anchor:middle;}#mermaid-svg .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-svg .rough-node .label,#mermaid-svg .node .label,#mermaid-svg .image-shape .label,#mermaid-svg .icon-shape .label{text-align:center;}#mermaid-svg .node.clickable{cursor:pointer;}#mermaid-svg .root .anchor path{fill:#333333!important;stroke-width:0;stroke:#333333;}#mermaid-svg .arrowheadPath{fill:#333333;}#mermaid-svg .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-svg .flowchart-link{stroke:#333333;fill:none;}#mermaid-svg .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-svg .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#mermaid-svg .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-svg .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-svg .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-svg .cluster text{fill:#333;}#mermaid-svg .cluster span{color:#333;}#mermaid-svg div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-svg .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-svg rect.text{fill:none;stroke-width:0;}#mermaid-svg .icon-shape,#mermaid-svg .image-shape{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-svg .icon-shape p,#mermaid-svg .image-shape p{background-color:rgba(232,232,232, 0.8);padding:2px;}#mermaid-svg .icon-shape rect,#mermaid-svg .image-shape rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-svg .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#mermaid-svg .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#mermaid-svg :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="mermaid-svg_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="mermaid-svg_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="mermaid-svg_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="mermaid-svg_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="mermaid-svg_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="mermaid-svg_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M448,62L448,66.167C448,70.333,448,78.667,448,86.333C448,94,448,101,448,104.5L448,108" id="L_Start_Login_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Start_Login_0" data-points="W3sieCI6NDQ4LCJ5Ijo2Mn0seyJ4Ijo0NDgsInkiOjg3fSx7IngiOjQ0OCwieSI6MTEyfV0=" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M448,166L448,170.167C448,174.333,448,182.667,448,190.333C448,198,448,205,448,208.5L448,212" id="L_Login_SetupCheck_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Login_SetupCheck_0" data-points="W3sieCI6NDQ4LCJ5IjoxNjZ9LHsieCI6NDQ4LCJ5IjoxOTF9LHsieCI6NDQ4LCJ5IjoyMTZ9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M483.573,361.599L491.394,373.695C499.215,385.79,514.858,409.981,522.679,427.576C530.5,445.172,530.5,456.172,530.5,461.672L530.5,467.172" id="L_SetupCheck_Setup_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SetupCheck_Setup_0" data-points="W3sieCI6NDgzLjU3Mjc3NTI3Nzk3NCwieSI6MzYxLjU5OTA5OTcyMjAyNn0seyJ4Ijo1MzAuNSwieSI6NDM0LjE3MTg3NX0seyJ4Ijo1MzAuNSwieSI6NDcxLjE3MTg3NX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M530.5,525.172L530.5,529.339C530.5,533.505,530.5,541.839,530.5,549.505C530.5,557.172,530.5,564.172,530.5,567.672L530.5,571.172" id="L_Setup_RoleSelection_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Setup_RoleSelection_0" data-points="W3sieCI6NTMwLjUsInkiOjUyNS4xNzE4NzV9LHsieCI6NTMwLjUsInkiOjU1MC4xNzE4NzV9LHsieCI6NTMwLjUsInkiOjU3NS4xNzE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M487.696,678.868L468.997,692.169C450.297,705.469,412.899,732.071,394.199,750.871C375.5,769.672,375.5,780.672,375.5,786.172L375.5,791.672" id="L_RoleSelection_WorkerSetup_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_RoleSelection_WorkerSetup_0" data-points="W3sieCI6NDg3LjY5NjA0MTQ3MDMxMSwieSI6Njc4Ljg2NzkxNjQ3MDMxMX0seyJ4IjozNzUuNSwieSI6NzU4LjY3MTg3NX0seyJ4IjozNzUuNSwieSI6Nzk1LjY3MTg3NX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M573.304,678.868L592.003,692.169C610.703,705.469,648.101,732.071,666.801,750.871C685.5,769.672,685.5,780.672,685.5,786.172L685.5,791.672" id="L_RoleSelection_HirerSetup_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_RoleSelection_HirerSetup_0" data-points="W3sieCI6NTczLjMwMzk1ODUyOTY4OSwieSI6Njc4Ljg2NzkxNjQ3MDMxMX0seyJ4Ijo2ODUuNSwieSI6NzU4LjY3MTg3NX0seyJ4Ijo2ODUuNSwieSI6Nzk1LjY3MTg3NX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M375.5,873.672L375.5,877.839C375.5,882.005,375.5,890.339,387.288,898.46C399.076,906.581,422.651,914.49,434.439,918.445L446.227,922.4" id="L_WorkerSetup_SetActive_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_WorkerSetup_SetActive_0" data-points="W3sieCI6Mzc1LjUsInkiOjg3My42NzE4NzV9LHsieCI6Mzc1LjUsInkiOjg5OC42NzE4NzV9LHsieCI6NDUwLjAxOTIzMDc2OTIzMDgsInkiOjkyMy42NzE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M685.5,873.672L685.5,877.839C685.5,882.005,685.5,890.339,673.712,898.46C661.924,906.581,638.349,914.49,626.561,918.445L614.773,922.4" id="L_HirerSetup_SetActive_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_HirerSetup_SetActive_0" data-points="W3sieCI6Njg1LjUsInkiOjg3My42NzE4NzV9LHsieCI6Njg1LjUsInkiOjg5OC42NzE4NzV9LHsieCI6NjEwLjk4MDc2OTIzMDc2OTMsInkiOjkyMy42NzE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M389.071,338.243L359.309,354.231C329.547,370.219,270.024,402.196,240.262,428.85C210.5,455.505,210.5,476.839,210.5,496.172C210.5,515.505,210.5,532.839,210.5,557.88C210.5,582.922,210.5,615.672,210.5,650.422C210.5,685.172,210.5,721.922,210.5,752.964C210.5,784.005,210.5,809.339,210.5,832.672C210.5,856.005,210.5,877.339,210.5,896.672C210.5,916.005,210.5,933.339,210.5,950.672C210.5,968.005,210.5,985.339,239.182,1008.18C267.864,1031.022,325.228,1059.372,353.91,1073.547L382.592,1087.722" id="L_SetupCheck_ActiveDash_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SetupCheck_ActiveDash_0" data-points="W3sieCI6Mzg5LjA3MDk3MDAxOTkwMTE1LCJ5IjozMzguMjQyODQ1MDE5OTAxMTV9LHsieCI6MjEwLjUsInkiOjQzNC4xNzE4NzV9LHsieCI6MjEwLjUsInkiOjQ5OC4xNzE4NzV9LHsieCI6MjEwLjUsInkiOjU1MC4xNzE4NzV9LHsieCI6MjEwLjUsInkiOjY0OC40MjE4NzV9LHsieCI6MjEwLjUsInkiOjc1OC42NzE4NzV9LHsieCI6MjEwLjUsInkiOjgzNC42NzE4NzV9LHsieCI6MjEwLjUsInkiOjg5OC42NzE4NzV9LHsieCI6MjEwLjUsInkiOjk1MC42NzE4NzV9LHsieCI6MjEwLjUsInkiOjEwMDIuNjcxODc1fSx7IngiOjM4Ni4xNzgwNTU2NTMzOTkxLCJ5IjoxMDg5LjQ5MzgxOTM0NjYwMX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M530.5,977.672L530.5,981.839C530.5,986.005,530.5,994.339,523.488,1008.481C516.476,1022.624,502.452,1042.576,495.441,1052.552L488.429,1062.528" id="L_SetActive_ActiveDash_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SetActive_ActiveDash_0" data-points="W3sieCI6NTMwLjUsInkiOjk3Ny42NzE4NzV9LHsieCI6NTMwLjUsInkiOjEwMDIuNjcxODc1fSx7IngiOjQ4Ni4xMjg1MTc4MjM2Mzk3NSwieSI6MTA2NS44MDAzOTI4MjM2Mzk5fV0=" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M397.651,1162.072L380.209,1176.631C362.767,1191.189,327.884,1220.305,310.442,1240.364C293,1260.422,293,1271.422,293,1276.922L293,1282.422" id="L_ActiveDash_HirerActions_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ActiveDash_HirerActions_0" data-points="W3sieCI6Mzk3LjY1MDU0OTQ1MDU0OTUsInkiOjExNjIuMDcyNDI0NDUwNTQ5NX0seyJ4IjoyOTMsInkiOjEyNDkuNDIxODc1fSx7IngiOjI5MywieSI6MTI4Ni40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M293,1364.422L293,1370.589C293,1376.755,293,1389.089,293,1400.755C293,1412.422,293,1423.422,293,1428.922L293,1434.422" id="L_HirerActions_MapPicker_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_HirerActions_MapPicker_0" data-points="W3sieCI6MjkzLCJ5IjoxMzY0LjQyMTg3NX0seyJ4IjoyOTMsInkiOjE0MDEuNDIxODc1fSx7IngiOjI5MywieSI6MTQzOC40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M293,1516.422L293,1520.589C293,1524.755,293,1533.089,293,1540.755C293,1548.422,293,1555.422,293,1558.922L293,1562.422" id="L_MapPicker_SaveJobBooking_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_MapPicker_SaveJobBooking_0" data-points="W3sieCI6MjkzLCJ5IjoxNTE2LjQyMTg3NX0seyJ4IjoyOTMsInkiOjE1NDEuNDIxODc1fSx7IngiOjI5MywieSI6MTU2Ni40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M498.349,1162.072L515.791,1176.631C533.233,1191.189,568.116,1220.305,585.558,1240.364C603,1260.422,603,1271.422,603,1276.922L603,1282.422" id="L_ActiveDash_WorkerActions_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ActiveDash_WorkerActions_0" data-points="W3sieCI6NDk4LjM0OTQ1MDU0OTQ1MDUsInkiOjExNjIuMDcyNDI0NDUwNTQ5NX0seyJ4Ijo2MDMsInkiOjEyNDkuNDIxODc1fSx7IngiOjYwMywieSI6MTI4Ni40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M293,1644.422L293,1650.589C293,1656.755,293,1669.089,293,1680.755C293,1692.422,293,1703.422,293,1708.922L293,1714.422" id="L_SaveJobBooking_LiveAlert_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SaveJobBooking_LiveAlert_0" data-points="W3sieCI6MjkzLCJ5IjoxNjQ0LjQyMTg3NX0seyJ4IjoyOTMsInkiOjE2ODEuNDIxODc1fSx7IngiOjI5MywieSI6MTcxOC40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M293,1796.422L293,1800.589C293,1804.755,293,1813.089,293,1820.755C293,1828.422,293,1835.422,293,1838.922L293,1842.422" id="L_LiveAlert_ActionReq_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_LiveAlert_ActionReq_0" data-points="W3sieCI6MjkzLCJ5IjoxNzk2LjQyMTg3NX0seyJ4IjoyOTMsInkiOjE4MjEuNDIxODc1fSx7IngiOjI5MywieSI6MTg0Ni40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M248.777,1955.495L230.314,1969.033C211.851,1982.57,174.926,2009.644,156.463,2028.682C138,2047.719,138,2058.719,138,2064.219L138,2069.719" id="L_ActionReq_ConfirmBooking_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ActionReq_ConfirmBooking_0" data-points="W3sieCI6MjQ4Ljc3Njc0NzAyNjQ5MjU2LCJ5IjoxOTU1LjQ5NTQ5NzAyNjQ5MjZ9LHsieCI6MTM4LCJ5IjoyMDM2LjcxODc1fSx7IngiOjEzOCwieSI6MjA3My43MTg3NX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M337.223,1955.495L355.686,1969.033C374.149,1982.57,411.074,2009.644,429.537,2028.682C448,2047.719,448,2058.719,448,2064.219L448,2069.719" id="L_ActionReq_DeclineBooking_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ActionReq_DeclineBooking_0" data-points="W3sieCI6MzM3LjIyMzI1Mjk3MzUwNzQ0LCJ5IjoxOTU1LjQ5NTQ5NzAyNjQ5MjZ9LHsieCI6NDQ4LCJ5IjoyMDM2LjcxODc1fSx7IngiOjQ0OCwieSI6MjA3My43MTg3NX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M138,2175.719L138,2179.885C138,2184.052,138,2192.385,138,2200.052C138,2207.719,138,2214.719,138,2218.219L138,2221.719" id="L_ConfirmBooking_ChatSystem_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ConfirmBooking_ChatSystem_0" data-points="W3sieCI6MTM4LCJ5IjoyMTc1LjcxODc1fSx7IngiOjEzOCwieSI6MjIwMC43MTg3NX0seyJ4IjoxMzgsInkiOjIyMjUuNzE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M138,2303.719L138,2307.885C138,2312.052,138,2320.385,138,2328.052C138,2335.719,138,2342.719,138,2346.219L138,2349.719" id="L_ChatSystem_MapNav_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ChatSystem_MapNav_0" data-points="W3sieCI6MTM4LCJ5IjoyMzAzLjcxODc1fSx7IngiOjEzOCwieSI6MjMyOC43MTg3NX0seyJ4IjoxMzgsInkiOjIzNTMuNzE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_Start_Login_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_Login_SetupCheck_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(530.5, 434.171875)"><g class="label" data-id="L_SetupCheck_Setup_0" transform="translate(-10.2265625, -12)"><foreignObject width="20.453125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>No</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_Setup_RoleSelection_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(375.5, 758.671875)"><g class="label" data-id="L_RoleSelection_WorkerSetup_0" transform="translate(-25.6328125, -12)"><foreignObject width="51.265625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Worker</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(685.5, 758.671875)"><g class="label" data-id="L_RoleSelection_HirerSetup_0" transform="translate(-17.3359375, -12)"><foreignObject width="34.671875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Hirer</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_WorkerSetup_SetActive_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_HirerSetup_SetActive_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(210.5, 758.671875)"><g class="label" data-id="L_SetupCheck_ActiveDash_0" transform="translate(-13.0546875, -12)"><foreignObject width="26.109375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Yes</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_SetActive_ActiveDash_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(293, 1249.421875)"><g class="label" data-id="L_ActiveDash_HirerActions_0" transform="translate(-58.6953125, -12)"><foreignObject width="117.390625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Hirer Dashboard</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(293, 1401.421875)"><g class="label" data-id="L_HirerActions_MapPicker_0" transform="translate(-77.3828125, -12)"><foreignObject width="154.765625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Job Posting / Booking</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_MapPicker_SaveJobBooking_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(603, 1249.421875)"><g class="label" data-id="L_ActiveDash_WorkerActions_0" transform="translate(-66.9921875, -12)"><foreignObject width="133.984375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Worker Dashboard</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(293, 1681.421875)"><g class="label" data-id="L_SaveJobBooking_LiveAlert_0" transform="translate(-73.390625, -12)"><foreignObject width="146.78125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>onSnapshot Listener</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_LiveAlert_ActionReq_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(138, 2036.71875)"><g class="label" data-id="L_ActionReq_ConfirmBooking_0" transform="translate(-24.4609375, -12)"><foreignObject width="48.921875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Accept</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(448, 2036.71875)"><g class="label" data-id="L_ActionReq_DeclineBooking_0" transform="translate(-22.6796875, -12)"><foreignObject width="45.359375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Reject</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_ConfirmBooking_ChatSystem_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_ChatSystem_MapNav_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default  " id="flowchart-Start-0" transform="translate(448, 35)"><rect class="basic label-container" style="" x="-88.703125" y="-27" width="177.40625" height="54"/><g class="label" style="" transform="translate(-58.703125, -12)"><rect/><foreignObject width="117.40625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>User Opens App</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-Login-1" transform="translate(448, 139)"><rect class="basic label-container" style="" x="-116.2734375" y="-27" width="232.546875" height="54"/><g class="label" style="" transform="translate(-86.2734375, -12)"><rect/><foreignObject width="172.546875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>One-Tap Google Sign-In</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-SetupCheck-3" transform="translate(448, 306.5859375)"><polygon points="90.5859375,0 181.171875,-90.5859375 90.5859375,-181.171875 0,-90.5859375" class="label-container" transform="translate(-90.0859375, 90.5859375)"/><g class="label" style="" transform="translate(-63.5859375, -12)"><rect/><foreignObject width="127.171875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Profile Complete?</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-Setup-5" transform="translate(530.5, 498.171875)"><rect class="basic label-container" style="" x="-123.8203125" y="-27" width="247.640625" height="54"/><g class="label" style="" transform="translate(-93.8203125, -12)"><rect/><foreignObject width="187.640625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Onboarding Profile Wizard</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-RoleSelection-7" transform="translate(530.5, 648.421875)"><polygon points="73.25,0 146.5,-73.25 73.25,-146.5 0,-73.25" class="label-container" transform="translate(-72.75, 73.25)"/><g class="label" style="" transform="translate(-46.25, -12)"><rect/><foreignObject width="92.5" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Choose Role</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-WorkerSetup-9" transform="translate(375.5, 834.671875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Input Skill, Rate, Exp, Phone, District, Taluk</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-HirerSetup-11" transform="translate(685.5, 834.671875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Input Name, District, Taluk, Phone</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-SetActive-13" transform="translate(530.5, 950.671875)"><rect class="basic label-container" style="" x="-114.0390625" y="-27" width="228.078125" height="54"/><g class="label" style="" transform="translate(-84.0390625, -12)"><rect/><foreignObject width="168.078125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Save to Cloud Firestore</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-ActiveDash-17" transform="translate(448, 1120.046875)"><polygon points="92.375,0 184.75,-92.375 92.375,-184.75 0,-92.375" class="label-container" transform="translate(-91.875, 92.375)"/><g class="label" style="" transform="translate(-65.375, -12)"><rect/><foreignObject width="130.75" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Dashboard Router</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-HirerActions-21" transform="translate(293, 1325.421875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Search Workers / Post a Job / Direct Booking</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-MapPicker-23" transform="translate(293, 1477.421875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Pin Work Location on Interactive Leaflet Map</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-SaveJobBooking-25" transform="translate(293, 1605.421875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Write Document to Cloud Firestore</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-WorkerActions-27" transform="translate(603, 1325.421875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Browse Job Board / Receive Direct Booking</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-LiveAlert-29" transform="translate(293, 1757.421875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Instant Toast Notification to Worker</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-ActionReq-31" transform="translate(293, 1923.0703125)"><polygon points="76.6484375,0 153.296875,-76.6484375 76.6484375,-153.296875 0,-76.6484375" class="label-container" transform="translate(-76.1484375, 76.6484375)"/><g class="label" style="" transform="translate(-49.6484375, -12)"><rect/><foreignObject width="99.296875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Worker Action</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-ConfirmBooking-33" transform="translate(138, 2124.71875)"><rect class="basic label-container" style="" x="-130" y="-51" width="260" height="102"/><g class="label" style="" transform="translate(-100, -36)"><rect/><foreignObject width="200" height="72"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Update Status to CONFIRMED + Send RTDB Notification</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-DeclineBooking-35" transform="translate(448, 2124.71875)"><rect class="basic label-container" style="" x="-130" y="-51" width="260" height="102"/><g class="label" style="" transform="translate(-100, -36)"><rect/><foreignObject width="200" height="72"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Update Status to DECLINED + Send RTDB Notification</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-ChatSystem-37" transform="translate(138, 2264.71875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Open Live Chat - RTDB WebSockets</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-MapNav-39" transform="translate(138, 2392.71875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Worker Navigates via Google Maps Link</p></span></div></foreignObject></g></g></g></g></g></svg></div>
-<hr />
-<h3>5. Detailed Technology Stack (Why We Used It)</h3>
-<ol>
-<li><strong>Frontend: React (SPA)</strong></li>
-<li><em>Why</em>: Allows building a Single Page Application with reusable, component-based architecture. Fast DOM rendering keeps the app lightweight for mobile phones with slow internet connections.</li>
-<li><strong>Build Tool: Vite</strong></li>
-<li><em>Why</em>: Unlike Webpack, Vite uses native browser ES modules (ESM) to deliver fast Hot Module Replacement (HMR) and instantaneous build speeds.</li>
-<li><strong>Database 1: Cloud Firestore (NoSQL Document Store)</strong></li>
-<li><em>Why</em>: Designed for hierarchical document queries. We use it to filter workers by trade, district, and taluk, and perform quick searches on job listings.</li>
-<li><strong>Database 2: Firebase Realtime Database (RTDB)</strong></li>
-<li><em>Why</em>: Built on persistent WebSocket connections. It keeps database read/write latency below 100ms, which is critical for instant chat messages and real-time alerts.</li>
-<li><strong>Authentication: Firebase Auth (Google Sign-In)</strong></li>
-<li><em>Why</em>: Blue-collar workers often forget text passwords or usernames. Google Sign-In provides one-tap passwordless security.</li>
-<li><strong>State Manager: Zustand</strong></li>
-<li><em>Why</em>: A lightweight state store. It updates components dynamically without causing the unnecessary page re-renders associated with React Context.</li>
-<li><strong>Maps Rendering: Leaflet JS (via CDN)</strong></li>
-<li><em>Why</em>: An open-source mapping library. It bypasses expensive Google Maps JavaScript SDK keys, keeping project hosting completely free.</li>
-<li><strong>Geocoding Engine: OpenStreetMap Nominatim API</strong></li>
-<li><em>Why</em>: Converts latitude and longitude coordinates into actual street addresses (and vice versa) for free.</li>
-<li><strong>Animations: Framer Motion</strong></li>
-<li><em>Why</em>: Used to build smooth modal overlays, tab switches, and slide-in alerts.</li>
-</ol>
-<hr />
-<h2>Part 3: Data Storage Details (Where &amp; What)</h2>
-<p>We divide the data into two databases to optimize read/write costs and messaging speeds:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Database</th>
-<th style="text-align: left;">Data Type</th>
-<th style="text-align: left;">Collections / Paths</th>
-<th style="text-align: left;">Properties Stored</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><strong>Cloud Firestore</strong></td>
-<td style="text-align: left;">Persistent Structured Data</td>
-<td style="text-align: left;"><code>users/{uid}</code></td>
-<td style="text-align: left;">User profiles, role, skills, daily rate, district, taluk, phone.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Cloud Firestore</strong></td>
-<td style="text-align: left;">Queryable Jobs</td>
-<td style="text-align: left;"><code>jobs/{jobId}</code></td>
-<td style="text-align: left;">Job title, description, skills required, district, taluk, pay, coordinates.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Cloud Firestore</strong></td>
-<td style="text-align: left;">Booking Agreements</td>
-<td style="text-align: left;"><code>bookings/{bookingId}</code></td>
-<td style="text-align: left;">Direct bookings, date, time, duration, status, payment terms, location coordinates.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Realtime DB</strong></td>
-<td style="text-align: left;">Chat messages</td>
-<td style="text-align: left;"><code>chats/{bookingId}/messages</code></td>
-<td style="text-align: left;">Message text, sender/receiver UIDs, timestamp, read status.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Realtime DB</strong></td>
-<td style="text-align: left;">Presence Tracking</td>
-<td style="text-align: left;"><code>presence/{userId}</code></td>
-<td style="text-align: left;">Online status (boolean), last active timestamp.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Realtime DB</strong></td>
-<td style="text-align: left;">Real-time Alerts</td>
-<td style="text-align: left;"><code>notifications/{userId}</code></td>
-<td style="text-align: left;">Live toast notifications for incoming requests.</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2>Part 4: 25 High-Yield Viva Questions &amp; Answers</h2>
-<h3>1. Database &amp; Backend Architecture</h3>
+    <!-- Main Content Panel -->
+    <div class="main-content">
+        <header>
+            <div class="header-title">
+                <h1>Academic Project Portal</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn-action" id="theme-toggle" title="Toggle Dark/Light Mode">
+                    <span id="theme-icon">🌙</span> Dark Mode
+                </button>
+                <button class="btn-action btn-primary-action" onclick="window.print()">
+                    🖨️ Print / Save PDF
+                </button>
+            </div>
+        </header>
 
-    <div class="qa-card">
-        <div class="question-title">Q1: Where is the user database stored?</div>
-        <div class="answer-body">The user database is stored in <strong>Cloud Firestore</strong> (NoSQL Document Database) under the <code>users</code> collection. Each user's document uses their unique Google Authentication UID as the document ID.</div>
-    </div>
-    
+        <!-- Introduction Section -->
+        <section id="intro">
+            <h2 class="section-title">1. Introduction</h2>
+            <p><strong>KelasaGaara (ಕೆಲಸಗಾರ)</strong> is a hyper-local, bilingual (English and Kannada) service marketplace application developed for blue-collar daily-wage workers in Karnataka. The application organizes the informal job sector by enabling direct hiring, chat communication, and GPS map coordinates, eliminating middlemen and agency commissions.</p>
+        </section>
 
-    <div class="qa-card">
-        <div class="question-title">Q2: What is the difference between Cloud Firestore and Firebase Realtime Database?</div>
-        <div class="answer-body">Cloud Firestore is a document-based database designed for complex queries, filtering, and sorting (like searching workers by district/taluk). The Realtime Database is a single JSON tree built on direct WebSockets, optimized for instant, low-latency updates like chat messaging and presence indicators.</div>
-    </div>
-    
+        <!-- Problem Statement Section -->
+        <section id="problem">
+            <h2 class="section-title">2. Problem Statement</h2>
+            <p>The blue-collar and daily-wage hiring market in India, specifically in Karnataka, is highly fragmented.</p>
+            <ul>
+                <li><strong>Workers</strong> (Masons, Plumbers, Electricians, Carpenters, Painters, etc.) have no digital presence and rely on physical assembly at labor stands.</li>
+                <li><strong>Hirers</strong> face issues locating reliable service providers, negotiating wages, and communicating exact project addresses in rural or semi-urban taluks.</li>
+                <li><strong>Existing platforms</strong> (like LinkedIn or Indeed) are built for formal white-collar jobs. Commercial home service directories (like Urban Company) charge high commissions (20% to 30%) and do not support small towns or rural areas.</li>
+            </ul>
+        </section>
 
-    <div class="qa-card">
-        <div class="question-title">Q3: How are chat messages stored and structured?</div>
-        <div class="answer-body">Chat messages are stored in the <strong>Firebase Realtime Database</strong> under the <code>chats/{bookingId}/messages</code> path. Storing them here allows messages to sync between both clients in under 100ms via persistent WebSocket channels.</div>
-    </div>
-    
+        <!-- Objectives Section -->
+        <section id="objectives">
+            <h2 class="section-title">3. Objectives</h2>
+            <ul>
+                <li><strong>Zero-Commission Ecosystem:</strong> To facilitate direct worker-to-hirer connection.</li>
+                <li><strong>Bilingual Interface:</strong> Support English and Kannada natively across all pages, categories, and inputs.</li>
+                <li><strong>Bypass passwords:</strong> Utilize one-tap Google Sign-In to increase accessibility for users.</li>
+                <li><strong>Interactive Location Pinning:</strong> Integrate a map canvas so hirers can pin exact work coordinates instead of typing long, ambiguous addresses.</li>
+                <li><strong>Instant Synchronization:</strong> Establish low-latency WebSocket connections for real-time messaging, typing indicators, and immediate push alerts.</li>
+            </ul>
+        </section>
 
-    <div class="qa-card">
-        <div class="question-title">Q4: How do you prevent unauthorized users from editing other users' data?</div>
-        <div class="answer-body">We write <strong>Firestore Security Rules</strong>. We enforce validation checks like <code>allow write: if request.auth != null &amp;&amp; request.auth.uid == userId;</code>. This blocks requests if the authenticated user's ID does not match the target document ID.</div>
-    </div>
-    
+        <!-- System Workflow Section -->
+        <section id="workflow">
+            <h2 class="section-title">4. Proposed System Workflow</h2>
+            <p>The workflow supports two separate user journeys: <strong>Hirers</strong> and <strong>Workers</strong>.</p>
+            <div class="flowchart-container">
+                <svg id="mermaid-svg" width="100%" xmlns="http://www.w3.org/2000/svg" class="flowchart" style="max-width: 823.5px;" viewBox="0 0 823.5 2439.71875" role="graphics-document document" aria-roledescription="flowchart-v2" xmlns:xlink="http://www.w3.org/1999/xlink"><style xmlns="http://www.w3.org/1999/xhtml">@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css");</style><style>#mermaid-svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-svg .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-svg .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-svg .error-icon{fill:#552222;}#mermaid-svg .error-text{fill:#552222;stroke:#552222;}#mermaid-svg .edge-thickness-normal{stroke-width:1px;}#mermaid-svg .edge-thickness-thick{stroke-width:3.5px;}#mermaid-svg .edge-pattern-solid{stroke-dasharray:0;}#mermaid-svg .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-svg .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-svg .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-svg .marker{fill:#333333;stroke:#333333;}#mermaid-svg .marker.cross{stroke:#333333;}#mermaid-svg svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-svg p{margin:0;}#mermaid-svg .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#mermaid-svg .cluster-label text{fill:#333;}#mermaid-svg .cluster-label span{color:#333;}#mermaid-svg .cluster-label span p{background-color:transparent;}#mermaid-svg .label text,#mermaid-svg span{fill:#333;color:#333;}#mermaid-svg .node rect,#mermaid-svg .node circle,#mermaid-svg .node ellipse,#mermaid-svg .node polygon,#mermaid-svg .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg .rough-node .label text,#mermaid-svg .node .label text,#mermaid-svg .image-shape .label,#mermaid-svg .icon-shape .label{text-anchor:middle;}#mermaid-svg .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-svg .rough-node .label,#mermaid-svg .node .label,#mermaid-svg .image-shape .label,#mermaid-svg .icon-shape .label{text-align:center;}#mermaid-svg .node.clickable{cursor:pointer;}#mermaid-svg .root .anchor path{fill:#333333!important;stroke-width:0;stroke:#333333;}#mermaid-svg .arrowheadPath{fill:#333333;}#mermaid-svg .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-svg .flowchart-link{stroke:#333333;fill:none;}#mermaid-svg .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-svg .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#mermaid-svg .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-svg .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-svg .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-svg .cluster text{fill:#333;}#mermaid-svg .cluster span{color:#333;}#mermaid-svg div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-svg .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-svg rect.text{fill:none;stroke-width:0;}#mermaid-svg .icon-shape,#mermaid-svg .image-shape{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-svg .icon-shape p,#mermaid-svg .image-shape p{background-color:rgba(232,232,232, 0.8);padding:2px;}#mermaid-svg .icon-shape rect,#mermaid-svg .image-shape rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-svg .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#mermaid-svg .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#mermaid-svg :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="mermaid-svg_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="mermaid-svg_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="mermaid-svg_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="mermaid-svg_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="mermaid-svg_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="mermaid-svg_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M448,62L448,66.167C448,70.333,448,78.667,448,86.333C448,94,448,101,448,104.5L448,108" id="L_Start_Login_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Start_Login_0" data-points="W3sieCI6NDQ4LCJ5Ijo2Mn0seyJ4Ijo0NDgsInkiOjg3fSx7IngiOjQ0OCwieSI6MTEyfV0=" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M448,166L448,170.167C448,174.333,448,182.667,448,190.333C448,198,448,205,448,208.5L448,212" id="L_Login_SetupCheck_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Login_SetupCheck_0" data-points="W3sieCI6NDQ4LCJ5IjoxNjZ9LHsieCI6NDQ4LCJ5IjoxOTF9LHsieCI6NDQ4LCJ5IjoyMTZ9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M483.573,361.599L491.394,373.695C499.215,385.79,514.858,409.981,522.679,427.576C530.5,445.172,530.5,456.172,530.5,461.672L530.5,467.172" id="L_SetupCheck_Setup_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SetupCheck_Setup_0" data-points="W3sieCI6NDgzLjU3Mjc3NTI3Nzk3NCwieSI6MzYxLjU5OTA5OTcyMjAyNn0seyJ4Ijo1MzAuNSwieSI6NDM0LjE3MTg3NX0seyJ4Ijo1MzAuNSwieSI6NDcxLjE3MTg3NX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M530.5,525.172L530.5,529.339C530.5,533.505,530.5,541.839,530.5,549.505C530.5,557.172,530.5,564.172,530.5,567.672L530.5,571.172" id="L_Setup_RoleSelection_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Setup_RoleSelection_0" data-points="W3sieCI6NTMwLjUsInkiOjUyNS4xNzE4NzV9LHsieCI6NTMwLjUsInkiOjU1MC4xNzE4NzV9LHsieCI6NTMwLjUsInkiOjU3NS4xNzE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M487.696,678.868L468.997,692.169C450.297,705.469,412.899,732.071,394.199,750.871C375.5,769.672,375.5,780.672,375.5,786.172L375.5,791.672" id="L_RoleSelection_WorkerSetup_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_RoleSelection_WorkerSetup_0" data-points="W3sieCI6NDg3LjY5NjA0MTQ3MDMxMSwieSI6Njc4Ljg2NzkxNjQ3MDMxMX0seyJ4IjozNzUuNSwieSI6NzU4LjY3MTg3NX0seyJ4IjozNzUuNSwieSI6Nzk1LjY3MTg3NX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M573.304,678.868L592.003,692.169C610.703,705.469,648.101,732.071,666.801,750.871C685.5,769.672,685.5,780.672,685.5,786.172L685.5,791.672" id="L_RoleSelection_HirerSetup_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_RoleSelection_HirerSetup_0" data-points="W3sieCI6NTczLjMwMzk1ODUyOTY4OSwieSI6Njc4Ljg2NzkxNjQ3MDMxMX0seyJ4Ijo2ODUuNSwieSI6NzU4LjY3MTg3NX0seyJ4Ijo2ODUuNSwieSI6Nzk1LjY3MTg3NX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M375.5,873.672L375.5,877.839C375.5,882.005,375.5,890.339,387.288,898.46C399.076,906.581,422.651,914.49,434.439,918.445L446.227,922.4" id="L_WorkerSetup_SetActive_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_WorkerSetup_SetActive_0" data-points="W3sieCI6Mzc1LjUsInkiOjg3My42NzE4NzV9LHsieCI6Mzc1LjUsInkiOjg5OC42NzE4NzV9LHsieCI6NDUwLjAxOTIzMDc2OTIzMDgsInkiOjkyMy42NzE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M685.5,873.672L685.5,877.839C685.5,882.005,685.5,890.339,673.712,898.46C661.924,906.581,638.349,914.49,626.561,918.445L614.773,922.4" id="L_HirerSetup_SetActive_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_HirerSetup_SetActive_0" data-points="W3sieCI6Njg1LjUsInkiOjg3My42NzE4NzV9LHsieCI6Njg1LjUsInkiOjg5OC42NzE4NzV9LHsieCI6NjEwLjk4MDc2OTIzMDc2OTMsInkiOjkyMy42NzE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M389.071,338.243L359.309,354.231C329.547,370.219,270.024,402.196,240.262,428.85C210.5,455.505,210.5,476.839,210.5,496.172C210.5,515.505,210.5,532.839,210.5,557.88C210.5,582.922,210.5,615.672,210.5,650.422C210.5,685.172,210.5,721.922,210.5,752.964C210.5,784.005,210.5,809.339,210.5,832.672C210.5,856.005,210.5,877.339,210.5,896.672C210.5,916.005,210.5,933.339,210.5,950.672C210.5,968.005,210.5,985.339,239.182,1008.18C267.864,1031.022,325.228,1059.372,353.91,1073.547L382.592,1087.722" id="L_SetupCheck_ActiveDash_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SetupCheck_ActiveDash_0" data-points="W3sieCI6Mzg5LjA3MDk3MDAxOTkwMTE1LCJ5IjozMzguMjQyODQ1MDE5OTAxMTV9LHsieCI6MjEwLjUsInkiOjQzNC4xNzE4NzV9LHsieCI6MjEwLjUsInkiOjQ5OC4xNzE4NzV9LHsieCI6MjEwLjUsInkiOjU1MC4xNzE4NzV9LHsieCI6MjEwLjUsInkiOjY0OC40MjE4NzV9LHsieCI6MjEwLjUsInkiOjc1OC42NzE4NzV9LHsieCI6MjEwLjUsInkiOjgzNC42NzE4NzV9LHsieCI6MjEwLjUsInkiOjg5OC42NzE4NzV9LHsieCI6MjEwLjUsInkiOjk1MC42NzE4NzV9LHsieCI6MjEwLjUsInkiOjEwMDIuNjcxODc1fSx7IngiOjM4Ni4xNzgwNTU2NTMzOTkxLCJ5IjoxMDg5LjQ5MzgxOTM0NjYwMX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M530.5,977.672L530.5,981.839C530.5,986.005,530.5,994.339,523.488,1008.481C516.476,1022.624,502.452,1042.576,495.441,1052.552L488.429,1062.528" id="L_SetActive_ActiveDash_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SetActive_ActiveDash_0" data-points="W3sieCI6NTMwLjUsInkiOjk3Ny42NzE4NzV9LHsieCI6NTMwLjUsInkiOjEwMDIuNjcxODc1fSx7IngiOjQ4Ni4xMjg1MTc4MjM2Mzk3NSwieSI6MTA2NS44MDAzOTI4MjM2Mzk5fV0=" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M397.651,1162.072L380.209,1176.631C362.767,1191.189,327.884,1220.305,310.442,1240.364C293,1260.422,293,1271.422,293,1276.922L293,1282.422" id="L_ActiveDash_HirerActions_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ActiveDash_HirerActions_0" data-points="W3sieCI6Mzk3LjY1MDU0OTQ1MDU0OTUsInkiOjExNjIuMDcyNDI0NDUwNTQ5NX0seyJ4IjoyOTMsInkiOjEyNDkuNDIxODc1fSx7IngiOjI5MywieSI6MTI4Ni40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M293,1364.422L293,1370.589C293,1376.755,293,1389.089,293,1400.755C293,1412.422,293,1423.422,293,1428.922L293,1434.422" id="L_HirerActions_MapPicker_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_HirerActions_MapPicker_0" data-points="W3sieCI6MjkzLCJ5IjoxMzY0LjQyMTg3NX0seyJ4IjoyOTMsInkiOjE0MDEuNDIxODc1fSx7IngiOjI5MywieSI6MTQzOC40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M293,1516.422L293,1520.589C293,1524.755,293,1533.089,293,1540.755C293,1548.422,293,1555.422,293,1558.922L293,1562.422" id="L_MapPicker_SaveJobBooking_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_MapPicker_SaveJobBooking_0" data-points="W3sieCI6MjkzLCJ5IjoxNTE2LjQyMTg3NX0seyJ4IjoyOTMsInkiOjE1NDEuNDIxODc1fSx7IngiOjI5MywieSI6MTU2Ni40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M498.349,1162.072L515.791,1176.631C533.233,1191.189,568.116,1220.305,585.558,1240.364C603,1260.422,603,1271.422,603,1276.922L603,1282.422" id="L_ActiveDash_WorkerActions_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ActiveDash_WorkerActions_0" data-points="W3sieCI6NDk4LjM0OTQ1MDU0OTQ1MDUsInkiOjExNjIuMDcyNDI0NDUwNTQ5NX0seyJ4Ijo2MDMsInkiOjEyNDkuNDIxODc1fSx7IngiOjYwMywieSI6MTI4Ni40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M293,1644.422L293,1650.589C293,1656.755,293,1669.089,293,1680.755C293,1692.422,293,1703.422,293,1708.922L293,1714.422" id="L_SaveJobBooking_LiveAlert_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SaveJobBooking_LiveAlert_0" data-points="W3sieCI6MjkzLCJ5IjoxNjQ0LjQyMTg3NX0seyJ4IjoyOTMsInkiOjE2ODEuNDIxODc1fSx7IngiOjI5MywieSI6MTcxOC40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M293,1796.422L293,1800.589C293,1804.755,293,1813.089,293,1820.755C293,1828.422,293,1835.422,293,1838.922L293,1842.422" id="L_LiveAlert_ActionReq_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_LiveAlert_ActionReq_0" data-points="W3sieCI6MjkzLCJ5IjoxNzk2LjQyMTg3NX0seyJ4IjoyOTMsInkiOjE4MjEuNDIxODc1fSx7IngiOjI5MywieSI6MTg0Ni40MjE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M248.777,1955.495L230.314,1969.033C211.851,1982.57,174.926,2009.644,156.463,2028.682C138,2047.719,138,2058.719,138,2064.219L138,2069.719" id="L_ActionReq_ConfirmBooking_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ActionReq_ConfirmBooking_0" data-points="W3sieCI6MjQ4Ljc3Njc0NzAyNjQ5MjU2LCJ5IjoxOTU1LjQ5NTQ5NzAyNjQ5MjZ9LHsieCI6MTM4LCJ5IjoyMDM2LjcxODc1fSx7IngiOjEzOCwieSI6MjA3My43MTg3NX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M337.223,1955.495L355.686,1969.033C374.149,1982.57,411.074,2009.644,429.537,2028.682C448,2047.719,448,2058.719,448,2064.219L448,2069.719" id="L_ActionReq_DeclineBooking_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ActionReq_DeclineBooking_0" data-points="W3sieCI6MzM3LjIyMzI1Mjk3MzUwNzQ0LCJ5IjoxOTU1LjQ5NTQ5NzAyNjQ5MjZ9LHsieCI6NDQ4LCJ5IjoyMDM2LjcxODc1fSx7IngiOjQ0OCwieSI6MjA3My43MTg3NX1d" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M138,2175.719L138,2179.885C138,2184.052,138,2192.385,138,2200.052C138,2207.719,138,2214.719,138,2218.219L138,2221.719" id="L_ConfirmBooking_ChatSystem_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ConfirmBooking_ChatSystem_0" data-points="W3sieCI6MTM4LCJ5IjoyMTc1LjcxODc1fSx7IngiOjEzOCwieSI6MjIwMC43MTg3NX0seyJ4IjoxMzgsInkiOjIyMjUuNzE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/><path d="M138,2303.719L138,2307.885C138,2312.052,138,2320.385,138,2328.052C138,2335.719,138,2342.719,138,2346.219L138,2349.719" id="L_ChatSystem_MapNav_0" class=" edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ChatSystem_MapNav_0" data-points="W3sieCI6MTM4LCJ5IjoyMzAzLjcxODc1fSx7IngiOjEzOCwieSI6MjMyOC43MTg3NX0seyJ4IjoxMzgsInkiOjIzNTMuNzE4NzV9XQ==" marker-end="url(#mermaid-svg_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_Start_Login_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_Login_SetupCheck_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(530.5, 434.171875)"><g class="label" data-id="L_SetupCheck_Setup_0" transform="translate(-10.2265625, -12)"><foreignObject width="20.453125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>No</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_Setup_RoleSelection_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(375.5, 758.671875)"><g class="label" data-id="L_RoleSelection_WorkerSetup_0" transform="translate(-25.6328125, -12)"><foreignObject width="51.265625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Worker</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(685.5, 758.671875)"><g class="label" data-id="L_RoleSelection_HirerSetup_0" transform="translate(-17.3359375, -12)"><foreignObject width="34.671875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Hirer</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_WorkerSetup_SetActive_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_HirerSetup_SetActive_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(210.5, 758.671875)"><g class="label" data-id="L_SetupCheck_ActiveDash_0" transform="translate(-13.0546875, -12)"><foreignObject width="26.109375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Yes</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_SetActive_ActiveDash_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(293, 1249.421875)"><g class="label" data-id="L_ActiveDash_HirerActions_0" transform="translate(-58.6953125, -12)"><foreignObject width="117.390625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Hirer Dashboard</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(293, 1401.421875)"><g class="label" data-id="L_HirerActions_MapPicker_0" transform="translate(-77.3828125, -12)"><foreignObject width="154.765625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Job Posting / Booking</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_MapPicker_SaveJobBooking_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(603, 1249.421875)"><g class="label" data-id="L_ActiveDash_WorkerActions_0" transform="translate(-66.9921875, -12)"><foreignObject width="133.984375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Worker Dashboard</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(293, 1681.421875)"><g class="label" data-id="L_SaveJobBooking_LiveAlert_0" transform="translate(-73.390625, -12)"><foreignObject width="146.78125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>onSnapshot Listener</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_LiveAlert_ActionReq_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(138, 2036.71875)"><g class="label" data-id="L_ActionReq_ConfirmBooking_0" transform="translate(-24.4609375, -12)"><foreignObject width="48.921875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Accept</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(448, 2036.71875)"><g class="label" data-id="L_ActionReq_DeclineBooking_0" transform="translate(-22.6796875, -12)"><foreignObject width="45.359375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "><p>Reject</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_ConfirmBooking_ChatSystem_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_ChatSystem_MapNav_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel "></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default  " id="flowchart-Start-0" transform="translate(448, 35)"><rect class="basic label-container" style="" x="-88.703125" y="-27" width="177.40625" height="54"/><g class="label" style="" transform="translate(-58.703125, -12)"><rect/><foreignObject width="117.40625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>User Opens App</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-Login-1" transform="translate(448, 139)"><rect class="basic label-container" style="" x="-116.2734375" y="-27" width="232.546875" height="54"/><g class="label" style="" transform="translate(-86.2734375, -12)"><rect/><foreignObject width="172.546875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>One-Tap Google Sign-In</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-SetupCheck-3" transform="translate(448, 306.5859375)"><polygon points="90.5859375,0 181.171875,-90.5859375 90.5859375,-181.171875 0,-90.5859375" class="label-container" transform="translate(-90.0859375, 90.5859375)"/><g class="label" style="" transform="translate(-63.5859375, -12)"><rect/><foreignObject width="127.171875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Profile Complete?</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-Setup-5" transform="translate(530.5, 498.171875)"><rect class="basic label-container" style="" x="-123.8203125" y="-27" width="247.640625" height="54"/><g class="label" style="" transform="translate(-93.8203125, -12)"><rect/><foreignObject width="187.640625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Onboarding Profile Wizard</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-RoleSelection-7" transform="translate(530.5, 648.421875)"><polygon points="73.25,0 146.5,-73.25 73.25,-146.5 0,-73.25" class="label-container" transform="translate(-72.75, 73.25)"/><g class="label" style="" transform="translate(-46.25, -12)"><rect/><foreignObject width="92.5" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Choose Role</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-WorkerSetup-9" transform="translate(375.5, 834.671875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Input Skill, Rate, Exp, Phone, District, Taluk</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-HirerSetup-11" transform="translate(685.5, 834.671875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Input Name, District, Taluk, Phone</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-SetActive-13" transform="translate(530.5, 950.671875)"><rect class="basic label-container" style="" x="-114.0390625" y="-27" width="228.078125" height="54"/><g class="label" style="" transform="translate(-84.0390625, -12)"><rect/><foreignObject width="168.078125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Save to Cloud Firestore</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-ActiveDash-17" transform="translate(448, 1120.046875)"><polygon points="92.375,0 184.75,-92.375 92.375,-184.75 0,-92.375" class="label-container" transform="translate(-91.875, 92.375)"/><g class="label" style="" transform="translate(-65.375, -12)"><rect/><foreignObject width="130.75" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Dashboard Router</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-HirerActions-21" transform="translate(293, 1325.421875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Search Workers / Post a Job / Direct Booking</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-MapPicker-23" transform="translate(293, 1477.421875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Pin Work Location on Interactive Leaflet Map</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-SaveJobBooking-25" transform="translate(293, 1605.421875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Write Document to Cloud Firestore</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-WorkerActions-27" transform="translate(603, 1325.421875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Browse Job Board / Receive Direct Booking</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-LiveAlert-29" transform="translate(293, 1757.421875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Instant Toast Notification to Worker</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-ActionReq-31" transform="translate(293, 1923.0703125)"><polygon points="76.6484375,0 153.296875,-76.6484375 76.6484375,-153.296875 0,-76.6484375" class="label-container" transform="translate(-76.1484375, 76.6484375)"/><g class="label" style="" transform="translate(-49.6484375, -12)"><rect/><foreignObject width="99.296875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel "><p>Worker Action</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-ConfirmBooking-33" transform="translate(138, 2124.71875)"><rect class="basic label-container" style="" x="-130" y="-51" width="260" height="102"/><g class="label" style="" transform="translate(-100, -36)"><rect/><foreignObject width="200" height="72"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Update Status to CONFIRMED + Send RTDB Notification</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-DeclineBooking-35" transform="translate(448, 2124.71875)"><rect class="basic label-container" style="" x="-130" y="-51" width="260" height="102"/><g class="label" style="" transform="translate(-100, -36)"><rect/><foreignObject width="200" height="72"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Update Status to DECLINED + Send RTDB Notification</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-ChatSystem-37" transform="translate(138, 2264.71875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Open Live Chat - RTDB WebSockets</p></span></div></foreignObject></g></g><g class="node default  " id="flowchart-MapNav-39" transform="translate(138, 2392.71875)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel "><p>Worker Navigates via Google Maps Link</p></span></div></foreignObject></g></g></g></g></g></svg>
+            </div>
+        </section>
 
-    <div class="qa-card">
-        <div class="question-title">Q5: How does the database track if a user is online or offline?</div>
-        <div class="answer-body">We write to <code>presence/{userId}</code> in the <strong>Realtime Database</strong>. When the user opens the app, we write <code>{ online: true }</code>. If they close the tab, Firebase's <code>onDisconnect()</code> hook automatically updates the database to <code>{ online: false }</code> on the server side.</div>
-    </div>
-    
-<hr />
-<h3>2. Frontend &amp; React Core</h3>
+        <!-- Tech Stack Section -->
+        <section id="tech-stack">
+            <h2 class="section-title">5. Detailed Technology Stack (Why We Used It)</h2>
+            <ol>
+                <li><strong>Frontend: React (SPA)</strong>
+                    <ul><li><em>Why:</em> Allows building a Single Page Application with reusable, component-based architecture. Fast DOM rendering keeps the app lightweight for mobile phones with slow internet connections.</li></ul>
+                </li>
+                <li><strong>Build Tool: Vite</strong>
+                    <ul><li><em>Why:</em> Unlike Webpack, Vite uses native browser ES modules (ESM) to deliver fast Hot Module Replacement (HMR) and instantaneous build speeds.</li></ul>
+                </li>
+                <li><strong>Database 1: Cloud Firestore (NoSQL Document Store)</strong>
+                    <ul><li><em>Why:</em> Designed for hierarchical document queries. We use it to filter workers by trade, district, and taluk, and perform quick searches on job listings.</li></ul>
+                </li>
+                <li><strong>Database 2: Firebase Realtime Database (RTDB)</strong>
+                    <ul><li><em>Why:</em> Built on persistent WebSocket connections. It keeps database read/write latency below 100ms, which is critical for instant chat messages and real-time alerts.</li></ul>
+                </li>
+                <li><strong>Authentication: Firebase Auth (Google Sign-In)</strong>
+                    <ul><li><em>Why:</em> Blue-collar workers often forget text passwords or usernames. Google Sign-In provides one-tap passwordless security.</li></ul>
+                </li>
+                <li><strong>State Manager: Zustand</strong>
+                    <ul><li><em>Why:</em> A lightweight state store. It updates components dynamically without causing the unnecessary page re-renders associated with React Context.</li></ul>
+                </li>
+                <li><strong>Maps Rendering: Leaflet JS (via CDN)</strong>
+                    <ul><li><em>Why:</em> An open-source mapping library. It bypasses expensive Google Maps JavaScript SDK keys, keeping project hosting completely free.</li></ul>
+                </li>
+                <li><strong>Geocoding Engine: OpenStreetMap Nominatim API</strong>
+                    <ul><li><em>Why:</em> Converts latitude and longitude coordinates into actual street addresses (and vice versa) for free.</li></ul>
+                </li>
+                <li><strong>Animations: Framer Motion</strong>
+                    <ul><li><em>Why:</em> Used to build smooth modal overlays, tab switches, and slide-in alerts.</li></ul>
+                </li>
+            </ol>
+        </section>
 
-    <div class="qa-card">
-        <div class="question-title">Q6: What is a Single Page Application (SPA), and how is it routed?</div>
-        <div class="answer-body">An SPA loads a single HTML page and dynamically updates the DOM as the user interacts with the app. We use <strong>React Router</strong> to handle routing. In production, we add a rewrite rule in <code>firebase.json</code> so that all server URLs redirect to <code>index.html</code>, allowing the client router to render the correct view.</div>
-    </div>
-    
+        <!-- Database Schema Section -->
+        <section id="database">
+            <h2 class="section-title">6. Data Storage Details (Where & What)</h2>
+            <p>We divide the data into two databases to optimize read/write costs and messaging speeds:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Database</th>
+                        <th>Data Type</th>
+                        <th>Collections / Paths</th>
+                        <th>Properties Stored</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Cloud Firestore</strong></td>
+                        <td>Persistent Structured Data</td>
+                        <td><code>users/{uid}</code></td>
+                        <td>User profiles, role, skills, daily rate, district, taluk, phone.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cloud Firestore</strong></td>
+                        <td>Queryable Jobs</td>
+                        <td><code>jobs/{jobId}</code></td>
+                        <td>Job title, description, skills required, district, taluk, pay, coordinates.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cloud Firestore</strong></td>
+                        <td>Booking Agreements</td>
+                        <td><code>bookings/{bookingId}</code></td>
+                        <td>Direct bookings, date, time, duration, status, payment terms, location coordinates.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Realtime DB</strong></td>
+                        <td>Chat messages</td>
+                        <td><code>chats/{bookingId}/messages</code></td>
+                        <td>Message text, sender/receiver UIDs, timestamp, read status.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Realtime DB</strong></td>
+                        <td>Presence Tracking</td>
+                        <td><code>presence/{userId}</code></td>
+                        <td>Online status (boolean), last active timestamp.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Realtime DB</strong></td>
+                        <td>Real-time Alerts</td>
+                        <td><code>notifications/{userId}</code></td>
+                        <td>Live toast notifications for incoming requests.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-    <div class="qa-card">
-        <div class="question-title">Q7: Why did you use Zustand instead of Redux?</div>
-        <div class="answer-body">Zustand has a minimal bundle size and zero boilerplate. Redux requires actions, reducers, and store configurations, which increases bundle size. Zustand also prevents unnecessary re-renders of parent components, keeping performance high on mobile devices.</div>
-    </div>
-    
+        <!-- Viva Guide Section -->
+        <section id="viva">
+            <h2 class="section-title">7. 25 High-Yield Viva Questions & Answers</h2>
+            <div class="viva-controls">
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="viva-search" class="search-input" placeholder="Search viva questions or answers (e.g. firestore, geolocation, hooks)...">
+                </div>
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-category="all">All Topics</button>
+                    <button class="filter-tab" data-category="database">Database & Backend</button>
+                    <button class="filter-tab" data-category="frontend">React & Frontend</button>
+                    <button class="filter-tab" data-category="maps">Maps & Location</button>
+                    <button class="filter-tab" data-category="bookings">Bookings & Alerts</button>
+                </div>
+            </div>
 
-    <div class="qa-card">
-        <div class="question-title">Q8: What is the difference between Vite and Webpack?</div>
-        <div class="answer-body">Webpack bundles the entire project source code before serving it, which slows down development servers. Vite uses native browser ES Modules (ESM) to serve files on-demand and applies Hot Module Replacement (HMR) instantly.</div>
+            <div class="qa-grid" id="qa-grid">
+                <!-- Javascript will inject the cards here -->
+            </div>
+        </section>
     </div>
-    
 
-    <div class="qa-card">
-        <div class="question-title">Q9: How is the user login session preserved when the browser is refreshed?</div>
-        <div class="answer-body">The Firebase Auth SDK stores the user's login tokens in the browser's <strong>IndexedDB</strong> cache. Upon reload, the SDK reads this cached session and restores the user context.</div>
-    </div>
-    
+    <!-- Interactive script logic -->
+    <script>
+        const vivaData = [{"id": "Q1", "category": "database", "question": "Where is the user database stored?", "answer": "The user database is stored in <strong>Cloud Firestore</strong> (NoSQL Document Database) under the <code>users</code> collection. Each user's document uses their unique Google Authentication UID as the document ID."}, {"id": "Q2", "category": "database", "question": "What is the difference between Cloud Firestore and Firebase Realtime Database?", "answer": "Cloud Firestore is a document-based database designed for complex queries, filtering, and sorting (like searching workers by district/taluk). The Realtime Database is a single JSON tree built on direct WebSockets, optimized for instant, low-latency updates like chat messaging and presence indicators."}, {"id": "Q3", "category": "database", "question": "How are chat messages stored and structured?", "answer": "Chat messages are stored in the <strong>Firebase Realtime Database</strong> under the <code>chats/{bookingId}/messages</code> path. Storing them here allows messages to sync between both clients in under 100ms via persistent WebSocket channels."}, {"id": "Q4", "category": "database", "question": "How do you prevent unauthorized users from editing other users' data?", "answer": "We write <strong>Firestore Security Rules</strong>. We enforce validation checks like <code>allow write: if request.auth != null && request.auth.uid == userId;</code>. This blocks requests if the authenticated user's ID does not match the target document ID."}, {"id": "Q5", "category": "database", "question": "How does the database track if a user is online or offline?", "answer": "We write to <code>presence/{userId}</code> in the <strong>Realtime Database</strong>. When the user opens the app, we write <code>{ online: true }</code>. If they close the tab, Firebase's <code>onDisconnect()</code> hook automatically updates the database to <code>{ online: false }</code> on the server side."}, {"id": "Q6", "category": "frontend", "question": "What is a Single Page Application (SPA), and how is it routed?", "answer": "An SPA loads a single HTML page and dynamically updates the DOM as the user interacts with the app. We use <strong>React Router</strong> to handle routing. In production, we add a rewrite rule in <code>firebase.json</code> so that all server URLs redirect to <code>index.html</code>, allowing the client router to render the correct view."}, {"id": "Q7", "category": "frontend", "question": "Why did you use Zustand instead of Redux?", "answer": "Zustand has a minimal bundle size and zero boilerplate. Redux requires actions, reducers, and store configurations, which increases bundle size. Zustand also prevents unnecessary re-renders of parent components, keeping performance high on mobile devices."}, {"id": "Q8", "category": "frontend", "question": "What is the difference between Vite and Webpack?", "answer": "Webpack bundles the entire project source code before serving it, which slows down development servers. Vite uses native browser ES Modules (ESM) to serve files on-demand and applies Hot Module Replacement (HMR) instantly."}, {"id": "Q9", "category": "frontend", "question": "How is the user login session preserved when the browser is refreshed?", "answer": "The Firebase Auth SDK stores the user's login tokens in the browser's <strong>IndexedDB</strong> cache. Upon reload, the SDK reads this cached session and restores the user context."}, {"id": "Q10", "category": "frontend", "question": "What are React hooks, and which ones did you use?", "answer": "Hooks are functions that let you tap into React state and lifecycle features from functional components. We used <code>useState</code> (local state), <code>useEffect</code> (side effects and listeners), <code>useRef</code> (DOM elements reference), and custom hooks like <code>useAuth</code> to bind global states."}, {"id": "Q11", "category": "maps", "question": "How do you show maps without a paid Google Maps API key?", "answer": "We load the <strong>Leaflet JS</strong> library from a CDN. Leaflet renders free map tiles from OpenStreetMap (OSM) on a standard HTML canvas element. This keeps map rendering free."}, {"id": "Q12", "category": "maps", "question": "How does a user select a location on the map?", "answer": "We bind click/tap event listeners to the Leaflet map container. When a user taps or drags the marker pin, we capture the geographical coordinates (Latitude and Longitude) and update the form state."}, {"id": "Q13", "category": "maps", "question": "How do you convert coordinates to a readable address?", "answer": "We send a request to the free <strong>OpenStreetMap Nominatim Reverse Geocoding API</strong> using the coordinates. The API returns a JSON response containing the matching street, taluk, district, and pincode."}, {"id": "Q14", "category": "maps", "question": "How does the \"Use Current GPS Location\" button function?", "answer": "It calls the browser's native <code>navigator.geolocation.getCurrentPosition</code> API. Once the browser returns the user's coordinates, we pan the Leaflet map center to those coordinates and trigger a reverse-geocoding call."}, {"id": "Q15", "category": "maps", "question": "How do you handle cases where the user denies browser location permissions?", "answer": "We catch the permission error callback. The app displays an informative error toast notifying the user to grant permissions, and allows them to search or type the address manually to ensure the workflow is not blocked."}, {"id": "Q16", "category": "bookings", "question": "How do workers receive notifications instantly without refreshing?", "answer": "We use Firestore's <code>onSnapshot</code> listener on the <code>bookings</code> collection. When a new booking with a matching <code>workerId</code> is added to Firestore, the database pushes the new document to the active client, which displays a toast alert."}, {"id": "Q17", "category": "bookings", "question": "What happens when a worker clicks 'Accept' on a booking?", "answer": "The app calls <code>updateDoc</code> to change the booking status in Firestore to <code>CONFIRMED</code>. It then calls <code>sendNotification</code> to write an alert in the Realtime Database under the hirer's UID, which displays a confirmation on the hirer's dashboard."}, {"id": "Q18", "category": "maps", "question": "How does the worker navigate to the job location?", "answer": "We save a structured <code>workLocation</code> object containing a pre-formatted Google Maps URL (<code>https://www.google.com/maps?q=lat,lng</code>). On the worker's dashboard, this renders a button that opens Google Maps directly with navigation."}, {"id": "Q19", "category": "bookings", "question": "How are unread chat counts maintained?", "answer": "Inside our Zustand <code>useChatStore</code>, we listen to new children added in RTDB. If a message arrives for a thread that is not currently open, we increment the unread count in state and write it locally."}, {"id": "Q20", "category": "frontend", "question": "How did you implement bilingual support (English/Kannada)?", "answer": "We maintain a local translation dictionary matching UI labels. A state variable (<code>lang</code>) toggles between 'en' and 'kn'. Key static arrays (like the list of trades or districts) are loaded based on the current active language."}, {"id": "Q21", "category": "bookings", "question": "How do you validate form fields before submitting a booking?", "answer": "Before calling the Firestore <code>addDoc</code> function, we check the form state values (e.g. <code>if (!form.jobTitle || !form.date) ...</code>). If empty, we trigger a Toast warning and block the database write."}, {"id": "Q22", "category": "database", "question": "Why did you choose NoSQL instead of SQL for this project?", "answer": "A NoSQL structure allows us to scale out horizontally easily. Since chat messages, notifications, and user profiles do not follow a strict tabular structure, NoSQL lets us store records as flexible documents and JSON trees."}, {"id": "Q23", "category": "maps", "question": "How do you handle spelling differences in Karnataka district names (e.g. 'Mysore' vs 'Mysuru')?", "answer": "We implemented an <code>aliasMap</code> in our geocoding function. If OpenStreetMap returns historical names (like 'Gulbarga' or 'Belgaum'), our system translates them to the official names ('Kalaburagi', 'Belagavi') before matching them against our 31-district database."}, {"id": "Q24", "category": "database", "question": "What is the role of firebase.json?", "answer": "It configures Firebase Hosting. It directs Firebase to serve assets from the <code>dist</code> build directory, and contains a rewrite rule <code>{ \"source\": \"**\", \"destination\": \"/index.html\" }</code> which redirects all incoming URLs to <code>index.html</code> so that our React Router client-side routing works without 404 errors."}, {"id": "Q25", "category": "frontend", "question": "What is the purpose of the dist directory in your React project?", "answer": "The <code>dist</code> (distribution) directory contains the production-ready build of the application. Vite compiles, minifies, and bundles all React JSX, CSS variables, and JS modules into static assets inside this folder for deployment to hosting servers."}];
 
-    <div class="qa-card">
-        <div class="question-title">Q10: What are React hooks, and which ones did you use?</div>
-        <div class="answer-body">Hooks are functions that let you tap into React state and lifecycle features from functional components. We used <code>useState</code> (local state), <code>useEffect</code> (side effects and listeners), <code>useRef</code> (DOM elements reference), and custom hooks like <code>useAuth</code> to bind global states.</div>
-    </div>
-    
-<hr />
-<h3>3. Maps, Location &amp; Geocoding</h3>
+        // DOM elements
+        const qaGrid = document.getElementById('qa-grid');
+        const searchInput = document.getElementById('viva-search');
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const navItems = document.querySelectorAll('.nav-item');
 
-    <div class="qa-card">
-        <div class="question-title">Q11: How do you show maps without a paid Google Maps API key?</div>
-        <div class="answer-body">We load the <strong>Leaflet JS</strong> library from a CDN. Leaflet renders free map tiles from OpenStreetMap (OSM) on a standard HTML canvas element. This keeps map rendering free.</div>
-    </div>
-    
+        let activeCategory = 'all';
+        let searchQuery = '';
 
-    <div class="qa-card">
-        <div class="question-title">Q12: How does a user select a location on the map?</div>
-        <div class="answer-body">We bind click/tap event listeners to the Leaflet map container. When a user taps or drags the marker pin, we capture the geographical coordinates (Latitude and Longitude) and update the form state.</div>
-    </div>
-    
+        // Initialize QA cards
+        function renderCards() {
+            qaGrid.innerHTML = '';
+            
+            const filteredData = vivaData.filter(item => {
+                const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
+                const matchesSearch = item.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      item.answer.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      item.id.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
 
-    <div class="qa-card">
-        <div class="question-title">Q13: How do you convert coordinates to a readable address?</div>
-        <div class="answer-body">We send a request to the free <strong>OpenStreetMap Nominatim Reverse Geocoding API</strong> using the coordinates. The API returns a JSON response containing the matching street, taluk, district, and pincode.</div>
-    </div>
-    
+            if (filteredData.length === 0) {
+                qaGrid.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                    No questions found matching your search. Try another query!
+                </div>`;
+                return;
+            }
 
-    <div class="qa-card">
-        <div class="question-title">Q14: How does the "Use Current GPS Location" button function?</div>
-        <div class="answer-body">It calls the browser's native <code>navigator.geolocation.getCurrentPosition</code> API. Once the browser returns the user's coordinates, we pan the Leaflet map center to those coordinates and trigger a reverse-geocoding call.</div>
-    </div>
-    
+            filteredData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'qa-card';
+                card.innerHTML = `
+                    <div class="qa-header">
+                        <div class="qa-title">
+                            <span class="qa-id">${item.id}</span>
+                            <span>${item.question}</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="qa-badge badge-${item.category}">${item.category}</span>
+                            <span class="qa-toggle-btn">▼</span>
+                        </div>
+                    </div>
+                    <div class="qa-body">
+                        <p>${item.answer}</p>
+                    </div>
+                `;
 
-    <div class="qa-card">
-        <div class="question-title">Q15: How do you handle cases where the user denies browser location permissions?</div>
-        <div class="answer-body">We catch the permission error callback. The app displays an informative error toast notifying the user to grant permissions, and allows them to search or type the address manually to ensure the workflow is not blocked.</div>
-    </div>
-    
-<hr />
-<h3>4. Direct Bookings &amp; Notifications</h3>
+                // Add click event for accordion toggle
+                card.querySelector('.qa-header').addEventListener('click', () => {
+                    card.classList.toggle('open');
+                });
 
-    <div class="qa-card">
-        <div class="question-title">Q16: How do workers receive notifications instantly without refreshing?</div>
-        <div class="answer-body">We use Firestore's <code>onSnapshot</code> listener on the <code>bookings</code> collection. When a new booking with a matching <code>workerId</code> is added to Firestore, the database pushes the new document to the active client, which displays a toast alert.</div>
-    </div>
-    
+                qaGrid.appendChild(card);
+            });
+        }
 
-    <div class="qa-card">
-        <div class="question-title">Q17: What happens when a worker clicks 'Accept' on a booking?</div>
-        <div class="answer-body">The app calls <code>updateDoc</code> to change the booking status in Firestore to <code>CONFIRMED</code>. It then calls <code>sendNotification</code> to write an alert in the Realtime Database under the hirer's UID, which displays a confirmation on the hirer's dashboard.</div>
-    </div>
-    
+        // Search listener
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderCards();
+        });
 
-    <div class="qa-card">
-        <div class="question-title">Q18: How does the worker navigate to the job location?</div>
-        <div class="answer-body">We save a structured <code>workLocation</code> object containing a pre-formatted Google Maps URL (<code>https://www.google.com/maps?q=lat,lng</code>). On the worker's dashboard, this renders a button that opens Google Maps directly with navigation.</div>
-    </div>
-    
+        // Filter tab listeners
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                filterTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                activeCategory = tab.dataset.category;
+                renderCards();
+            });
+        });
 
-    <div class="qa-card">
-        <div class="question-title">Q19: How are unread chat counts maintained?</div>
-        <div class="answer-body">Inside our Zustand <code>useChatStore</code>, we listen to new children added in RTDB. If a message arrives for a thread that is not currently open, we increment the unread count in state and write it locally.</div>
-    </div>
-    
-<hr />
+        // Dark/Light theme toggler
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            if (newTheme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeToggle.innerHTML = '☀️ Light Mode';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeToggle.innerHTML = '🌙 Dark Mode';
+            }
+        });
 
-    <div class="qa-card">
-        <div class="question-title">Q20: How did you implement bilingual support (English/Kannada)?</div>
-        <div class="answer-body">We maintain a local translation dictionary matching UI labels. A state variable (<code>lang</code>) toggles between 'en' and 'kn'. Key static arrays (like the list of trades or districts) are loaded based on the current active language.</div>
-    </div>
-    
+        // Check local storage for theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            themeIcon.textContent = '☀️';
+            themeToggle.innerHTML = '☀️ Light Mode';
+        }
 
-    <div class="qa-card">
-        <div class="question-title">Q21: How do you validate form fields before submitting a booking?</div>
-        <div class="answer-body">Before calling the Firestore <code>addDoc</code> function, we check the form state values (e.g. <code>if (!form.jobTitle || !form.date) ...</code>). If empty, we trigger a Toast warning and block the database write.</div>
-    </div>
-    
+        // Sidebar active link spy
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
 
-    <div class="qa-card">
-        <div class="question-title">Q22: Why did you choose NoSQL instead of SQL for this project?</div>
-        <div class="answer-body">A NoSQL structure allows us to scale out horizontally easily. Since chat messages, notifications, and user profiles do not follow a strict tabular structure, NoSQL lets us store records as flexible documents and JSON trees.</div>
-    </div>
-    
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.section === current) {
+                    item.classList.add('active');
+                }
+            });
+        });
 
-    <div class="qa-card">
-        <div class="question-title">Q23: How do you handle spelling differences in Karnataka district names (e.g. 'Mysore' vs 'Mysuru')?</div>
-        <div class="answer-body">We implemented an <code>aliasMap</code> in our geocoding function. If OpenStreetMap returns historical names (like 'Gulbarga' or 'Belgaum'), our system translates them to the official names ('Kalaburagi', 'Belagavi') before matching them against our 31-district database.</div>
-    </div>
-    
-<p><strong>Q24: What is the role of <code>firebase.json</code>?</strong></p>
-<blockquote>
-<p>It configures Firebase Hosting. It directs Firebase to serve assets from the <code>dist</code> build directory, and contains a rewrite rule <code>{ "source": "**", "destination": "/index.html" }</code> which redirects all incoming URLs to <code>index.html</code> so that our React Router client-side routing works without 404 errors.</p>
-</blockquote>
-<p><strong>Q25: What is the purpose of the <code>dist</code> directory in your React project?</strong></p>
-<blockquote>
-<p>The <code>dist</code> (distribution) directory contains the production-ready build of the application. Vite compiles, minifies, and bundles all React JSX, CSS variables, and JS modules into static assets inside this folder for deployment to hosting servers.</p>
-</blockquote>
-    </div>
+        // Run initial render
+        renderCards();
+    </script>
 </body>
 </html>
