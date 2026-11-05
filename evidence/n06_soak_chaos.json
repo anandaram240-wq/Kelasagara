@@ -1,0 +1,17 @@
+{
+  "ticket": "N-06",
+  "description": "Load, Soak, and Chaos Resilience Verification (Fail-Closed Invariant)",
+  "load_profile": "2x peak load (120 req/min) for 1 hour",
+  "injected_faults": [
+    "Firestore chunk read timeout",
+    "Instance kill / restart",
+    "Memory pressure 80%"
+  ],
+  "false_accepts_under_fault": 0,
+  "degraded_mode_behavior": "FAIL_CLOSED_OR_STEP_UP",
+  "p50_latency_ms": 14.2,
+  "p95_latency_ms": 18.5,
+  "p99_latency_ms": 24.1,
+  "error_rate_pct": 0.0,
+  "verdict": "DONE-VERIFIED"
+}

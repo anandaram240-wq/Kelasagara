@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "repository_root": "/Users/ananda/KELASAGARA MAJOR PROJECT/kelasagaara_v17",
+    "git_commit": "215c44501b178422da8fc9233f4f10329d16b76a",
+    "git_branch": "biomatch/v7-hardening",
+    "git_dirty": true,
+    "generated_at": "2026-10-11T06:14:00Z"
+  },
+  "toolchain": {
+    "node": "v24.14.0",
+    "npm": "11.9.0",
+    "python": "3.9.6",
+    "os": "Darwin arm64 (macOS 15.6 / Apple Silicon M4)"
+  },
+  "model_artifacts": [
+    {
+      "name": "YuNet Face Detector (2023Mar)",
+      "path": "backend/models/face_detection_yunet_2023mar.onnx",
+      "sha256": "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4",
+      "size_bytes": 232589,
+      "license": "Apache-2.0",
+      "role": "Face detection and 5-point landmark extraction"
+    },
+    {
+      "name": "SFace Face Recognizer FP32 (2021Dec)",
+      "path": "backend/models/face_recognition_sface_2021dec.onnx",
+      "sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79",
+      "size_bytes": 38696353,
+      "license": "Apache-2.0",
+      "role": "Primary face embedding extraction (128-D L2-normalized)"
+    },
+    {
+      "name": "SFace Face Recognizer INT8 Quantized (2021Dec)",
+      "path": "backend/models/face_recognition_sface_2021dec_int8.onnx",
+      "sha256": "2b0e941e6f16cc048c20aee0c8e31f569118f65d702914540f7bfdc14048d78a",
+      "size_bytes": 9896933,
+      "license": "Apache-2.0",
+      "role": "Secondary/Fallback quantized recognizer"
+    },
+    {
+      "name": "Kelasagara MobileFaceNet",
+      "path": "backend/models/kelasagara_mobilefacenet.onnx",
+      "sha256": "cde3799f041eca6a6a99bfac53d9e97eb81ff34ac450d519aa41a9c99bef7d7c",
+      "size_bytes": 1172885,
+      "license": "EVAL-ONLY / Research",
+      "role": "Research reference model (non-commercial)"
+    }
+  ],
+  "subsystems": {
+    "entry_points": [
+      {
+        "name": "Backend Express Server",
+        "path": "backend/src/server.ts",
+        "runtime": "Node.js (TypeScript)"
+      },
+      {
+        "name": "Client Application Shell",
+        "path": "lib/main.dart",
+        "runtime": "Flutter / Dart"
+      }
+    ],
+    "authentication_and_enrollment": [
+      {
+        "name": "Biometric Enrollment Service",
+        "path": "backend/src/services/biometric_enrollment.ts"
+      },
+      {
+        "name": "Multi-Sample Enrollment",
+        "path": "backend/src/services/multi_sample_enrollment.ts"
+      },
+      {
+        "name": "Account Lifecycle Guard",
+        "path": "backend/src/services/account_lifecycle.ts"
+      }
+    ],
+    "inference_and_preprocessing": [
+      {
+        "name": "Face Preprocessing Service",
+        "path": "backend/src/services/face_preprocessing.ts"
+      },
+      {
+        "name": "Face Inference Service",
+        "path": "backend/src/services/face_inference.ts"
+      },
+      {
+        "name": "Server Landmark Extractor",
+        "path": "backend/src/services/server_landmark_extractor.ts"
+      },
+      {
+        "name": "Inference Redundancy Service",
+        "path": "backend/src/services/inference_redundancy_service.ts"
+      }
+    ],
+    "template_protection_and_cryptography": [
+      {
+        "name": "Template Privacy Service",
+        "path": "backend/src/services/template_privacy.ts"
+      },
+      {
+        "name": "Template Lifecycle Manager",
+        "path": "backend/src/services/template_lifecycle.ts"
+      }
+    ],
+    "index_and_deduplication": [
+      {
+        "name": "In-Memory Biometric Index",
+        "path": "backend/src/services/in_memory_biometric_index.ts"
+      },
+      {
+        "name": "Firestore Biometric Repository",
+        "path": "backend/src/services/firestore_biometric_repository.ts"
+      }
+    ],
+    "security_and_attestation": [
+      {
+        "name": "Device Attestation Service",
+        "path": "backend/src/services/device_attestation.ts"
+      },
+      {
+        "name": "Presentation Attack Defense",
+        "path": "backend/src/services/presentation_attack_defense.ts"
+      },
+      {
+        "name": "Audit Service",
+        "path": "backend/src/services/audit_service.ts"
+      },
+      {
+        "name": "Quota & Rate Limiting Monitor",
+        "path": "backend/src/services/quota_monitor.ts"
+      }
+    ],
+    "api_routes": [
+      {
+        "route": "POST /api/biometrics/challenge",
+        "handler": "face_routes.ts:issueChallenge"
+      },
+      {
+        "route": "POST /api/biometrics/enroll",
+        "handler": "face_routes.ts:enrollBiometrics"
+      },
+      {
+        "route": "POST /api/biometrics/verify-1to1",
+        "handler": "face_routes.ts:verifyBiometrics"
+      },
+      {
+        "route": "POST /api/biometrics/deduplicate-1ton",
+        "handler": "face_routes.ts:deduplicateBiometrics"
+      },
+      {
+        "route": "DELETE /api/biometrics/template",
+        "handler": "face_routes.ts:deleteTemplate"
+      },
+      {
+        "route": "GET /api/biometrics/health",
+        "handler": "face_routes.ts:healthCheck"
+      }
+    ],
+    "test_infrastructure": {
+      "backend_suites": 18,
+      "backend_tests_passing": 88,
+      "test_framework": "node:test (TypeScript compiled)",
+      "mutation_suite": "backend/src/tests/stage_s3_mutation_suite.test.ts",
+      "attack_suite": "backend/src/tests/attack_dry_run.test.ts"
+    }
+  }
+}

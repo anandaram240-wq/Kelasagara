@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-PLAY-INTEGRITY-UNIT",
+  "timestampUtc": "2026-10-11T05:10:30Z",
+  "testSuite": "backend/dist/tests/play_integrity_attestation.test.js",
+  "totalTests": 8,
+  "passedTests": 8,
+  "failedTests": 0,
+  "results": [
+    {
+      "testId": "PIA-01",
+      "name": "computes canonical requestHash and verifies identical binding",
+      "durationMs": 0.69,
+      "verdict": "PASS",
+      "invariant": "SEC-02"
+    },
+    {
+      "testId": "PIA-02",
+      "name": "evaluates integrity verdict tiers (Strong, Device, Basic)",
+      "durationMs": 0.43,
+      "verdict": "PASS",
+      "invariant": "SEC-01"
+    },
+    {
+      "testId": "PIA-03",
+      "name": "rejects tokens issued for rogue or re-packaged apps",
+      "durationMs": 0.18,
+      "verdict": "PASS",
+      "invariant": "SEC-01"
+    },
+    {
+      "testId": "PIA-04",
+      "name": "rejects stale attestation tokens exceeding maximum age limit",
+      "durationMs": 0.13,
+      "verdict": "PASS",
+      "invariant": "SEC-03"
+    },
+    {
+      "testId": "PIA-05",
+      "name": "detects and blocks tokens with mismatched requestHash",
+      "durationMs": 0.12,
+      "verdict": "PASS",
+      "invariant": "SEC-02"
+    },
+    {
+      "testId": "PIA-06",
+      "name": "catches Frida, Xposed hooking, and emulated device signatures",
+      "durationMs": 0.14,
+      "verdict": "PASS",
+      "invariant": "SEC-01"
+    },
+    {
+      "testId": "PIA-07",
+      "name": "strictly blocks allowDevBypass in production environment",
+      "durationMs": 0.24,
+      "verdict": "PASS",
+      "invariant": "SEC-12"
+    },
+    {
+      "testId": "PIA-08",
+      "name": "GooglePlayIntegrityVerifier fails closed as UNVERIFIED-LIVE without credentials",
+      "durationMs": 0.13,
+      "verdict": "PASS",
+      "invariant": "SEC-12"
+    }
+  ]
+}

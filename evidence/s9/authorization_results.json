@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-AUTHORIZATION",
+  "timestampUtc": "2026-10-11T05:13:00Z",
+  "authorizationGatesVerified": [
+    {
+      "endpoint": "POST /api/biometrics/challenge",
+      "authEnforced": true,
+      "unauthenticatedStatus": 401,
+      "tenantScoping": "Extracted from verified Firebase Auth token claims",
+      "verdict": "FAIL_CLOSED_VERIFIED"
+    },
+    {
+      "endpoint": "POST /api/biometrics/enroll",
+      "authEnforced": true,
+      "unauthenticatedStatus": 401,
+      "tenantScoping": "Bound to canonical BIOMATCH_AAD_V1 TAG_TENANT_ID",
+      "verdict": "FAIL_CLOSED_VERIFIED"
+    },
+    {
+      "endpoint": "POST /api/biometrics/verify-1to1",
+      "authEnforced": true,
+      "unauthenticatedStatus": 401,
+      "tenantScoping": "Bound to canonical BIOMATCH_AAD_V1 TAG_TENANT_ID",
+      "verdict": "FAIL_CLOSED_VERIFIED"
+    },
+    {
+      "endpoint": "DELETE /api/biometrics/template",
+      "authEnforced": true,
+      "unauthenticatedStatus": 401,
+      "tenantScoping": "Strict caller UID match or admin role required",
+      "verdict": "FAIL_CLOSED_VERIFIED"
+    }
+  ],
+  "parameterSubstitutionAttacks": [
+    {
+      "attack": "Cross-Tenant IDOR: Caller from Tenant B requests Tenant A template",
+      "defense": "Ciphertext unwrap fails with AAD mismatch; query filter restricts scope",
+      "testResult": "BLOCKED (CTI-01 passed)"
+    },
+    {
+      "attack": "Ciphertext Splicing: Intercept Tenant A ciphertext and present under Tenant B",
+      "defense": "GCM tag verification fails because AAD binds distinct tenant IDs",
+      "testResult": "BLOCKED (CTI-02 passed)"
+    },
+    {
+      "attack": "Wrapped DEK Substitution: Splicing wrapped DEK from another envelope",
+      "defense": "Cloud KMS unwrap fails with AAD context mismatch",
+      "testResult": "BLOCKED (CTI-03 passed)"
+    },
+    {
+      "attack": "Colliding UID across tenants: Same worker UID created in two tenants",
+      "defense": "Disjoint envelopes generated; cross-tenant unwrap fails",
+      "testResult": "BLOCKED (CTI-04 passed)"
+    }
+  ]
+}

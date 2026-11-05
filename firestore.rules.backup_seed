@@ -1,0 +1,746 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    function isSignedIn()    { return request.auth != null; }
+    function myUid()         { return request.auth.uid; }
+    function isOwner(uid)    { return isSignedIn() && myUid() == uid; }
+
+    // Read the caller's own user document (for role/status checks)
+    function hasUserDoc()    { return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function myDoc()         { return get(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function myRole()        { return hasUserDoc() ? myDoc().data.get('role', 'worker') : 'worker'; }
+    function myStatus()      { return hasUserDoc() ? myDoc().data.get('accountStatus', '') : ''; }
+    function isAdmin()       { return isSignedIn() && myRole() == 'admin'; }
+    function isApproved()    { return isSignedIn() && (myStatus() in ['approved', 'active'] || isHirer()); }
+    function isWorker()      { return isSignedIn() && myRole() == 'worker'; }
+    function isHirer()       { return isSignedIn() && (myRole() == 'hirer' || (hasUserDoc() && myDoc().data.get('role', '') == 'hirer')); }
+    function faceVerified()  { return hasUserDoc() && myDoc().data.get('faceVerified', false) == true; }
+
+    // ── USERS collection ──────────────────────────────────────────────────────
+    match /users/{uid} {
+      // Owner can always read their own profile.
+      // Admin can read all profiles.
+      // Any authenticated user can read APPROVED WORKER profiles for discovery.
+      // The caller's own approval status is intentionally NOT checked here —
+      // hirers and workers may have any accountStatus and still need to browse
+      // the approved worker marketplace. Security is maintained on the TARGET side:
+      //   - target must be a worker with accountStatus == 'approved'
+      // Sensitive data (gov IDs, biometrics) must NOT be stored in users/{uid};
+      // use workerRegistrations/{uid} (private) for those.
+      allow read: if isOwner(uid)
+        || isAdmin()
+        || (isSignedIn()
+            && resource.data.role in ['worker', 'hirer']
+            && resource.data.accountStatus in ['approved', 'active']);
+
+      // Create: only the user themselves on first registration
+      // Cannot self-assign admin role.
+      // Hirers are auto-approved on creation (no admin review required).
+      // Workers must start in pending_profile or pending_face — NOT approved.
+      allow create: if isOwner(uid)
+        && request.resource.data.role in ['worker', 'hirer']
+        && request.resource.data.role != 'admin'
+        && (
+          // Workers & Hirers: start in pending_profile or pending_face (or approved for legacy)
+          (request.resource.data.role in ['worker', 'hirer']
+              && request.resource.data.accountStatus in ['pending_profile', 'pending_face', 'approved']
+              && (!('isAvailable' in request.resource.data) || request.resource.data.isAvailable == false))
+        );
+
+      // Update: user can update their own profile BUT cannot change:
+      //   - accountStatus (only admin, OR via the narrow registration/face-enrollment transitions below)
+      //   - role (only admin, OR during initial onboarding transition below)
+      //   - faceVerified (only admin, OR via the narrow face-enrollment transition below)
+      //   - approvedBy / approvedAt / rejectedBy etc.
+      allow update: if isAdmin()
+        // ── Branch 1: Normal profile update by account owner ──
+        || (isOwner(uid)
+          && !('accountStatus' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('role' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('faceVerified' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('skillVerified' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('approvedBy' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('approvedAt' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('rejectedBy' in request.resource.data.diff(resource.data).affectedKeys())
+          // Workers cannot self-inflate their verified work count or rating
+          && !('verifiedWorkCount' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('rating' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('ratingSum' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('totalRatings' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('totalJobs' in request.resource.data.diff(resource.data).affectedKeys())
+          // Phase 3: live discovery fields and isAvailable can only be written by approved workers.
+          // An unapproved worker cannot set isAvailable=true or publish a discovery location.
+          && (
+            !request.resource.data.diff(resource.data).affectedKeys().hasAny(
+              ['discoveryLat', 'discoveryLng', 'discoveryUpdatedAt',
+               'discoverySessionId', 'discoveryAccuracy', 'isAvailable']
+            ) || isApproved()
+          )
+        )
+        // ── Branch 2A: Worker profile completion transition (pending_profile → pending_face) ──
+        // Worker completing profile setup before proceeding to face verification.
+        // Allowed only if: caller is owner, current status is pending_profile,
+        // requested status is pending_face, requested role is worker (never admin),
+        // and locked fields (ratings, jobs, approval, faceVerified, availability) are not modified.
+        || (isOwner(uid)
+          && resource.data.accountStatus == 'pending_profile'
+          && request.resource.data.accountStatus == 'pending_face'
+          && request.resource.data.role in ['worker', 'hirer']
+          && !('faceVerified' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('skillVerified' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('approvedBy' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('approvedAt' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('rejectedBy' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('verifiedWorkCount' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('rating' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('ratingSum' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('totalRatings' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('totalJobs' in request.resource.data.diff(resource.data).affectedKeys())
+          // Worker cannot become available or publish live discovery location before approval
+          && (
+            !request.resource.data.diff(resource.data).affectedKeys().hasAny(
+              ['discoveryLat', 'discoveryLng', 'discoveryUpdatedAt',
+               'discoverySessionId', 'discoveryAccuracy', 'isAvailable']
+            ) || request.resource.data.isAvailable == false
+          )
+        )
+        // ── Branch 2B: Hirer auto-approval transition (pending_profile → approved) ──
+        // Hirers completing their profile (pending_profile → approved).
+        // Hirers do not require face verification or admin review.
+        // Only allowed if: caller is owner, current status is pending_profile or pending_face,
+        // requested status is approved, requested role is hirer (never admin),
+        // and locked fields (faceVerified, admin fields, rating, jobs) are not modified.
+        || (isOwner(uid)
+          && resource.data.accountStatus in ['pending_profile', 'pending_face']
+          && request.resource.data.accountStatus == 'approved'
+          && request.resource.data.role == 'hirer'
+          && !('faceVerified' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('skillVerified' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('approvedBy' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('approvedAt' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('rejectedBy' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('verifiedWorkCount' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('rating' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('ratingSum' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('totalRatings' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('totalJobs' in request.resource.data.diff(resource.data).affectedKeys())
+          && (
+            !request.resource.data.diff(resource.data).affectedKeys().hasAny(
+              ['discoveryLat', 'discoveryLng', 'discoveryUpdatedAt',
+               'discoverySessionId', 'discoveryAccuracy', 'isAvailable']
+            ) || request.resource.data.isAvailable == false
+          )
+        )
+        // ── Branch 2C: Narrow face-enrollment transition (workers only) ──
+        || (isOwner(uid)
+          && resource.data.accountStatus == 'pending_face'
+          && request.resource.data.accountStatus == 'pending_review'
+          && request.resource.data.faceVerified == true
+          && !('role' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('approvedBy' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('approvedAt' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('rejectedBy' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('verifiedWorkCount' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('rating' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('ratingSum' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('totalRatings' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('totalJobs' in request.resource.data.diff(resource.data).affectedKeys())
+          && (
+            !request.resource.data.diff(resource.data).affectedKeys().hasAny(
+              ['discoveryLat', 'discoveryLng', 'discoveryUpdatedAt',
+               'discoverySessionId', 'discoveryAccuracy', 'isAvailable']
+            ) || request.resource.data.isAvailable == false
+          )
+        )
+        // ── Branch 2D: Narrow face-enrollment transition (hirers) ──
+        || (isOwner(uid)
+          && resource.data.accountStatus == 'pending_face'
+          && request.resource.data.accountStatus == 'approved'
+          && request.resource.data.role == 'hirer'
+          && request.resource.data.faceVerified == true
+          && !('role' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('approvedBy' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('approvedAt' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('rejectedBy' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('verifiedWorkCount' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('rating' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('ratingSum' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('totalRatings' in request.resource.data.diff(resource.data).affectedKeys())
+          && !('totalJobs' in request.resource.data.diff(resource.data).affectedKeys())
+          && (
+            !request.resource.data.diff(resource.data).affectedKeys().hasAny(
+              ['discoveryLat', 'discoveryLng', 'discoveryUpdatedAt',
+               'discoverySessionId', 'discoveryAccuracy', 'isAvailable']
+            ) || request.resource.data.isAvailable == false
+          )
+        )
+        // ── Branch 3: Phase 4 Completion & Booking Lifecycle ──
+        // An authenticated hirer can update a worker's aggregate & availability fields
+        // as part of atomic booking acceptance or completion transactions.
+        || (isSignedIn()
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                'totalJobs', 'ratingSum', 'totalRatings',
+                'activeBookingId', 'isAvailable', 'updatedAt'
+            ])
+        );
+
+      // Nobody can delete user documents through the client
+      allow delete: if false;
+    }
+
+    // ── USERNAMES collection ──────────────────────────────────────────────────
+    // Maps normalizedUserId → { uid, createdAt } for atomic uniqueness enforcement.
+    // Client can READ to check availability. Only the owning user can CREATE (claim).
+    // No client-side UPDATE or DELETE — ownership transfers are admin-only operations.
+    match /usernames/{normalizedUserId} {
+      // Public read so registering users (pre-auth or post-auth) can check availability in real time
+      allow read: if true;
+
+      // Claim: signed-in user, must match their own UID, must include createdAt or claimedAt
+      allow create: if isSignedIn()
+        && request.resource.data.uid == myUid()
+        && (request.resource.data.createdAt != null || request.resource.data.claimedAt != null);
+
+      // User can update their own claimed username doc; admin can update any
+      allow update: if isAdmin()
+        || (isSignedIn() && resource.data.uid == myUid() && request.resource.data.uid == myUid());
+
+      // Never delete usernames from client
+      allow delete: if false;
+    }
+
+    // ── JOBS collection ───────────────────────────────────────────────────────
+    match /jobs/{jobId} {
+      // Any signed-in user can read jobs (workers browse, hirers view own)
+      allow read: if isSignedIn() || isAdmin();
+
+      allow create: if isSignedIn()
+        && request.resource.data.hirerId == myUid()
+        && request.resource.data.status == 'open';
+
+      allow update: if isAdmin()
+        || (isSignedIn() && (
+            resource.data.get('hirerId', '') == myUid()
+            || resource.data.get('hirerUid', '') == myUid()
+            || resource.data.get('createdBy', '') == myUid()
+            || resource.data.get('createdById', '') == myUid()
+        ));
+
+      allow delete: if isAdmin()
+        || (isSignedIn() && (
+            resource.data.get('hirerId', '') == myUid()
+            || resource.data.get('hirerUid', '') == myUid()
+        ));
+    }
+
+    // ── JOB PRIVATE collection (Two-Tier Location Disclosure Gate) ───────────
+    // Exact work site address, coordinates, and private access instructions.
+    // Kept separate from public jobs collection to prevent public location harvesting.
+    // Read: only job owner hirer, admin, or accepted worker of this job.
+    match /jobPrivate/{jobId} {
+      allow read: if isAdmin()
+        || (isSignedIn() && (
+            resource == null
+            || resource.data.get('hirerId', '') == myUid()
+            || resource.data.get('hirerUid', '') == myUid()
+            || resource.data.get('acceptedWorkerId', '') == myUid()
+        ));
+
+      allow create: if isSignedIn()
+        && request.resource.data.hirerId == myUid();
+
+      allow update: if isAdmin()
+        || (isSignedIn() && (
+            resource.data.get('hirerId', '') == myUid()
+            || resource.data.get('hirerUid', '') == myUid()
+            || resource.data.get('createdById', '') == myUid()
+            || resource.data.get('createdBy', '') == myUid()
+        ));
+
+      allow delete: if isAdmin()
+        || (isSignedIn() && (
+            resource.data.get('hirerId', '') == myUid()
+            || resource.data.get('hirerUid', '') == myUid()
+            || resource.data.get('createdById', '') == myUid()
+            || resource.data.get('createdBy', '') == myUid()
+        ));
+    }
+
+    // ── APPLICATIONS collection ───────────────────────────────────────────────
+    match /applications/{appId} {
+      // READ: Worker who applied, Hirer who posted the job, or Admin.
+      // Competitor workers cannot read other applicants' proposals or rates.
+      // Also allow read when document does not exist yet (resource == null)
+      // or when the appId contains the caller's UID.
+      allow read: if isAdmin()
+        || (isSignedIn() && (
+            resource == null
+            || resource.data.get('workerId', '') == myUid()
+            || resource.data.get('hirerId', '') == myUid()
+            || resource.data.get('hirerUid', '') == myUid()
+            || (resource.data.get('jobId', '') != ''
+                && exists(/databases/$(database)/documents/jobs/$(resource.data.jobId))
+                && (
+                    get(/databases/$(database)/documents/jobs/$(resource.data.jobId)).data.get('hirerId', '') == myUid()
+                    || get(/databases/$(database)/documents/jobs/$(resource.data.jobId)).data.get('hirerUid', '') == myUid()
+                    || get(/databases/$(database)/documents/jobs/$(resource.data.jobId)).data.get('createdById', '') == myUid()
+                    || get(/databases/$(database)/documents/jobs/$(resource.data.jobId)).data.get('createdBy', '') == myUid()
+                ))
+            || appId.matches('^.*_' + myUid() + '$')
+        ));
+
+      // CREATE: Approved worker applying for a job.
+      // Must be own UID, status must be pending.
+      allow create: if isSignedIn() && isWorker() && isApproved()
+        && request.resource.data.workerId == myUid()
+        && request.resource.data.status == 'pending';
+
+      // Status updates:
+      // - Hirer can accept or reject (hirerId matches caller)
+      // - Worker can withdraw/cancel their application (workerId matches caller)
+      allow update: if isAdmin()
+        || (isSignedIn() && (
+            resource.data.get('hirerId', '') == myUid()
+            || resource.data.get('hirerUid', '') == myUid()
+            || (resource.data.get('jobId', '') != ''
+                && exists(/databases/$(database)/documents/jobs/$(resource.data.jobId))
+                && (
+                    get(/databases/$(database)/documents/jobs/$(resource.data.jobId)).data.get('hirerId', '') == myUid()
+                    || get(/databases/$(database)/documents/jobs/$(resource.data.jobId)).data.get('hirerUid', '') == myUid()
+                    || get(/databases/$(database)/documents/jobs/$(resource.data.jobId)).data.get('createdById', '') == myUid()
+                    || get(/databases/$(database)/documents/jobs/$(resource.data.jobId)).data.get('createdBy', '') == myUid()
+                ))
+        ))
+        || (isSignedIn() && resource.data.get('workerId', '') == myUid()
+            && (request.resource.data.status in ['worker_cancelled', 'withdrawn']));
+
+      allow delete: if false;
+    }
+
+    // ── USER PUBLIC KEY BUNDLES (E2EE) ──────────────────────────────────────────
+    match /user_keys/{userId} {
+      allow read: if isSignedIn();
+      allow write: if isOwner(userId);
+
+      match /devices/{deviceId} {
+        // Any signed-in user can fetch public key bundle to establish E2EE session
+        allow read: if isSignedIn();
+        // Only the device owner can publish or update their own public key bundle
+        allow create, update, delete: if isSignedIn() && isOwner(userId);
+      }
+    }
+
+    // ── CONVERSATIONS collection ───────────────────────────────────────────────
+    match /conversations/{convId} {
+      // Only conversation participants can read; allow resource == null for existence checks
+      allow read: if isAdmin()
+        || (isSignedIn() && (
+            resource == null
+            || myUid() in resource.data.get('participants', [])
+        ));
+
+      // Create: caller must be a participant, size must be exactly 2
+      allow create: if isSignedIn()
+        && myUid() in request.resource.data.get('participants', [])
+        && request.resource.data.participants.size() == 2;
+
+      // Allow update: caller must be a participant (for typing indicators, lastMessage, unread count). Support upsert (SetOptions merge)
+      allow update: if isSignedIn()
+        && (
+            resource == null
+            || myUid() in resource.data.get('participants', [])
+            || myUid() in request.resource.data.get('participants', [])
+        );
+
+      allow delete: if false;
+    }
+
+    // ── MESSAGES subcollection ────────────────────────────────────────────────
+    match /conversations/{convId}/messages/{msgId} {
+      // Only conversation participants can read; handle non-existent conversation during checks
+      allow read: if isAdmin()
+        || (isSignedIn() && (
+            !exists(/databases/$(database)/documents/conversations/$(convId))
+            || myUid() in get(/databases/$(database)/documents/conversations/$(convId)).data.get('participants', [])
+        ));
+
+      // Only participants can send messages; handle concurrent conversation creation safely
+      allow create: if isSignedIn()
+        && (
+          !exists(/databases/$(database)/documents/conversations/$(convId))
+          || myUid() in get(/databases/$(database)/documents/conversations/$(convId)).data.get('participants', [])
+        )
+        && request.resource.data.senderId == myUid();
+
+      // Receipt updates: recipient can update delivery and read ticks; message content is strictly immutable
+      allow update: if isSignedIn()
+        && (
+          ((resource.data.get('recipientId', '') == myUid() || resource.data.get('receiverId', '') == myUid())
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'deliveredAt', 'readAt', 'seenBy']))
+          || ((!exists(/databases/$(database)/documents/conversations/$(convId))
+               || myUid() in get(/databases/$(database)/documents/conversations/$(convId)).data.get('participants', []))
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['seenBy']))
+        );
+
+      allow delete: if false;
+    }
+
+     // ── BOOKINGS collection ───────────────────────────────────────────────────
+    match /bookings/{bookingId} {
+      // ── READ ────────────────────────────────────────────────────────────────
+      // Both parties read full doc. Also allow read when doc does not exist yet (resource == null)
+      // so transactional uniqueness and pre-flight existence checks succeed without permission-denied.
+      allow read: if isAdmin()
+        || (isSignedIn() && (
+            resource == null
+            || resource.data.get('workerId', '') == myUid()
+            || resource.data.get('hirerId', '') == myUid()
+        ));
+
+      // ── CREATE ───────────────────────────────────────────────────────────────
+      allow create: if isSignedIn()
+        && request.resource.data.hirerId == myUid();
+
+      // ── UPDATE ────────────────────────────────────────────────────────────────
+      // Phase 4B: Whitelisted state-transition rules.
+      // Every legal state transition is an explicit branch with whitelisted fields.
+      // Arbitrary status writes, status skipping, and terminal state mutations are rejected.
+      allow update: if isAdmin()
+
+        // ── Transition 1: Worker starts journey (confirmed -> tracking) ──
+        || (isSignedIn() && resource.data.workerId == myUid() && isWorker()
+            && resource.data.status == 'confirmed'
+            && request.resource.data.status == 'tracking'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                'status', 'journeyStartedAt', 'trackingStatus',
+                'workerLat', 'workerLng', 'workerSpeed', 'workerAccuracy',
+                'distanceToJob', 'locationUpdatedAt'
+            ])
+        )
+
+        // ── Transition 2: Worker journey telemetry update (tracking -> tracking) ──
+        || (isSignedIn() && resource.data.workerId == myUid() && isWorker()
+            && resource.data.status == 'tracking'
+            && request.resource.data.status == 'tracking'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                'status', 'workerLat', 'workerLng', 'workerSpeed', 'workerAccuracy',
+                'distanceToJob', 'locationUpdatedAt', 'trackingStatus'
+            ])
+        )
+
+        // ── Transition 3: Worker arrival at job site ([confirmed, tracking] -> arrived) ──
+        || (isSignedIn() && resource.data.workerId == myUid() && isWorker()
+            && (resource.data.status == 'tracking' || resource.data.status == 'confirmed')
+            && request.resource.data.status == 'arrived'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                'status', 'arrivedAt', 'arrivalOtp', 'arrivalOtpExpiry',
+                'arrivalOtpUsed', 'arrivalOtpAttempts', 'arrivalVerified',
+                'trackingStatus', 'arrivalStatus',
+                'workerLat', 'workerLng', 'workerSpeed', 'workerAccuracy',
+                'distanceToJob', 'locationUpdatedAt'
+            ])
+        )
+
+        // ── Transition 4: Hirer OTP verification (status stays arrived) ──
+        || (isSignedIn() && resource.data.hirerId == myUid() && isHirer()
+            && resource.data.status == 'arrived'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                'otpAttempt', 'arrivalVerified', 'arrivalVerifiedAt'
+            ])
+            && request.resource.data.otpAttempt == resource.data.arrivalOtp
+            && request.time < resource.data.arrivalOtpExpiry
+            && resource.data.arrivalOtpUsed == false
+            && request.resource.data.arrivalVerified == true
+        )
+
+        // ── Transition 5: Worker starts work after OTP verification (arrived -> working) ──
+        || (isSignedIn() && resource.data.workerId == myUid() && isWorker()
+            && resource.data.status == 'arrived'
+            && resource.data.arrivalVerified == true
+            && request.resource.data.status == 'working'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                'status', 'workStartedAt'
+            ])
+        )
+
+        // ── Transition 6: Worker requests completion (working -> completion_requested) ──
+        || (isSignedIn() && resource.data.workerId == myUid() && isWorker()
+            && resource.data.status == 'working'
+            && request.resource.data.status == 'completion_requested'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                'status', 'completionRequestedAt', 'completionRequestedBy'
+            ])
+        )
+
+        // ── Transition 7: Hirer confirms completion (completion_requested -> completion_verified) ──
+        || (isSignedIn() && resource.data.hirerId == myUid() && isHirer()
+            && resource.data.status == 'completion_requested'
+            && request.resource.data.status == 'completion_verified'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                'status', 'completedAt', 'hirerConfirmedAt', 'verifiedWorkId'
+            ])
+        )
+
+        // ── Transition 8: Cancellation ([confirmed, pending] -> cancelled) ──
+        || (isSignedIn() && (resource.data.workerId == myUid() || resource.data.hirerId == myUid())
+            && (resource.data.status == 'confirmed' || resource.data.status == 'pending')
+            && request.resource.data.status == 'cancelled'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                'status', 'cancelledAt', 'cancelledBy', 'cancellationReason'
+            ])
+        )
+
+        // ── Branch 9: Hirer booking metadata setup (no status mutation) ──
+        || (isSignedIn() && resource.data.hirerId == myUid() && isHirer()
+            && !('status' in request.resource.data.diff(resource.data).affectedKeys())
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                'applicationId', 'hirerName', 'jobAddress', 'jobTitle',
+                'arrivalOtp', 'arrivalOtpExpiry', 'arrivalOtpUsed', 'arrivalOtpAttempts'
+            ])
+        );
+
+      allow delete: if false;
+    }
+
+    // ── RATINGS collection ────────────────────────────────────────────────────
+    match /ratings/{ratingId} {
+      allow read: if true; // public
+      allow create: if isApproved() && isHirer()
+        && request.resource.data.hirerId == myUid();
+      allow update, delete: if false;
+    }
+
+    // ── APP CONFIG — public read for in-app version checks, admin write ──────
+    match /appConfig/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── AUDIT LOGS — admin write only, admin read only ─────────────────────
+    match /auditLogs/{logId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ── VERIFICATIONS ─────────────────────────────────────────────────────────
+    match /verifications/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid);
+      // Only admin can update verification decisions
+      allow update: if isAdmin();
+      allow delete: if false;
+    }
+
+    // ── REPORTS ───────────────────────────────────────────────────────────────
+    match /reports/{reportId} {
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.reportedBy == myUid());
+      allow create: if isSignedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    // ════════════════════════════════════════════════════════════════════════
+    // COMPETENCY TRUST INFRASTRUCTURE — Security Rules
+    // ════════════════════════════════════════════════════════════════════════
+
+    // ── OCCUPATION STANDARDS — public read, admin write ───────────────────
+    match /occupationStandards/{occupationId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ── WORKER SKILLS (Skill Passport) ────────────────────────────────────
+    // Critical: Workers can ONLY create at status=claimed / skillLevel=0.
+    // Workers CANNOT modify any authoritative competency fields.
+    // Only admin/assessor may update skill level, status, scores, decisions.
+    match /workerSkills/{docId} {
+      allow read: if isSignedIn();
+
+      allow create: if isSignedIn()
+        && request.resource.data.workerId == myUid()
+        && request.resource.data.status == 'claimed'
+        && request.resource.data.skillLevel == 0
+        && !request.resource.data.keys().hasAny([
+             'knowledgeScore','judgmentScore','practicalScore','safetyScore',
+             'overallScore','assessorId','assessedAt','validUntil',
+             'safetyGatePassed','suspensionReason']);
+
+      allow update: if isAdmin()
+        // Worker: may only update non-authoritative fields
+        || (isSignedIn() && resource.data.workerId == myUid()
+            && !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+                 'skillLevel','status','knowledgeScore','judgmentScore',
+                 'practicalScore','safetyScore','overallScore','assessorId',
+                 'assessedAt','validUntil','safetyGatePassed',
+                 'suspensionStatus','suspensionReason','reassessmentRequired']));
+
+      allow delete: if false;
+    }
+
+    // ── SKILL ASSESSMENTS ─────────────────────────────────────────────────
+    // Worker creates at status=draft.
+    // Worker may advance status through assessment steps.
+    // Worker CANNOT modify score fields or decision fields.
+    // Only admin/assessor may write decision, rubricScores, safetyGatePassed.
+    match /skillAssessments/{assessmentId} {
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.workerId == myUid());
+
+      allow create: if isSignedIn()
+        && request.resource.data.workerId == myUid()
+        && request.resource.data.status == 'draft';
+
+      allow update: if isAdmin()
+        // Worker: may advance status and record basic fields, but not decisions/scores
+        || (isSignedIn() && resource.data.workerId == myUid()
+            && request.resource.data.status in
+               ['in_progress','evidence_collection','submitted']
+            && !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+                 'knowledgeScore','judgmentScore','practicalScore','safetyScore',
+                 'rubricScores','decision','assessorId','safetyGatePassed',
+                 'failureReasons','humanReviewRequired','humanReviewStatus',
+                 'aiObservations','aiConfidence']));
+
+      allow delete: if false;
+    }
+
+    // ── ASSESSMENT EVIDENCE ───────────────────────────────────────────────
+    // Worker creates evidence record (status=created).
+    // Worker may update to upload_authorized / uploading.
+    // Cloudflare Worker (via admin-privilege service) updates to uploaded.
+    // Admin/assessor may update review fields.
+    // Worker CANNOT set storageKey, uploadedAt, reviewStatus, aiObservations.
+    match /assessmentEvidence/{evidenceId} {
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.workerId == myUid());
+
+      allow create: if isSignedIn()
+        && request.resource.data.workerId == myUid()
+        && request.resource.data.status == 'created';
+
+      allow update: if isAdmin()
+        // Worker: may only mark as upload_authorized or uploading — no more
+        || (isSignedIn() && resource.data.workerId == myUid()
+            && request.resource.data.status in ['upload_authorized','uploading']
+            && !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+                 'storageKey','uploadedAt','integrityVerifiedAt','sha256Checksum',
+                 'aiObservations','aiConfidence','aiModelVersion',
+                 'reviewStatus','reviewerNotes']));
+
+      allow delete: if false;
+    }
+
+    // ── VERIFIED WORK RECORDS ─────────────────────────────────────────────
+    // Created by system (admin-level write) on booking completion.
+    // Workers can read their own. Hirers can read records of their bookings.
+    // Nobody except admin can write.
+    match /verifiedWorkRecords/{recordId} {
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.workerId == myUid());
+      allow create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    // ── ASSESSMENT QUESTIONS — read by workers during assessment ──────────
+    match /assessmentQuestions/{skillId}/questions/{questionId} {
+      // Workers can read questions only during an active assessment session
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ── RISK SIGNALS — admin only ─────────────────────────────────────────
+    match /riskSignals/{signalId} {
+      allow read, write: if isAdmin();
+    }
+
+    // ── WORKER REGISTRATIONS — e-Shram, BOCW evidence ───────────────────────
+    // Worker creates and reads own; admin can update status fields only.
+    // IMPORTANT: registration verified != skill verified.
+    match /workerRegistrations/{workerId} {
+      allow read: if isOwner(workerId) || isAdmin();
+
+      // Worker can create own registration
+      allow create: if isOwner(workerId)
+        // Cannot self-set status above 'submitted'
+        && request.resource.data.status == 'submitted'
+        // Cannot set admin review fields on create
+        && !request.resource.data.keys().hasAny([
+             'reviewedBy','reviewedAt','sourceUrl','reviewNotes','rejectionReason']);
+
+      // Worker can update own registration (re-submit)
+      allow update: if isOwner(workerId)
+        // Cannot change admin review fields
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+             'status','reviewedBy','reviewedAt','sourceUrl','reviewNotes','rejectionReason'])
+        // Admin can update all fields including status
+        || isAdmin();
+
+      allow delete: if false;
+    }
+
+    // ── PROFESSIONAL CREDENTIALS — DGT/NTC, SSC, NCVET certificates ──────────
+    // Worker creates and reads own; admin reviews and updates verification fields.
+    // Critical: client CANNOT set issuerConfirmed, credentialVerified, verifiedBy, etc.
+    match /professionalCredentials/{credentialId} {
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.workerId == myUid());
+
+      // Worker can submit a credential
+      allow create: if isSignedIn() && isWorker()
+        && request.resource.data.workerId == myUid()
+        // Status must be document_submitted on create
+        && request.resource.data.status == 'document_submitted'
+        // Evidence strength must be document_submitted on create
+        && request.resource.data.evidenceStrength == 'document_submitted'
+        // Cannot set verification fields on create
+        && !request.resource.data.keys().hasAny([
+             'verifiedBy','verifiedAt','verificationMethod','verificationSource',
+             'standardVersion','rejectionReason']);
+
+      // Admin can update any field
+      // Workers CANNOT update credentials (resubmit only via delete+create if we add it)
+      allow update: if isAdmin();
+
+      allow delete: if false;
+    }
+
+    // ── VERIFICATION AUDIT LOGS — immutable, admin writes ─────────────────────
+    // Every admin verification action must create one.
+    // Admin writes; admin and the concerned worker can read.
+    match /verificationAuditLogs/{logId} {
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.workerId == myUid());
+
+      // Admin writes audit log (from verification actions)
+      allow create: if isAdmin()
+        // Audit logs are immutable — no update/delete
+        && request.resource.data.timestamp != null;
+
+      allow update, delete: if false;
+    }
+
+    // ── SKILL BADGES — backend-controlled only ────────────────────────────────
+    // Client (worker/hirer) CANNOT create, update, or delete badges.
+    // Only admin can write via Firestore batch.
+    // Worker and public can read badges.
+    match /skillBadges/{badgeId} {
+      allow read: if isSignedIn();
+
+      // ONLY admin can create/update badges — NOT workers
+      allow create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    // ── WORKER SKILLS — supplement existing rule with skillVerified protection ─
+    // Already defined above \u2014 this block ensures the extra field protection.
+    // If workerSkills already has a rule block, the ADDITIONAL protection below
+    // is enforced by the skillBadges write restriction (badges are the trigger).
+
+    // ── DEFAULT: deny everything else ─────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

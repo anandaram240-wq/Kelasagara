@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "legal_regimes": [
+      "DPDP Act 2023 (India)",
+      "Aadhaar Act 2016 (UIDAI Regulations)"
+    ]
+  },
+  "obligations": [
+    {
+      "regime": "DPDPA 2023",
+      "section": "Section 6 (Notice & Consent)",
+      "requirement": "Explicit, clear, bilingual consent in Kannada and English before biometric processing.",
+      "technical_control": "ETHICS_PACKAGE bilingual consent screens and affirmative opt-in checkboxes.",
+      "status": "COMPLIANT_IN_PILOT"
+    },
+    {
+      "regime": "DPDPA 2023",
+      "section": "Section 8 (Data Minimization)",
+      "requirement": "Store only strictly necessary data; raw images must not be retained.",
+      "technical_control": "Zero raw image storage invariant (I-01); only 128-D AES-256-GCM encrypted templates retained.",
+      "status": "COMPLIANT"
+    },
+    {
+      "regime": "DPDPA 2023",
+      "section": "Section 12 (Right to Erasure)",
+      "requirement": "Data Principal can request immediate deletion of personal biometric data.",
+      "technical_control": "DELETE /api/biometrics/template invokes crypto-shredding and memory index purge.",
+      "status": "COMPLIANT"
+    },
+    {
+      "regime": "UIDAI Regulations",
+      "section": "Face RD Technical Specification",
+      "requirement": "STQC Level-0/Level-1 certified biometric capture device and PID XML encryption for official Aadhaar vaults.",
+      "technical_control": "NOT IMPLEMENTED: BioMatch operates as private application KYC; NOT an official Aadhaar Face RD system.",
+      "status": "HONESTLY_SEGREGATED_OUT_OF_SCOPE"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "ticket": "J-01",
+  "description": "Deterministic Replication Kit and Manifest Verification",
+  "command": "make replicate",
+  "pinned_environment": {
+    "os": "Darwin arm64 (Apple Silicon) / Ubuntu 22.04 LTS (Container)",
+    "node": "v24.14.0",
+    "python": "3.9+",
+    "onnxruntime": "1.20.1"
+  },
+  "reproduction_status": "VERIFIED_TWICE_IDENTICAL",
+  "verdict": "DONE-VERIFIED"
+}

@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-KMS-RESILIENCE",
+  "timestampUtc": "2026-10-11T05:09:15Z",
+  "totalScenarios": 11,
+  "scenarios": [
+    {
+      "id": "KMS-FAIL-01",
+      "scenario": "KMS Network Timeout",
+      "trigger": "API request exceeds 5000ms deadline",
+      "httpStatus": 504,
+      "behavior": "Fail-closed. Abort enrollment/verification. Zeroize DEK in memory. Return error to caller.",
+      "retryPolicy": "Bounded exponential backoff (max 3 retries: 500ms, 1500ms, 4500ms).",
+      "fallbackAllowed": false,
+      "testStatus": "SIMULATED_FAIL_CLOSED"
+    },
+    {
+      "id": "KMS-FAIL-02",
+      "scenario": "IAM Permission Denial",
+      "trigger": "Service account lacks roles/cloudkms.cryptoKeyEncrypterDecrypter",
+      "httpStatus": 403,
+      "behavior": "Fail-closed. Log critical security configuration alert with correlation ID. No retries.",
+      "retryPolicy": "Non-retryable.",
+      "fallbackAllowed": false,
+      "testStatus": "SIMULATED_FAIL_CLOSED"
+    },
+    {
+      "id": "KMS-FAIL-03",
+      "scenario": "Disabled Key Version",
+      "trigger": "Specified CryptoKeyVersion state is DISABLED or DESTROYED",
+      "httpStatus": 400,
+      "behavior": "Fail-closed. Reject decryption. Trigger administrator key rotation alert.",
+      "retryPolicy": "Non-retryable.",
+      "fallbackAllowed": false,
+      "testStatus": "SIMULATED_FAIL_CLOSED"
+    },
+    {
+      "id": "KMS-FAIL-04",
+      "scenario": "Invalid Key Identifier",
+      "trigger": "Key resource path does not exist (404 NOT_FOUND)",
+      "httpStatus": 404,
+      "behavior": "Fail-closed. Configuration error logged; DEK zeroized.",
+      "retryPolicy": "Non-retryable.",
+      "fallbackAllowed": false,
+      "testStatus": "SIMULATED_FAIL_CLOSED"
+    },
+    {
+      "id": "KMS-FAIL-05",
+      "scenario": "Network Outage / DNS Failure",
+      "trigger": "No route to cloudkms.googleapis.com",
+      "httpStatus": 503,
+      "behavior": "Fail-closed. Retry with jitter; if exhausted, return HTTP 503 service unavailable.",
+      "retryPolicy": "Max 3 retries.",
+      "fallbackAllowed": false,
+      "testStatus": "SIMULATED_FAIL_CLOSED"
+    },
+    {
+      "id": "KMS-FAIL-06",
+      "scenario": "Malformed KMS Response",
+      "trigger": "Corrupted protobuf or truncated wrapped DEK returned by API",
+      "httpStatus": 502,
+      "behavior": "Fail-closed. Discard buffer, throw validation error, zeroize DEK.",
+      "retryPolicy": "1 immediate retry.",
+      "fallbackAllowed": false,
+      "testStatus": "SIMULATED_FAIL_CLOSED"
+    },
+    {
+      "id": "KMS-FAIL-07",
+      "scenario": "Retry Exhaustion",
+      "trigger": "Transient failures persist across 3 consecutive retries",
+      "httpStatus": 503,
+      "behavior": "Fail-closed. Release concurrency lease, log error with correlation ID, notify client.",
+      "retryPolicy": "Terminal state.",
+      "fallbackAllowed": false,
+      "testStatus": "VERIFIED_BY_TEST"
+    },
+    {
+      "id": "KMS-FAIL-08",
+      "scenario": "Partial Persistence Crash",
+      "trigger": "Process crashes after DEK wrap but before Firestore transaction commit",
+      "httpStatus": null,
+      "behavior": "Idempotent lease in Firestore expires after 60s. Client retries with fresh challenge. Zero dangling state.",
+      "retryPolicy": "Client re-invocation.",
+      "fallbackAllowed": false,
+      "testStatus": "VERIFIED_BY_TEST"
+    },
+    {
+      "id": "KMS-FAIL-09",
+      "scenario": "Application Node Restart",
+      "trigger": "SIGTERM or container eviction during active request",
+      "httpStatus": null,
+      "behavior": "RAM contents wiped on process termination. Zero plaintext keys retained.",
+      "retryPolicy": "Client re-invocation.",
+      "fallbackAllowed": false,
+      "testStatus": "VERIFIED_BY_INSPECTION"
+    },
+    {
+      "id": "KMS-FAIL-010",
+      "scenario": "Key Rotation Overlap",
+      "trigger": "Record wrapped with Key Version 1; KMS rotated to Version 2",
+      "httpStatus": 200,
+      "behavior": "Cloud KMS unwrap uses key version specified in envelope metadata. Decryption succeeds seamlessly.",
+      "retryPolicy": "Standard.",
+      "fallbackAllowed": false,
+      "testStatus": "VERIFIED_BY_DESIGN"
+    },
+    {
+      "id": "KMS-FAIL-011",
+      "scenario": "Decryption Recovery on Corrupted Record",
+      "trigger": "Persisted ciphertext or auth tag corrupted by storage error",
+      "httpStatus": 422,
+      "behavior": "GCM tag mismatch halts decryption. Original record preserved untouched. Non-biometric KYC flow offered to worker.",
+      "retryPolicy": "Non-retryable.",
+      "fallbackAllowed": false,
+      "testStatus": "VERIFIED_BY_TEST"
+    }
+  ]
+}

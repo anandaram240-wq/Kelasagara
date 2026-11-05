@@ -1,0 +1,63 @@
+{
+  "command": "npm test",
+  "runner": "node --test --test-concurrency=1 dist/tests/*.test.js",
+  "executedAt": "2026-10-11T04:52:56Z",
+  "environment": {
+    "os": "darwin-arm64",
+    "architecture": "aarch64",
+    "nodeVersion": "v20.17.0"
+  },
+  "summary": {
+    "totalTests": 127,
+    "suites": 23,
+    "passedTests": 127,
+    "failedTests": 0,
+    "cancelledTests": 0,
+    "skippedTests": 0,
+    "todoTests": 0,
+    "durationMs": 42539.46725,
+    "successRatePercent": 100.0
+  },
+  "workPackagesVerified": {
+    "S8-A": {
+      "name": "Baseline Reconciliation & Static Analysis Audit",
+      "status": "PASS"
+    },
+    "S8-B": {
+      "name": "Google Play Integrity & Canonical Request Hash Binding",
+      "testFile": "dist/tests/play_integrity_attestation.test.js",
+      "passCount": 8,
+      "status": "PASS"
+    },
+    "S8-C": {
+      "name": "Canonical AAD (BIOMATCH_AAD_V1), Cloud KMS Envelope & Resumable Migration",
+      "testFiles": [
+        "dist/tests/aad_canonicalization.test.js",
+        "dist/tests/template_migration.test.js",
+        "dist/tests/cryptographic_assurance.test.js",
+        "dist/tests/quality_and_template_privacy.test.js"
+      ],
+      "passCount": 29,
+      "status": "PASS"
+    },
+    "S8-D": {
+      "name": "Cross-Tenant Isolation, Splicing Defense & Leased Concurrency Locks",
+      "testFile": "dist/tests/cross_tenant_isolation.test.js",
+      "passCount": 6,
+      "status": "PASS"
+    },
+    "S8-E": {
+      "name": "End-to-End Regression, Adversarial PAD, Biometric Index & API Routes",
+      "testFiles": [
+        "dist/tests/api_routes_integration.test.js",
+        "dist/tests/security_hardening.test.js",
+        "dist/tests/test_liveness_injection_bypass.test.js",
+        "dist/tests/server_landmark_liveness.test.js",
+        "dist/tests/pipeline_audit_ablations.test.js",
+        "dist/tests/stage_s3_mutation_suite.test.js"
+      ],
+      "passCount": 84,
+      "status": "PASS"
+    }
+  }
+}

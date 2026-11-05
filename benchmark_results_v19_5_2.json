@@ -1,0 +1,260 @@
+{
+  "auditDateIso": "2026-10-24T00:59:16.190Z",
+  "evaluationType": "ALGORITHMIC_STRESS_TEST_SYNTHETIC_VECTORS",
+  "disclaimer": "Measures indexing mechanics, memory allocation, and vector search recall on synthetic hypersphere points. Does NOT guarantee correct-person identification, zero false matches, or zero false non-matches in real-world human biometrics.",
+  "hostHardware": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpus": "10x Apple M4",
+    "totalMemoryGb": 17.18,
+    "totalMemoryGiB": 16
+  },
+  "softwareVersions": {
+    "nodeVersion": "v24.14.0",
+    "v8Version": "13.6.233.17-node.41",
+    "sfaceEmbeddingDimension": 128,
+    "productionExactScanThreshold": 50000
+  },
+  "tiers": [
+    {
+      "gallerySizeN": 100,
+      "buildTimeMs": 6.9,
+      "memoryBreakdown": {
+        "rawVectorStorage": {
+          "bytes": 51200,
+          "decimalMB": 0.0512,
+          "binaryMiB": 0.0488
+        },
+        "heapUsedDelta": {
+          "bytes": -2325280,
+          "decimalMB": -2.33,
+          "binaryMiB": -2.22
+        },
+        "arrayBuffersDelta": {
+          "bytes": 135286,
+          "decimalMB": 0.14,
+          "binaryMiB": 0.13
+        },
+        "externalDelta": {
+          "bytes": 135326,
+          "decimalMB": 0.14,
+          "binaryMiB": 0.13
+        },
+        "processRssDelta": {
+          "bytes": 1753088,
+          "decimalMB": 1.75,
+          "binaryMiB": 1.67
+        }
+      },
+      "exactScan": {
+        "latencyP50Ms": 0.0139,
+        "latencyP95Ms": 0.0158,
+        "recallAt1VsExact": 1
+      },
+      "approximateGraph": {
+        "efSearch": 256,
+        "latencyP50Ms": 0.0378,
+        "latencyP95Ms": 0.098,
+        "recallAt1VsExact": 0.8
+      },
+      "productionSearch1toN": {
+        "routedMode": "EXACT_CONTIGUOUS_SCAN",
+        "latencyP50Ms": 0.0161,
+        "latencyP95Ms": 0.0233,
+        "recallAt1VsExact": 1
+      }
+    },
+    {
+      "gallerySizeN": 1000,
+      "buildTimeMs": 25.06,
+      "memoryBreakdown": {
+        "rawVectorStorage": {
+          "bytes": 512000,
+          "decimalMB": 0.512,
+          "binaryMiB": 0.4883
+        },
+        "heapUsedDelta": {
+          "bytes": 2157528,
+          "decimalMB": 2.16,
+          "binaryMiB": 2.06
+        },
+        "arrayBuffersDelta": {
+          "bytes": 728512,
+          "decimalMB": 0.73,
+          "binaryMiB": 0.69
+        },
+        "externalDelta": {
+          "bytes": 728512,
+          "decimalMB": 0.73,
+          "binaryMiB": 0.69
+        },
+        "processRssDelta": {
+          "bytes": 10993664,
+          "decimalMB": 10.99,
+          "binaryMiB": 10.48
+        }
+      },
+      "exactScan": {
+        "latencyP50Ms": 0.1061,
+        "latencyP95Ms": 0.1355,
+        "recallAt1VsExact": 1
+      },
+      "approximateGraph": {
+        "efSearch": 256,
+        "latencyP50Ms": 0.0818,
+        "latencyP95Ms": 0.1432,
+        "recallAt1VsExact": 0.23
+      },
+      "productionSearch1toN": {
+        "routedMode": "EXACT_CONTIGUOUS_SCAN",
+        "latencyP50Ms": 0.107,
+        "latencyP95Ms": 0.1362,
+        "recallAt1VsExact": 1
+      }
+    },
+    {
+      "gallerySizeN": 10000,
+      "buildTimeMs": 202.94,
+      "memoryBreakdown": {
+        "rawVectorStorage": {
+          "bytes": 5120000,
+          "decimalMB": 5.12,
+          "binaryMiB": 4.8828
+        },
+        "heapUsedDelta": {
+          "bytes": 1075624,
+          "decimalMB": 1.08,
+          "binaryMiB": 1.03
+        },
+        "arrayBuffersDelta": {
+          "bytes": 4567680,
+          "decimalMB": 4.57,
+          "binaryMiB": 4.36
+        },
+        "externalDelta": {
+          "bytes": 4567680,
+          "decimalMB": 4.57,
+          "binaryMiB": 4.36
+        },
+        "processRssDelta": {
+          "bytes": 16629760,
+          "decimalMB": 16.63,
+          "binaryMiB": 15.86
+        }
+      },
+      "exactScan": {
+        "latencyP50Ms": 1.0582,
+        "latencyP95Ms": 1.0855,
+        "recallAt1VsExact": 1
+      },
+      "approximateGraph": {
+        "efSearch": 256,
+        "latencyP50Ms": 0.032,
+        "latencyP95Ms": 0.057,
+        "recallAt1VsExact": 0
+      },
+      "productionSearch1toN": {
+        "routedMode": "EXACT_CONTIGUOUS_SCAN",
+        "latencyP50Ms": 1.06,
+        "latencyP95Ms": 1.1,
+        "recallAt1VsExact": 1
+      }
+    },
+    {
+      "gallerySizeN": 50000,
+      "buildTimeMs": 1000.54,
+      "memoryBreakdown": {
+        "rawVectorStorage": {
+          "bytes": 25600000,
+          "decimalMB": 25.6,
+          "binaryMiB": 24.4141
+        },
+        "heapUsedDelta": {
+          "bytes": 38638176,
+          "decimalMB": 38.64,
+          "binaryMiB": 36.85
+        },
+        "arrayBuffersDelta": {
+          "bytes": 19629072,
+          "decimalMB": 19.63,
+          "binaryMiB": 18.72
+        },
+        "externalDelta": {
+          "bytes": 19629072,
+          "decimalMB": 19.63,
+          "binaryMiB": 18.72
+        },
+        "processRssDelta": {
+          "bytes": 89669632,
+          "decimalMB": 89.67,
+          "binaryMiB": 85.52
+        }
+      },
+      "exactScan": {
+        "latencyP50Ms": 5.3531,
+        "latencyP95Ms": 6.898,
+        "recallAt1VsExact": 1
+      },
+      "approximateGraph": {
+        "efSearch": 256,
+        "latencyP50Ms": 0.0542,
+        "latencyP95Ms": 0.1124,
+        "recallAt1VsExact": 0
+      },
+      "productionSearch1toN": {
+        "routedMode": "EXACT_CONTIGUOUS_SCAN",
+        "latencyP50Ms": 5.3472,
+        "latencyP95Ms": 6.514,
+        "recallAt1VsExact": 1
+      }
+    },
+    {
+      "gallerySizeN": 100000,
+      "buildTimeMs": 2020.71,
+      "memoryBreakdown": {
+        "rawVectorStorage": {
+          "bytes": 51200000,
+          "decimalMB": 51.2,
+          "binaryMiB": 48.8281
+        },
+        "heapUsedDelta": {
+          "bytes": 26846688,
+          "decimalMB": 26.85,
+          "binaryMiB": 25.6
+        },
+        "arrayBuffersDelta": {
+          "bytes": 51014160,
+          "decimalMB": 51.01,
+          "binaryMiB": 48.65
+        },
+        "externalDelta": {
+          "bytes": 51014160,
+          "decimalMB": 51.01,
+          "binaryMiB": 48.65
+        },
+        "processRssDelta": {
+          "bytes": 170754048,
+          "decimalMB": 170.75,
+          "binaryMiB": 162.84
+        }
+      },
+      "exactScan": {
+        "latencyP50Ms": 10.6185,
+        "latencyP95Ms": 10.6923,
+        "recallAt1VsExact": 1
+      },
+      "approximateGraph": {
+        "efSearch": 256,
+        "latencyP50Ms": 0.0353,
+        "latencyP95Ms": 0.0592,
+        "recallAt1VsExact": 0
+      },
+      "productionSearch1toN": {
+        "routedMode": "HNSW_GRAPH_BEAM",
+        "latencyP50Ms": 0.0305,
+        "latencyP95Ms": 0.0411,
+        "recallAt1VsExact": 0
+      }
+    }
+  ]
+}

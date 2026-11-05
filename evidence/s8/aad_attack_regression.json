@@ -1,0 +1,71 @@
+{
+  "timestamp_utc": "2026-10-11T01:23:15Z",
+  "audit_name": "AAD Canonicalization & KMS Envelope Regression",
+  "vulnerability_gap": "GAP-03 (Pipe-delimited AAD field boundary ambiguity)",
+  "remediation": "Length-prefixed binary canonical encoding (BIOMATCH_AAD_V1)",
+  "test_suite": "backend/src/tests/aad_canonicalization.test.ts",
+  "command": "node --test dist/tests/aad_canonicalization.test.js",
+  "exit_code": 0,
+  "test_cases": [
+    {
+      "test_id": "TEST_01_DELIMITER_COLLISION",
+      "description": "Reproduces delimiter collision on legacy pipe-delimited AAD ('tenantA|user', '123' vs 'tenantA', 'user|123')",
+      "status": "VULNERABILITY_REPRODUCED",
+      "result": "PASS"
+    },
+    {
+      "test_id": "TEST_02_CANONICAL_ENCODING_DISTINCT",
+      "description": "Verifies length-prefixed encoding produces distinct byte sequences for shifted field boundaries",
+      "status": "VERIFIED-BY-TEST",
+      "result": "PASS"
+    },
+    {
+      "test_id": "TEST_03_V3_KMS_GCM_ROUNDTRIP",
+      "description": "Verifies v3_kms_gcm envelope generation, DEK wrapping, and full 128-D float recovery",
+      "status": "VERIFIED-BY-TEST",
+      "result": "PASS"
+    },
+    {
+      "test_id": "TEST_04_CONTEXT_BINDING_TENANT",
+      "description": "Rejects envelope when tenant context does not match wrapped DEK / ciphertext AAD (INV-02)",
+      "status": "VERIFIED-BY-TEST",
+      "result": "PASS"
+    },
+    {
+      "test_id": "TEST_05_CONTEXT_BINDING_UID",
+      "description": "Rejects envelope when user UID context is modified (INV-02)",
+      "status": "VERIFIED-BY-TEST",
+      "result": "PASS"
+    },
+    {
+      "test_id": "TEST_06_TAMPER_DETECTION",
+      "description": "Rejects bit-flipped ciphertext and authentication tag (INV-01)",
+      "status": "VERIFIED-BY-TEST",
+      "result": "PASS"
+    },
+    {
+      "test_id": "TEST_07_DOWNGRADE_PROTECTION",
+      "description": "Strictly rejects v1/v2 legacy envelopes when minEnvelopeVersion is set to v3_kms_gcm (INV-04)",
+      "status": "VERIFIED-BY-TEST",
+      "result": "PASS"
+    },
+    {
+      "test_id": "TEST_08_BACKWARD_COMPATIBILITY",
+      "description": "Successfully decrypts legacy v2 envelopes during migration window",
+      "status": "VERIFIED-BY-TEST",
+      "result": "PASS"
+    },
+    {
+      "test_id": "TEST_09_CLOUD_KMS_UNAVAILABLE_FAIL_CLOSED",
+      "description": "CloudKmsKeyProvider throws explicit KMS_UNAVAILABLE_ERROR (UNVERIFIED-LIVE) without credentials",
+      "status": "VERIFIED-BY-TEST",
+      "result": "PASS"
+    },
+    {
+      "test_id": "TEST_10_NONCE_UNIQUENESS",
+      "description": "Generates 1,000 strictly distinct 96-bit CSPRNG IVs across successive encryptions",
+      "status": "VERIFIED-BY-TEST",
+      "result": "PASS"
+    }
+  ]
+}

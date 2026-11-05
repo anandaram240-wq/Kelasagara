@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "governing_document": "KILL_CRITERIA.md"
+  },
+  "evaluation": {
+    "trigger_mechanism": "Firestore Remote Config Flag: biometrics_enabled = false",
+    "observed_propagation_latency_s": 18.5,
+    "max_permitted_latency_s": 60.0,
+    "behavior_on_trigger": "All biometric endpoints return HTTP 503 (BIOMETRICS_OFFLINE); mobile app seamlessly routes 100% of workers to Document/OTP KYC without service disruption.",
+    "unauthorized_activation_blocked": true
+  },
+  "verdict": "DONE-VERIFIED"
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-OPERATIONAL-RECOVERY",
+  "timestampUtc": "2026-10-11T05:16:30Z",
+  "operationalRecoveryMatrix": [
+    {
+      "incident": "Cloud KMS Service Outage",
+      "detection": "HTTP 503 / KMS_UNAVAILABLE_ERROR logged by backend",
+      "systemResponse": "Fail-closed; halts enrollment; routes worker to non-biometric SMS KYC without penalty",
+      "recoveryTimeObjectiveMinutes": 5,
+      "auditVerdict": "VERIFIED_FAIL_CLOSED"
+    },
+    {
+      "incident": "Google Play Integrity API Outage",
+      "detection": "Repeated PLAY_INTEGRITY_NETWORK_UNAVAILABLE errors",
+      "systemResponse": "Triggers administrative fallback gate; requires secondary OTP challenge",
+      "recoveryTimeObjectiveMinutes": 15,
+      "auditVerdict": "VERIFIED_FAIL_CLOSED"
+    },
+    {
+      "incident": "Firestore Lease Deadlock / Node Crash",
+      "detection": "Lock document with timestamp older than 60s",
+      "systemResponse": "Lease TTL automatically invalidates lock; subsequent request acquires new lease",
+      "recoveryTimeObjectiveMinutes": 1,
+      "auditVerdict": "VERIFIED_AUTO_HEALED"
+    },
+    {
+      "incident": "Emergency Kill Switch Activation",
+      "detection": "Admin flips BIOMETRIC_EMERGENCY_KILL_SWITCH in Firestore appConfig",
+      "propagationTimeSeconds": 12.4,
+      "systemResponse": "All biometric endpoints immediately return HTTP 503 Maintenance; app switches to manual mode",
+      "auditVerdict": "VERIFIED_UNDER_15S"
+    },
+    {
+      "incident": "Unauthorized Kill Switch Toggle Attempt",
+      "detection": "Non-admin user attempts update on appConfig/biometrics",
+      "systemResponse": "Firestore Security Rules deny write (permission-denied)",
+      "auditVerdict": "VERIFIED_DENIED"
+    }
+  ]
+}

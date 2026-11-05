@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "package_location": "S7_EXTERNAL_REVIEW_BRIEF.md"
+  },
+  "deliverables_prepared": [
+    {
+      "name": "Threat Catalog",
+      "status": "READY",
+      "file": "evidence/s7/threat_catalog.json"
+    },
+    {
+      "name": "Assurance Case",
+      "status": "READY",
+      "file": "S7_ASSURANCE_CASE.md"
+    },
+    {
+      "name": "Signed Model Manifest",
+      "status": "READY",
+      "file": "evidence/s7/model_manifest.json"
+    },
+    {
+      "name": "Replication Makefile",
+      "status": "READY",
+      "file": "Makefile"
+    },
+    {
+      "name": "Ethics & Bilingual Consent Forms",
+      "status": "READY",
+      "file": "ETHICS_PACKAGE/"
+    }
+  ],
+  "external_actions_blocked": [
+    {
+      "action": "H-01 Institutional Ethics Review",
+      "status": "PENDING_IEC_APPROVAL"
+    },
+    {
+      "action": "H-02 Karnataka Worker Field Dataset",
+      "status": "PENDING_H01_COMPLETION"
+    },
+    {
+      "action": "H-04 Independent Red-Team Penetration Test",
+      "status": "PENDING_PILOT_COMMISSIONING"
+    },
+    {
+      "action": "H-05 Outside Academic Statistical Review",
+      "status": "PENDING_PEER_REVIEWER"
+    }
+  ]
+}

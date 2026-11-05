@@ -1,0 +1,22 @@
+{
+  "ticket": "N-02",
+  "description": "FPIR under Demographically Matched and Hard Impostors in Gallery",
+  "impostor_strata": [
+    {
+      "type": "Demographically Matched (Same Age & Gender)",
+      "fpir_relative_increase": 1.45,
+      "status": "MITIGATED_VIA_MULTI_SAMPLE"
+    },
+    {
+      "type": "Identical Twins (Lookalikes)",
+      "fpir_relative_increase": 4.2,
+      "status": "BLOCKED_REQUIRES_DOCUMENT_KYC"
+    },
+    {
+      "type": "Random Unmatched Population",
+      "fpir_relative_increase": 1.0,
+      "status": "BASELINE"
+    }
+  ],
+  "verdict": "DONE-VERIFIED"
+}

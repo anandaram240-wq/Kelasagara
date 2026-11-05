@@ -1,0 +1,26 @@
+496472a feat(biometrics): standalone Node.js backend with MobileFaceNet ONNX inference, free-tier Firestore support, and client HTTP proxy
+c37c978 feat(biometrics): server-side 1:N deduplication engine with Firestore vector search, Cloud Functions, and locked vault rules
+be7a11d chore: biometric dedup foundation + Phase3 discovery + Phase4 booking engine (session checkpoint)
+3360f77 fix(core): complete system recovery, digital OTP UI, rules alignment, and millisecond discovery
+f2817ae fix(ux): fast responsive search, normalized filter matching, and immediate apply feedback
+1864be4 fix(core): eliminate composite index errors, permission-denied in applicants, and restore navigation
+5e0a54b fix: Applications read rule crash on non-existent doc (Could not apply bug)
+b043852 feat: Worker nearby alert (<500m) in hirer tracking screen
+b804d05 feat: auto-load workers on hirer dashboard open, skill chips auto-search
+ac10d39 fix: hirer/worker access denied — auto-approve hirers, relax read rules
+c02bf2c fix(service): restore dart:math import in chat_booking_service for distance calculations
+2275a22 feat(transaction): Phase 4B transaction engine repair & canonical lifecycle hardening
+e05936c feat(transaction): Phase 4 \u2014 harden booking lifecycle and security
+076c8f4 feat(location): real worker discovery location and availability
+1f575d5 docs: Phase 2 results report
+a8c73ad Phase 2: Real Worker Discovery Engine
+edcf215 fix(phase1): security + data boundary + canonical contract repair
+591d63f docs(phase0): forensic truth map, problem register, and data contracts
+04a94dc docs: add kelasagara_workflow_truth_map.md — Phase 1 complete
+9c7aa30 checkpoint/before-phase0-freeze -- pre-recovery snapshot 2026-09-30
+c6a5315 fix(routing): V700.1 surgical routing failure repair
+77f86d5 fix(navigation): V600 — eliminate 9 critical navigation bugs
+f83f078 feat(routing): V400 Multi-Provider Routing Engine
+7049e3b feat(voice-ai): implement production-grade Siri-style bilingual Voice AI v120 with Hirer security, regional Kannada normalization, and multi-provider engine
+2b82a5c feat(navigation): complete enterprise navigation engine v12 with 26 states, OSRM failover, and contracts
+b3e3c6d chore: baseline checkpoint before navigation v11 enterprise hardening

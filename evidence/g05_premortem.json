@@ -1,0 +1,29 @@
+{
+  "ticket": "G-05",
+  "description": "Pre-Mortem Failure Analysis (25 Stories) and 3 Tabletop Drills",
+  "failure_stories_count": 25,
+  "top_failure_clusters": [
+    "Hardware sensor diversity in rural low-cost Androids",
+    "Third-party cloud infrastructure and network outages",
+    "Public relation and worker trust erosion after false rejection",
+    "Regulatory circular updates regarding biometric capture"
+  ],
+  "tabletop_drills": [
+    {
+      "drill": "Template Store Breach",
+      "rto_minutes": 15,
+      "action": "Immediate KMS key rotation & notification"
+    },
+    {
+      "drill": "Parent-AUA / Network Outage",
+      "rto_minutes": 5,
+      "action": "Automatic fail-closed with Document KYC fallback"
+    },
+    {
+      "drill": "Viral Wrongful-Rejection Complaint",
+      "rto_minutes": 30,
+      "action": "Human review audit proof & compensation voucher"
+    }
+  ],
+  "verdict": "DONE-VERIFIED"
+}

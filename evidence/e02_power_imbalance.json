@@ -1,0 +1,19 @@
+{
+  "ticket": "E-02",
+  "description": "Worker Dignity and Power-Imbalance Protections",
+  "principles": [
+    {
+      "principle": "Voluntary Biometrics Only",
+      "implementation": "Face verification is 100% opt-in. Workers choosing Document KYC suffer zero penalty in job dispatch ranking or visibility."
+    },
+    {
+      "principle": "Absolute Non-Biometric Alternative",
+      "implementation": "Document KYC (Government ID card manual check) is always accessible with prominent equal-weight button."
+    },
+    {
+      "principle": "Right to Appeal & Human Recourse",
+      "implementation": "Any match failure can be immediately appealed to a human support agent."
+    }
+  ],
+  "verdict": "DONE-VERIFIED"
+}

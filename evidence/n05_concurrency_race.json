@@ -1,0 +1,8 @@
+{
+  "ticket": "N-05",
+  "description": "Simultaneous Signup Race Condition Guard (Lease Lock)",
+  "property_race_test_passed": true,
+  "concurrency_mechanism": "Distributed Firestore Transaction Lease Lock + Atomic In-Memory Insert",
+  "double_enrollment_prevention": "VERIFIED (Exactly 1 enrollment commits; 2nd triggers duplicate conflict)",
+  "verdict": "DONE-VERIFIED"
+}

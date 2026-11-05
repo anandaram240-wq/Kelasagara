@@ -1,0 +1,13 @@
+{
+  "ticket": "T-06",
+  "gate": "GATE-S6-06",
+  "description": "Automated Membership Privacy Oracle and Probe Distinguishability Audit",
+  "auc": 0.4976,
+  "ci95_lower": 0.4618,
+  "ci95_upper": 0.5334,
+  "target_upper_bound": 0.55,
+  "timing_delta_ms": 0.008,
+  "passed": true,
+  "conclusion": "GATE-S6-06 PASSED: Upper 95% CI on AUC (0.5334) <= 0.55. Membership distinguishing oracle refuted.",
+  "verdict": "DONE-VERIFIED"
+}

@@ -1,0 +1,11 @@
+{
+  "ticket": "T-03",
+  "description": "Cross-Tenant Isometry and Gram Matching Linkage Attack",
+  "d_lr": 1.0,
+  "linkable_fraction": 1.0,
+  "mean_mated_distance": 0.0,
+  "mean_non_mated_distance": 1.653,
+  "overlapping_subjects": 51,
+  "conclusion": "Hypothesis H_3 CONFIRMED: Pairwise similarity structure is fully preserved across independent rotations; Gomez-Barrero D_lr confirms cross-database identity linkage.",
+  "verdict": "DONE-VERIFIED"
+}

@@ -1,0 +1,58 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "standard_reference": "ISO/IEC 19795-1 (Biometric Performance Testing and Reporting)"
+  },
+  "metrics": [
+    {
+      "abbreviation": "FMR",
+      "name": "False Match Rate",
+      "definition": "Proportion of zero-effort impostor comparisons incorrectly accepted at decision threshold theta.",
+      "formula": "Count(Impostor Comparisons with score >= theta) / Total Impostor Comparisons",
+      "denominator": "Total valid impostor comparisons evaluated",
+      "zero_error_reporting": "Report Rule of Three upper bound 3/N, never 0.0%"
+    },
+    {
+      "abbreviation": "FNMR",
+      "name": "False Non-Match Rate",
+      "definition": "Proportion of genuine comparisons incorrectly rejected at decision threshold theta.",
+      "formula": "Count(Genuine Comparisons with score < theta) / Total Genuine Comparisons",
+      "denominator": "Total valid genuine comparisons evaluated"
+    },
+    {
+      "abbreviation": "TAR",
+      "name": "True Accept Rate",
+      "definition": "Proportion of genuine comparisons correctly accepted at target operating FMR.",
+      "formula": "1.0 - FNMR(theta_FMR)",
+      "denominator": "Total valid genuine comparisons evaluated"
+    },
+    {
+      "abbreviation": "FTA",
+      "name": "Failure to Acquire",
+      "definition": "Proportion of capture attempts where face detection or landmark quality check fails.",
+      "formula": "Count(Unusable Capture Attempts) / Total Presentation Attempts",
+      "denominator": "Total biometric capture presentations initiated"
+    },
+    {
+      "abbreviation": "FTE",
+      "name": "Failure to Enroll",
+      "definition": "Proportion of eligible enrollment attempts that cannot generate an enrolled template within allowed retries.",
+      "formula": "Count(Failed Enrollment Sessions) / Total Eligible Applicant Enrollment Sessions",
+      "denominator": "Total applicant enrollment attempts"
+    },
+    {
+      "abbreviation": "FPIR",
+      "name": "False Positive Identification Rate",
+      "definition": "Proportion of non-mated 1:N searches returning at least one candidate hit above threshold theta.",
+      "formula": "Count(Searches where max score >= theta) / Total Non-Mated Searches",
+      "denominator": "Total non-mated identification probe searches"
+    },
+    {
+      "abbreviation": "FNIR",
+      "name": "False Negative Identification Rate",
+      "definition": "Proportion of mated 1:N searches failing to return the true matching identity within candidate list criteria.",
+      "formula": "Count(Searches where true mate is omitted or score < theta) / Total Mated Searches",
+      "denominator": "Total mated identification probe searches"
+    }
+  ]
+}

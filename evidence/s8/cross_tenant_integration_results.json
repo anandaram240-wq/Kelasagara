@@ -1,0 +1,75 @@
+{
+  "testSuite": "backend/src/tests/cross_tenant_isolation.test.ts",
+  "workPackage": "S8-D",
+  "gapRemediated": "GAP-04 (Cross-Tenant Multi-Tenancy Isolation & Concurrency Safety)",
+  "executedAt": "2026-10-11T04:51:08Z",
+  "environment": {
+    "nodeVersion": "v20.17.0",
+    "os": "darwin-arm64",
+    "runner": "node:test"
+  },
+  "metrics": {
+    "totalTests": 6,
+    "passedTests": 6,
+    "failedTests": 0,
+    "skippedTests": 0,
+    "durationMs": 70.572375,
+    "successRatePercent": 100.0
+  },
+  "tests": [
+    {
+      "id": "CTI-01",
+      "name": "rejects decryption when caller attempts cross-tenant template access (IDOR)",
+      "status": "PASS",
+      "durationMs": 3.643375,
+      "invariants": ["I-01", "I-04"],
+      "attackType": "Cross-Tenant Insecure Direct Object Reference (IDOR)",
+      "defenseMechanisms": ["Binary Canonical AAD length-prefixed tenant tag binding"]
+    },
+    {
+      "id": "CTI-02",
+      "name": "detects and intercepts cross-tenant ciphertext splicing attacks",
+      "status": "PASS",
+      "durationMs": 0.888375,
+      "invariants": ["I-04"],
+      "attackType": "Ciphertext Splicing & Envelope Transposition",
+      "defenseMechanisms": ["AES-256-GCM 128-bit authentication tag verification"]
+    },
+    {
+      "id": "CTI-03",
+      "name": "blocks wrapped-DEK substitution across tenant envelopes",
+      "status": "PASS",
+      "durationMs": 0.375,
+      "invariants": ["I-04", "I-26"],
+      "attackType": "Wrapped DEK Substitution Across Tenant Envelopes",
+      "defenseMechanisms": ["KeyProvider AES-GCM Key Wrapping with Tenant AAD binding"]
+    },
+    {
+      "id": "CTI-04",
+      "name": "identical user IDs across different tenants yield cryptographically disjoint envelopes",
+      "status": "PASS",
+      "durationMs": 1.038291,
+      "invariants": ["I-04"],
+      "attackType": "Cross-Tenant User Identifier Namespace Confusion",
+      "defenseMechanisms": ["Distinct ephemeral 256-bit DEK generation & disjoint ciphertext space"]
+    },
+    {
+      "id": "CTI-05",
+      "name": "serializes concurrent enrollment requests and rejects simultaneous collisions",
+      "status": "PASS",
+      "durationMs": 0.232958,
+      "invariants": ["I-14"],
+      "attackType": "Concurrent Enrollment Race Condition / Duplicate Creation",
+      "defenseMechanisms": ["Firestore Transaction atomic leasing on biometric_enrollment_sessions/{uid}"]
+    },
+    {
+      "id": "CTI-06",
+      "name": "allows new enrollment attempt after previous session completes or fails",
+      "status": "PASS",
+      "durationMs": 0.165583,
+      "invariants": ["I-14"],
+      "attackType": "Session Deadlock / Lock Starvation",
+      "defenseMechanisms": ["Session state machine finalization (completed/failed release)"]
+    }
+  ]
+}

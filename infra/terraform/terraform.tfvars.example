@@ -1,0 +1,7 @@
+# KELASAGARA V20.14: EXAMPLE TERRAFORM VARIABLE ASSIGNMENTS (NON-PRODUCTION SANDBOX ONLY)
+# Copy this file to terraform.tfvars and populate with your authorized sandbox project ID.
+
+sandbox_project_id   = "kelasagara-sandbox-blr01"
+region               = "asia-south1"
+environment          = "sandbox"
+audit_retention_days = 90

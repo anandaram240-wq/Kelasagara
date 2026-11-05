@@ -1,0 +1,18 @@
+{
+  "ticket": "C-07",
+  "description": "Final Quantization & Score Fusion Architectural Closure",
+  "quantization_findings": {
+    "fp32_model_size_mb": 37.4,
+    "int8_model_size_mb": 9.5,
+    "storage_reduction_pct": 74.5,
+    "fp32_int8_embedding_correlation": 0.959557,
+    "tar_drop_at_tight_far_pct": 3.9
+  },
+  "architectural_decision": {
+    "primary_verification_path": "FP32 SFace (Mandatory for high-assurance 1:1 decisions)",
+    "int8_role": "Secondary coarse pre-filter for 1:N deduplication candidate pruning",
+    "score_fusion_status": "OPTIONAL_SECONDARY (FP32 alone satisfies all production gates)",
+    "dead_code_elimination": "MobileFaceNet permanently isolated; zero production references"
+  },
+  "verdict": "DONE-VERIFIED"
+}

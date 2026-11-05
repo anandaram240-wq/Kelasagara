@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-KMS-UNIT",
+  "timestampUtc": "2026-10-11T05:08:45Z",
+  "testSuites": [
+    "backend/dist/tests/aad_canonicalization.test.js",
+    "backend/dist/tests/template_migration.test.js"
+  ],
+  "totalTests": 13,
+  "passedTests": 13,
+  "failedTests": 0,
+  "results": [
+    {
+      "testId": "KMS-U01",
+      "name": "Generates and verifies v3_kms_gcm envelope with LocalDevKeyProvider",
+      "durationMs": 1.99,
+      "verdict": "PASS",
+      "invariant": "SEC-05, SEC-07"
+    },
+    {
+      "testId": "KMS-U02",
+      "name": "Rejects v3_kms_gcm envelope if tenant context is modified (Context Binding)",
+      "durationMs": 0.55,
+      "verdict": "PASS",
+      "invariant": "SEC-05, SEC-06"
+    },
+    {
+      "testId": "KMS-U03",
+      "name": "Rejects v3_kms_gcm envelope if user UID context is modified",
+      "durationMs": 0.27,
+      "verdict": "PASS",
+      "invariant": "SEC-05, SEC-09"
+    },
+    {
+      "testId": "KMS-U04",
+      "name": "Rejects v3_kms_gcm envelope if ciphertext or auth tag is corrupted",
+      "durationMs": 0.34,
+      "verdict": "PASS",
+      "invariant": "SEC-05"
+    },
+    {
+      "testId": "KMS-U05",
+      "name": "Downgrade Protection strictly rejects v1/v2 envelopes when minEnvelopeVersion is v3",
+      "durationMs": 2.75,
+      "verdict": "PASS",
+      "invariant": "SEC-10"
+    },
+    {
+      "testId": "KMS-U06",
+      "name": "Backward-compatible migration decrypts legacy v2 envelope when permitted",
+      "durationMs": 3.28,
+      "verdict": "PASS",
+      "invariant": "SEC-08, SEC-10"
+    },
+    {
+      "testId": "KMS-U07",
+      "name": "CloudKmsKeyProvider throws explicit KMS_UNAVAILABLE_ERROR when GCP credentials are unset",
+      "durationMs": 0.34,
+      "verdict": "PASS",
+      "invariant": "SEC-12"
+    },
+    {
+      "testId": "KMS-U08",
+      "name": "Nonce uniqueness: Generates distinct IVs across 1,000 successive encryptions",
+      "durationMs": 29.98,
+      "verdict": "PASS",
+      "invariant": "SEC-05"
+    },
+    {
+      "testId": "KMS-U09",
+      "name": "MIG-01: Dry-run migration previews v2 -> v3 conversion without altering original",
+      "durationMs": 7.36,
+      "verdict": "PASS",
+      "invariant": "SEC-08"
+    },
+    {
+      "testId": "KMS-U10",
+      "name": "MIG-02: Live migration commits valid v3_kms_gcm record and preserves vector fidelity",
+      "durationMs": 3.74,
+      "verdict": "PASS",
+      "invariant": "SEC-08"
+    },
+    {
+      "testId": "KMS-U11",
+      "name": "MIG-03: Re-migrating an already-migrated v3 record is idempotent and safely skipped",
+      "durationMs": 0.24,
+      "verdict": "PASS",
+      "invariant": "SEC-08"
+    },
+    {
+      "testId": "KMS-U12",
+      "name": "MIG-04: Migration fails safely when source ciphertext is corrupted without damaging state",
+      "durationMs": 4.20,
+      "verdict": "PASS",
+      "invariant": "SEC-08"
+    },
+    {
+      "testId": "KMS-U13",
+      "name": "MIG-05: Batch migration handles heterogeneous envelope batches",
+      "durationMs": 7.50,
+      "verdict": "PASS",
+      "invariant": "SEC-08, SEC-10"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  valhalla:
+    image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
+    container_name: kelasagara_valhalla_karnataka
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+    environment:
+      # Build options
+      - build_elevation=False
+      - build_admins=True
+      - build_time_zones=True
+      - server_threads=4
+      - force_rebuild=False
+      - max_matching_distance=150
+      # Use Karnataka Geofabrik extract
+      - tile_extract_url=https://download.geofabrik.de/asia/india/karnataka-latest.osm.pbf
+    volumes:
+      - ./custom_files:/custom_files
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/status"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 60s

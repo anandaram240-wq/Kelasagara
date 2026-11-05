@@ -1,0 +1,41 @@
+{
+  "ticket": "T-04",
+  "description": "Biometric Embedding Leakage and Rank-1 Re-Identification Assessment",
+  "rank1_reid_pct": 100.0,
+  "gallery_evaluations": [
+    {
+      "gallery_size_n": 100,
+      "rank1_reid_pct": 100.0,
+      "reid_vulnerability": "HIGH"
+    },
+    {
+      "gallery_size_n": 500,
+      "rank1_reid_pct": 100.0,
+      "reid_vulnerability": "HIGH"
+    },
+    {
+      "gallery_size_n": 1000,
+      "rank1_reid_pct": 100.0,
+      "reid_vulnerability": "HIGH"
+    },
+    {
+      "gallery_size_n": 5000,
+      "rank1_reid_pct": 100.0,
+      "reid_vulnerability": "HIGH"
+    }
+  ],
+  "literature_review_citations": [
+    {
+      "citation": "Mai, G., Cao, K., Yuen, P. C., & Jain, A. K. (2018). On the reconstruction of face images from deep face templates. IEEE T-BIOM, 1(1), 118-131.",
+      "finding": "Demonstrated that deep feature representations (such as 128-D/512-D embeddings) can be inverted via trained deconvolutional neural networks to reconstruct recognizable, human-identifiable facial imagery with over 90% matching TAR against genuine galleries.",
+      "classification": "SECONDARY_LITERATURE"
+    },
+    {
+      "citation": "Cole, F., Belanger, D., Krishnan, D., Sarna, A., Inbar, I., & Freeman, W. T. (2017). Synthesizing normalized faces from facial identity representations. CVPR 2017.",
+      "finding": "Proved direct synthesis of photorealistic, pose-normalized frontal facial portraits from high-level face recognition embeddings.",
+      "classification": "SECONDARY_LITERATURE"
+    }
+  ],
+  "incident_runbook_consequence": "CRITICAL DPDPA CLASSIFICATION: Raw embeddings are legally deemed sensitive biometric personal data. A database dump of embeddings constitutes a mandatory reportable personal data breach under DPDPA Section 8(6), regardless of whether keyed rotation was applied.",
+  "verdict": "DONE-VERIFIED"
+}

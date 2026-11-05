@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "governing_invariant": "Invariant I-14 & I-31 (Human Review & Fallback)",
+    "gallery_size_tested": 100000,
+    "single_comparison_fmr": 1e-05,
+    "cumulative_fpir": 0.632,
+    "expected_false_candidates_per_probe": 1.0
+  },
+  "policy_rules": [
+    {
+      "rule": "RULE-1: Duplicate Candidate Hits NEVER Auto-Reject",
+      "implementation": "Applicant account status transitions to 'pending_review'; no automated account ban or marketplace de-listing is permitted.",
+      "test_evidence": "backend/src/services/firestore_biometric_repository.ts:358",
+      "conformance": "VERIFIED"
+    },
+    {
+      "rule": "RULE-2: Mandatory Document KYC Fallback Availability",
+      "implementation": "If candidate matches above 0.74 threshold, applicant is presented with immediate Document KYC (Aadhaar / Voter ID physical review) or OTP alternative.",
+      "test_evidence": "lib/services/biometric_service.dart",
+      "conformance": "VERIFIED"
+    },
+    {
+      "rule": "RULE-3: Privacy-Safe Candidate Logging",
+      "implementation": "Raw gallery vectors and continuous candidate scores are omitted from client responses; only advisory status flags are returned.",
+      "test_evidence": "backend/src/tests/api_routes_integration.test.ts",
+      "conformance": "VERIFIED"
+    }
+  ],
+  "verdict": "DONE-VERIFIED"
+}

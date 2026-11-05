@@ -1,0 +1,43 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "created_at": "2026-10-11T00:52:00Z"
+  },
+  "datasets": [
+    {
+      "dataset_id": "LFW_BENCHMARK",
+      "name": "Labeled Faces in the Wild (LFW)",
+      "category": "PUBLIC_ACADEMIC_BENCHMARK",
+      "license": "Non-commercial / Academic Research",
+      "subjects_count": 5749,
+      "images_count": 13233,
+      "pairs_evaluated": 6000,
+      "genuine_pairs": 3000,
+      "impostor_pairs": 3000,
+      "provenance": "University of Massachusetts Amherst",
+      "role": "Public baseline recognition verification (SFace baseline)"
+    },
+    {
+      "dataset_id": "SYNTHETIC_PLANTED_TRUTH",
+      "name": "BioMatch Synthetic Planted Truth Cohort",
+      "category": "SYNTHETIC_TEST_VECTORS",
+      "license": "Internal Project Apache-2.0",
+      "subjects_count": 50,
+      "images_count": 200,
+      "provenance": "Deterministically generated geometric vectors via analysis/planted_truth_test.py",
+      "role": "Data-blind analysis pipeline validation & leakage detection"
+    },
+    {
+      "dataset_id": "KARNATAKA_IN_DOMAIN_COHORT",
+      "name": "Karnataka Blue-Collar Worker Cohort (consented)",
+      "category": "IN_DOMAIN_FIELD_DATA",
+      "license": "Restricted Consented Use (DPDPA 2023)",
+      "subjects_count": 0,
+      "images_count": 0,
+      "status": "UNCOLLECTED_EXTERNALLY_BLOCKED",
+      "prerequisite": "Institutional Ethics Review Board approval (ETHICS_APPROVAL_ID) and field collection",
+      "target_cohort_size": 200,
+      "target_demographics": "Fitzpatrick skin types IV-VI, outdoor lighting, agricultural/construction workers"
+    }
+  ]
+}

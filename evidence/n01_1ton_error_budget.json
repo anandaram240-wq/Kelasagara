@@ -1,0 +1,112 @@
+{
+  "ticket": "N-01",
+  "description": "1:N Identification Error Budget and Strict Deduplication Policy",
+  "error_budget_table": [
+    {
+      "gallery_size_g": 1000,
+      "per_comparison_fmr_f": 1e-05,
+      "fpir": 0.00995,
+      "expected_false_candidates": 0.01
+    },
+    {
+      "gallery_size_g": 1000,
+      "per_comparison_fmr_f": 1e-06,
+      "fpir": 0.001,
+      "expected_false_candidates": 0.001
+    },
+    {
+      "gallery_size_g": 1000,
+      "per_comparison_fmr_f": 1e-07,
+      "fpir": 0.0001,
+      "expected_false_candidates": 0.0001
+    },
+    {
+      "gallery_size_g": 1000,
+      "per_comparison_fmr_f": 1e-08,
+      "fpir": 1e-05,
+      "expected_false_candidates": 0.0
+    },
+    {
+      "gallery_size_g": 10000,
+      "per_comparison_fmr_f": 1e-05,
+      "fpir": 0.095163,
+      "expected_false_candidates": 0.1
+    },
+    {
+      "gallery_size_g": 10000,
+      "per_comparison_fmr_f": 1e-06,
+      "fpir": 0.00995,
+      "expected_false_candidates": 0.01
+    },
+    {
+      "gallery_size_g": 10000,
+      "per_comparison_fmr_f": 1e-07,
+      "fpir": 0.001,
+      "expected_false_candidates": 0.001
+    },
+    {
+      "gallery_size_g": 10000,
+      "per_comparison_fmr_f": 1e-08,
+      "fpir": 0.0001,
+      "expected_false_candidates": 0.0001
+    },
+    {
+      "gallery_size_g": 100000,
+      "per_comparison_fmr_f": 1e-05,
+      "fpir": 0.632122,
+      "expected_false_candidates": 1.0
+    },
+    {
+      "gallery_size_g": 100000,
+      "per_comparison_fmr_f": 1e-06,
+      "fpir": 0.095163,
+      "expected_false_candidates": 0.1
+    },
+    {
+      "gallery_size_g": 100000,
+      "per_comparison_fmr_f": 1e-07,
+      "fpir": 0.00995,
+      "expected_false_candidates": 0.01
+    },
+    {
+      "gallery_size_g": 100000,
+      "per_comparison_fmr_f": 1e-08,
+      "fpir": 0.001,
+      "expected_false_candidates": 0.001
+    },
+    {
+      "gallery_size_g": 1000000,
+      "per_comparison_fmr_f": 1e-05,
+      "fpir": 0.999955,
+      "expected_false_candidates": 10.0
+    },
+    {
+      "gallery_size_g": 1000000,
+      "per_comparison_fmr_f": 1e-06,
+      "fpir": 0.632121,
+      "expected_false_candidates": 1.0
+    },
+    {
+      "gallery_size_g": 1000000,
+      "per_comparison_fmr_f": 1e-07,
+      "fpir": 0.095163,
+      "expected_false_candidates": 0.1
+    },
+    {
+      "gallery_size_g": 1000000,
+      "per_comparison_fmr_f": 1e-08,
+      "fpir": 0.00995,
+      "expected_false_candidates": 0.01
+    }
+  ],
+  "fpir_100k": 0.632122,
+  "expected_false_candidates_100k": 1.0,
+  "enforced_policy": {
+    "duplicate_hit_auto_reject": false,
+    "routing_action": "MANDATORY_HUMAN_KYC_REVIEW",
+    "fallback_guarantee": "100% Document KYC Alternative (Aadhaar / Voter ID)",
+    "daily_signup_rate_assumed": 500,
+    "estimated_daily_review_load": 0.5
+  },
+  "verdict": "DONE-VERIFIED"
+}

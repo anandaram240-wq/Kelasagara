@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-MIGRATION-FAULTS",
+  "timestampUtc": "2026-10-11T05:12:15Z",
+  "totalFaultScenarios": 7,
+  "scenarios": [
+    {
+      "id": "MIG-FAULT-01",
+      "name": "Corrupted Source Ciphertext",
+      "injection": "Tampered byte in legacy v2 ciphertextHex",
+      "expectedBehavior": "Decryption fails at DECRYPTED state with authentication tag mismatch; source record preserved untouched.",
+      "observedState": "FAILED",
+      "sourceIntegrity": "PRESERVED",
+      "testVerified": true,
+      "testCase": "template_migration.test.ts MIG-04"
+    },
+    {
+      "id": "MIG-FAULT-02",
+      "name": "Dry-Run Simulation",
+      "injection": "Execute migration with options.dryRun = true",
+      "expectedBehavior": "Executes stages 1-5 (VERIFIED); does not commit stage 6 to database; returns candidate envelope.",
+      "observedState": "VERIFIED",
+      "sourceIntegrity": "PRESERVED",
+      "testVerified": true,
+      "testCase": "template_migration.test.ts MIG-01"
+    },
+    {
+      "id": "MIG-FAULT-03",
+      "name": "Idempotent Re-migration of v3 Record",
+      "injection": "Feed already-migrated v3_kms_gcm record into migration engine",
+      "expectedBehavior": "Detects sourceVersion === targetVersion; skips re-encryption; returns COMMITTED in <1ms.",
+      "observedState": "COMMITTED",
+      "sourceIntegrity": "PRESERVED",
+      "testVerified": true,
+      "testCase": "template_migration.test.ts MIG-03"
+    },
+    {
+      "id": "MIG-FAULT-04",
+      "name": "Heterogeneous Envelope Batch",
+      "injection": "Batch contains mix of v2_aad_gcm, v3_kms_gcm, and corrupt record",
+      "expectedBehavior": "v2 migrated to v3; v3 skipped; corrupt isolated as FAILED; batch summary reflects partial success without halting whole batch.",
+      "observedState": "SUMMARY_GENERATED",
+      "sourceIntegrity": "PRESERVED",
+      "testVerified": true,
+      "testCase": "template_migration.test.ts MIG-05"
+    },
+    {
+      "id": "MIG-FAULT-05",
+      "name": "KMS Unavailable During Wrap",
+      "injection": "KeyProvider.wrapDek() throws KMS_UNAVAILABLE_ERROR",
+      "expectedBehavior": "Catches error at WRAPPED state; zeroizes candidate DEK in RAM; source record remains at legacy version.",
+      "observedState": "FAILED",
+      "sourceIntegrity": "PRESERVED",
+      "testVerified": true,
+      "testCase": "aad_canonicalization.test.ts TEST 9"
+    },
+    {
+      "id": "MIG-FAULT-06",
+      "name": "Vector Length Inconsistency During Pre-Commit Drill",
+      "injection": "Decrypted vector dimensions != 512 floats",
+      "expectedBehavior": "Pre-commit drill asserts rawVector.length === decrypted.length; aborts commit if delta detected.",
+      "observedState": "FAILED",
+      "sourceIntegrity": "PRESERVED",
+      "testVerified": true,
+      "testCase": "template_migration.ts line 115"
+    },
+    {
+      "id": "MIG-FAULT-07",
+      "name": "Process Crash Before Lease Release",
+      "injection": "SIGKILL before releaseLease()",
+      "expectedBehavior": "Distributed lease in Firestore has 60-second TTL; automatically clears upon expiry; subsequent retry succeeds.",
+      "observedState": "LEASE_EXPIRED_CLEAN",
+      "sourceIntegrity": "PRESERVED",
+      "testVerified": true,
+      "testCase": "cross_tenant_isolation.test.ts CTI-05 / CTI-06"
+    }
+  ]
+}

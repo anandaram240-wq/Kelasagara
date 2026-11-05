@@ -1,0 +1,13 @@
+{
+  "ticket": "J-02",
+  "description": "Outside-Review Brief and Expert Consultation Package",
+  "status": "BLOCKED",
+  "unblocking_checklist": {
+    "owner": "Head of Research & Data Science",
+    "prerequisite": "Outside academic peer reviewers contracted",
+    "lead_time": "2 weeks",
+    "target": "Peer review across statistics, cryptography, and biometric fairness"
+  },
+  "deliverable": "OUTSIDE_REVIEW_BRIEF.md with 'Break This Claim' red-team template",
+  "verdict": "BLOCKED"
+}

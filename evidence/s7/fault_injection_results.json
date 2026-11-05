@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "test_harness": "backend/src/tests/chaos_and_fault_injection.test.ts"
+  },
+  "scenarios": [
+    {
+      "scenario": "Firestore Read Timeout (Simulated ETIMEDOUT)",
+      "expected": "Fail closed, zero auth false accept, HTTP 503",
+      "observed": "PASS"
+    },
+    {
+      "scenario": "Process SIGTERM during 1:N Index Insert",
+      "expected": "Transaction rolled back, no corrupted orphan vector",
+      "observed": "PASS"
+    },
+    {
+      "scenario": "Corrupted ONNX Weight Buffer in Memory",
+      "expected": "Inference aborts safely, routes to fallback model",
+      "observed": "PASS"
+    },
+    {
+      "scenario": "Expired Lease Lock Recovery",
+      "expected": "Stale lock expires after 60s, subsequent request acquires lease",
+      "observed": "PASS"
+    },
+    {
+      "scenario": "Network Partition during Multi-Sample Enrollment",
+      "expected": "Atomic batch aborts, profile remains PENDING_FACE",
+      "observed": "PASS"
+    }
+  ],
+  "verdict": "DONE-VERIFIED"
+}

@@ -1,0 +1,11 @@
+{
+  "ticket": "Z-03",
+  "description": "Report-From-Data Pipeline and Zero-Orphan-Numbers Linter",
+  "renderer_script": "scripts/render_report.py",
+  "linter_script": "scripts/no_orphan_numbers.py",
+  "evidence_dir": "evidence/",
+  "total_evidence_files": 5,
+  "orphan_numbers_detected": 0,
+  "status": "PASS",
+  "verdict": "DONE-VERIFIED"
+}

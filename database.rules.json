@@ -1,0 +1,26 @@
+{
+  "rules": {
+    "trackingParticipants": {
+      "$bookingId": {
+        ".read": "auth != null && (data.child('hirerId').val() === auth.uid || data.child('workerId').val() === auth.uid || (auth.uid === 'kelasagara_voice_backend' && auth.token.voiceBookingBackend === true))",
+        ".write": "auth != null && auth.uid === 'kelasagara_voice_backend' && auth.token.voiceBookingBackend === true",
+        ".validate": "newData.hasChildren(['hirerId', 'workerId', 'createdAt'])"
+      }
+    },
+    "trackingAttempts": {
+      "$bookingId": {
+        "$attemptId": {
+          ".read": "auth != null && auth.uid === 'kelasagara_voice_backend' && auth.token.voiceBookingBackend === true",
+          ".write": "auth != null && auth.uid === 'kelasagara_voice_backend' && auth.token.voiceBookingBackend === true"
+        }
+      }
+    },
+    "liveTracking": {
+      "$bookingId": {
+        ".read": "auth != null && root.child('trackingParticipants').child($bookingId).exists() && (root.child('trackingParticipants').child($bookingId).child('hirerId').val() === auth.uid || root.child('trackingParticipants').child($bookingId).child('workerId').val() === auth.uid || (auth.uid === 'kelasagara_voice_backend' && auth.token.voiceBookingBackend === true)) && root.child('trackingParticipants').child($bookingId).child('revoked').val() !== true && (!root.child('trackingParticipants').child($bookingId).child('expiresAtMs').exists() || root.child('trackingParticipants').child($bookingId).child('expiresAtMs').val() > now)",
+        ".write": "(auth != null && root.child('trackingParticipants').child($bookingId).exists() && root.child('trackingParticipants').child($bookingId).child('workerId').val() === auth.uid && root.child('trackingParticipants').child($bookingId).child('revoked').val() !== true && (!root.child('trackingParticipants').child($bookingId).child('expiresAtMs').exists() || root.child('trackingParticipants').child($bookingId).child('expiresAtMs').val() > now)) || (auth != null && auth.uid === 'kelasagara_voice_backend' && auth.token.voiceBookingBackend === true && (!data.exists() || data.child('isSeed').val() === true))",
+        ".validate": "newData.hasChildren(['workerId', 'lat', 'lng', 'seq', 'updatedAt']) && (newData.child('workerId').val() === auth.uid || (auth.uid === 'kelasagara_voice_backend' && auth.token.voiceBookingBackend === true)) && newData.child('lat').isNumber() && newData.child('lat').val() >= -90.0 && newData.child('lat').val() <= 90.0 && newData.child('lng').isNumber() && newData.child('lng').val() >= -180.0 && newData.child('lng').val() <= 180.0 && newData.child('seq').isNumber() && (!data.exists() ? newData.child('seq').val() >= 0 : newData.child('seq').val() > data.child('seq').val() || (auth.uid === 'kelasagara_voice_backend' && data.child('isSeed').val() === true))"
+      }
+    }
+  }
+}

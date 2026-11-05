@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-RECOGNITION-CLAIMS",
+  "timestampUtc": "2026-10-11T05:15:00Z",
+  "primaryPipeline": {
+    "modelName": "SFace FP32 (Primary)",
+    "modelPath": "backend/models/face_recognition_sface_2021dec.onnx",
+    "sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79",
+    "outputDimension": 512,
+    "vectorNormalization": "L2_NORMALIZED",
+    "detector": {
+      "modelName": "YuNet 2023Mar",
+      "modelPath": "backend/models/face_detection_yunet_2023mar.onnx",
+      "sha256": "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4",
+      "landmarksCount": 5
+    },
+    "preprocessing": "5-point facial similarity transform -> 112x112 RGB alignment"
+  },
+  "quantizedFallbackPipeline": {
+    "modelName": "SFace INT8 (Quantized)",
+    "modelPath": "backend/models/face_recognition_sface_2021dec_int8.onnx",
+    "sha256": "2b0e941e6f16cc048c20aee0c8e31f569118f65d702914540f7bfdc14048d78a",
+    "parityWithFp32": 0.959557,
+    "storageSavingsPercent": 74.5
+  },
+  "thresholdReconciliation": {
+    "advisoryFloorOpenCV": {
+      "cosineSimilarity": 0.363,
+      "source": "OpenCV Zoo SFace Canonical Benchmark"
+    },
+    "calibratedFmr1e3": {
+      "cosineSimilarity": 0.428,
+      "calibratedLLR": 5.31,
+      "source": "Karnataka Pilot Consented Ground Truth Dataset v1 (Signed Calibration)"
+    },
+    "calibratedFmr1e4": {
+      "cosineSimilarity": 0.495,
+      "source": "Karnataka Pilot Consented Ground Truth Dataset v1"
+    },
+    "s7ShadowFloor": {
+      "cosineSimilarity": 0.584,
+      "source": "S7 Shadow Pipeline Advisory Conservative Floor"
+    },
+    "legacyClientDuplicateThreshold": {
+      "cosineSimilarity": 0.74,
+      "source": "lib/services/biometric_service.dart (MobileFaceNet 128-d legacy)"
+    },
+    "reconciliationAction": "SFace 512-d models must operate under calibrated LLR mapping (alpha=45.0, beta=-13.95). Raw 0.74 threshold from 128-d MobileFaceNet is inapplicable to SFace without recalibration."
+  },
+  "consequentialEnforcementGuard": {
+    "invariant": "SEC-13 / Invariant I-14",
+    "policy": "No automated account ban or wallet forfeiture allowed on biometric match. Step-up to manual human KYC review mandatory.",
+    "verdict": "ENFORCED"
+  }
+}

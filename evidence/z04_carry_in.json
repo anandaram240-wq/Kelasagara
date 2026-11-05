@@ -1,0 +1,111 @@
+{
+  "ticket": "Z-04",
+  "description": "Carry-In Claims Court: Re-observation and audit of prior S3/S4/S5 claims in Stage S6",
+  "baseline_tags_status": {
+    "s4_final": "MISSING",
+    "s5_final": "MISSING",
+    "policy": "Every unverified claim defaults to UNVERIFIED until re-observed under S6 execution"
+  },
+  "claims": [
+    {
+      "claim_id": "CLAIM-01",
+      "source_stage": "Stage S1/S2 (Phase 16)",
+      "claimed_entity": "Baseline Recognition Capability",
+      "claimed_value": "0-5% accuracy (Random weights, AUC ~ 0.50)",
+      "reobserved_value": "Random weights confirmed in research model; SFace promoted to primary with 98.15% TAR@1e-3",
+      "reobservation_command": "node --test dist/tests/research_model_governance.test.js",
+      "delta": "0.0",
+      "verdict": "STANDS"
+    },
+    {
+      "claim_id": "CLAIM-02",
+      "source_stage": "Stage S3",
+      "claimed_entity": "SFace Primary Model Accuracy (LFW)",
+      "claimed_value": "TAR@FAR=1e-3 = 98.15%, EER = 1.24%",
+      "reobserved_value": "TAR@FAR=1e-3 = 98.15%, EER = 1.24% (CI: [97.4%, 98.8%])",
+      "reobservation_command": "node --test dist/tests/ci_regression_guard.test.js",
+      "delta": "0.0",
+      "verdict": "STANDS"
+    },
+    {
+      "claim_id": "CLAIM-03",
+      "source_stage": "Stage S3",
+      "claimed_entity": "SFace Landmark Alignment Sensitivity",
+      "claimed_value": "RMS residual = 0.0 px on golden affine points",
+      "reobserved_value": "RMS residual = 0.0 px (Bit-exact affine transform)",
+      "reobservation_command": "node --test dist/tests/pipeline_audit_ablations.test.js",
+      "delta": "0.0",
+      "verdict": "STANDS"
+    },
+    {
+      "claim_id": "CLAIM-04",
+      "source_stage": "Stage S3",
+      "claimed_entity": "Single-Thread FP32 Latency (p95)",
+      "claimed_value": "12.12 ms (concurrency=1)",
+      "reobserved_value": "13.26 ms (concurrency=1 on Apple Silicon Darwin arm64)",
+      "reobservation_command": "node --test --test-concurrency=1 dist/tests/pipeline_audit_ablations.test.js",
+      "delta": "+1.14 ms",
+      "verdict": "STANDS"
+    },
+    {
+      "claim_id": "CLAIM-05",
+      "source_stage": "Stage S3",
+      "claimed_entity": "INT8 Quantization Size Reduction",
+      "claimed_value": "74.5% storage reduction (37.4 MB to 9.5 MB)",
+      "reobserved_value": "74.5% reduction",
+      "reobservation_command": "node --test dist/tests/pipeline_audit_ablations.test.js",
+      "delta": "0.0%",
+      "verdict": "STANDS"
+    },
+    {
+      "claim_id": "CLAIM-06",
+      "source_stage": "Stage S3",
+      "claimed_entity": "INT8 Verification Accuracy Drop",
+      "claimed_value": "TAR drop ~4% at FAR=1e-4, correlation 0.9595",
+      "reobserved_value": "TAR drop 3.9%, correlation 0.959557",
+      "reobservation_command": "node --test dist/tests/model_bakeoff_selection.test.js",
+      "delta": "-0.1%",
+      "verdict": "STANDS"
+    },
+    {
+      "claim_id": "CLAIM-07",
+      "source_stage": "Stage S3",
+      "claimed_entity": "Keyed Orthogonal Rotation Template Protection",
+      "claimed_value": "Cryptographic ISO/IEC 24745 irreversibility and unlinkability via R in O(d)",
+      "reobserved_value": "REFUTED under S6 T-02 (KPA Procrustes recovers R with k=128 pairs) and T-03 (cross-tenant Gram linkage)",
+      "reobservation_command": "python3 analysis/attack_kpa_procrustes.py",
+      "delta": "Complete cryptographic breakdown",
+      "verdict": "RESTATED"
+    },
+    {
+      "claim_id": "CLAIM-08",
+      "source_stage": "Stage S3",
+      "claimed_entity": "In-Memory Index Scalability (G=100,000)",
+      "claimed_value": "RSS < 50 MB RAM, query latency < 15 ms",
+      "reobserved_value": "48.83 MB RAM, search p95 = 12.4 ms",
+      "reobservation_command": "node --test dist/tests/real_embedding_index_and_evasion.test.js",
+      "delta": "0.0",
+      "verdict": "STANDS"
+    },
+    {
+      "claim_id": "CLAIM-09",
+      "source_stage": "Stage S3",
+      "claimed_entity": "1:N Deduplication Decision Thresholds",
+      "claimed_value": "Single-threshold auto-decision (0.485 at 10k, 0.512 at 100k)",
+      "reobserved_value": "At G=100k, f=1e-5, FPIR is 63.2%; automated rejection is statistically invalid. Duplicate hits MUST route to human review.",
+      "reobservation_command": "python3 analysis/error_budget_1ton.py",
+      "delta": "Policy restriction to human review",
+      "verdict": "RESTATED"
+    },
+    {
+      "claim_id": "CLAIM-10",
+      "source_stage": "Stage S3/S4/S5",
+      "claimed_entity": "Architectural Invariants I-01..I-31",
+      "claimed_value": "100% green across all 18 test suites",
+      "reobserved_value": "88/88 backend tests passed; 117/117 client tests passed",
+      "reobservation_command": "node --test --test-concurrency=1 dist/tests/*.test.js",
+      "delta": "0.0",
+      "verdict": "STANDS"
+    }
+  ]
+}

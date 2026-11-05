@@ -1,0 +1,13 @@
+{
+  "ticket": "F-05",
+  "description": "External Professional Red-Team Plan and Rules of Engagement",
+  "status": "BLOCKED",
+  "unblocking_checklist": {
+    "owner": "Chief Information Security Officer (CISO)",
+    "prerequisite": "Stage S-1 pilot deployment authorization",
+    "lead_time": "2-3 weeks",
+    "target": "Contracted third-party CREST/OSCP certified ethical hacking team"
+  },
+  "scope": "Hardware injection, replay simulation, server landmark bypass, account renting emulation",
+  "verdict": "BLOCKED"
+}

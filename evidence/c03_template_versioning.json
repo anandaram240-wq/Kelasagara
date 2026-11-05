@@ -1,0 +1,9 @@
+{
+  "ticket": "C-03",
+  "description": "Template Schema Versioning and Incompatible Model Rejection",
+  "template_tag_format": "{model_id}:{model_sha8}:{preproc_ver}:{quant_tag}",
+  "active_certified_tag": "sface_v1:0ba9fbfa:v1_bgr112:fp32",
+  "mismatched_tag_rejection_tested": true,
+  "migration_policy": "Full re-enrollment required on major model version bump; zero cross-model cosine comparison permitted.",
+  "verdict": "DONE-VERIFIED"
+}

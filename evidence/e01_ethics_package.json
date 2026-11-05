@@ -1,0 +1,16 @@
+{
+  "ticket": "E-01",
+  "description": "Institutional Ethics Committee (IEC) Review Package & Protocol Submission",
+  "status": "BLOCKED",
+  "unblocking_checklist": {
+    "owner": "Legal & Ethics Compliance Lead",
+    "prerequisite": "Institutional Ethics Committee convening and protocol review",
+    "lead_time": "4-6 weeks",
+    "deliverable": "Approved and signed ETHICS_APPROVAL_ID certificate"
+  },
+  "documents_prepared": [
+    "ETHICS_PACKAGE/INFORMED_CONSENT_ENGLISH.md",
+    "ETHICS_PACKAGE/INFORMED_CONSENT_KANNADA.md"
+  ],
+  "verdict": "BLOCKED"
+}

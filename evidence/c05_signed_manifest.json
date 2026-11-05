@@ -1,0 +1,37 @@
+{
+  "ticket": "C-05",
+  "description": "Signed Machine Learning Bill of Materials (ML-BOM)",
+  "manifest_signature_algorithm": "HMAC-SHA256 (Server Master Key)",
+  "models": [
+    {
+      "model_id": "face_detection_yunet_2023mar",
+      "sha256": "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4",
+      "license": "Apache-2.0",
+      "source": "OpenCV Model Zoo / ShiqiYu libfacedetection",
+      "status": "APPROVED_PRIMARY_DETECTOR"
+    },
+    {
+      "model_id": "face_recognition_sface_2021dec",
+      "sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79",
+      "license": "Apache-2.0",
+      "source": "OpenCV Model Zoo / Zhong et al.",
+      "status": "APPROVED_PRIMARY_RECOGNIZER"
+    },
+    {
+      "model_id": "face_recognition_sface_2021dec_int8",
+      "sha256": "2b0e941e6f16cc048c20aee0c8e31f569118f65d702914540f7bfdc14048d78a",
+      "license": "Apache-2.0",
+      "source": "ONNX Runtime static INT8 PTQ",
+      "status": "APPROVED_SECONDARY_RECOGNIZER"
+    },
+    {
+      "model_id": "kelasagara_mobilefacenet",
+      "sha256": "cde3799f041eca6a6a99bfac53d9e97eb81ff34ac450d519aa41a9c99bef7d7c",
+      "license": "RESTRICTED (MS1MV2 Non-Commercial Lineage)",
+      "source": "Research only (ml/research_only)",
+      "status": "PROHIBITED_IN_PRODUCTION (Invariant I-02, I-18)"
+    }
+  ],
+  "tamper_protection_tested": true,
+  "verdict": "DONE-VERIFIED"
+}

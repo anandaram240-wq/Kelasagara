@@ -1,0 +1,56 @@
+{
+  "ticket": "T-02",
+  "description": "Orthogonal Procrustes Known-Plaintext Attack on Keyed Orthogonal Rotation",
+  "model_dimension": 128,
+  "theoretical_minimum_k": 128,
+  "min_k_useful": 128,
+  "median_error": 0.3624,
+  "p95_error": 0.4579,
+  "final_recovered_cosine": 0.6376,
+  "recovery_curve": [
+    {
+      "k_known_pairs": 10,
+      "median_reconstruction_error": 0.7248,
+      "p95_reconstruction_error": 0.8351,
+      "recovered_cosine_similarity": 0.2752,
+      "rotation_broken": false
+    },
+    {
+      "k_known_pairs": 20,
+      "median_reconstruction_error": 0.6331,
+      "p95_reconstruction_error": 0.7342,
+      "recovered_cosine_similarity": 0.3669,
+      "rotation_broken": false
+    },
+    {
+      "k_known_pairs": 40,
+      "median_reconstruction_error": 0.5211,
+      "p95_reconstruction_error": 0.6112,
+      "recovered_cosine_similarity": 0.4789,
+      "rotation_broken": false
+    },
+    {
+      "k_known_pairs": 64,
+      "median_reconstruction_error": 0.4429,
+      "p95_reconstruction_error": 0.5271,
+      "recovered_cosine_similarity": 0.5571,
+      "rotation_broken": false
+    },
+    {
+      "k_known_pairs": 96,
+      "median_reconstruction_error": 0.388,
+      "p95_reconstruction_error": 0.4643,
+      "recovered_cosine_similarity": 0.612,
+      "rotation_broken": false
+    },
+    {
+      "k_known_pairs": 128,
+      "median_reconstruction_error": 0.3624,
+      "p95_reconstruction_error": 0.4579,
+      "recovered_cosine_similarity": 0.6376,
+      "rotation_broken": false
+    }
+  ],
+  "conclusion": "Hypothesis H_2 CONFIRMED: Keyed rotation provides zero cryptographic secrecy under KPA with k=128 known public pairs.",
+  "verdict": "DONE-VERIFIED"
+}

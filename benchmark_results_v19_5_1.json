@@ -1,0 +1,224 @@
+{
+  "auditDateIso": "2026-10-23T19:30:47.601Z",
+  "hostHardware": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpus": "10x Apple M4",
+    "totalMemoryGb": 16,
+    "freeMemoryGb": 0.8
+  },
+  "softwareVersions": {
+    "nodeVersion": "v24.14.0",
+    "v8Version": "13.6.233.17-node.41",
+    "sfaceEmbeddingDimension": 128
+  },
+  "vectorSource": {
+    "type": "SYNTHETIC_DETERMINISTIC_HYPERSPHERE_PRNG",
+    "generator": "Mulberry32_NormalApproximation",
+    "seedBaseGallery": 1000000,
+    "seedBaseQuery": 5000000,
+    "disclaimer": "Measures indexing mechanics, memory, and search recall only; does NOT measure human facial recognition accuracy."
+  },
+  "tiers": [
+    {
+      "gallerySizeN": 100,
+      "indexBuildTimeMs": 7.05,
+      "heapUsedMb": -2.05,
+      "warmupQueryCount": 20,
+      "benchmarkQueryCount": 200,
+      "hnswParameters": {
+        "efSearch": 256,
+        "maxEdgesPerNode": 16,
+        "entryPoints": 8
+      },
+      "exactScanLatency": {
+        "p50": 0.0139,
+        "p95": 0.0193,
+        "mean": 0.015
+      },
+      "hnswLatency": {
+        "min": 0.0156,
+        "p50": 0.016,
+        "p90": 0.0196,
+        "p95": 0.0216,
+        "p99": 0.0466,
+        "max": 0.0537,
+        "mean": 0.0173
+      },
+      "recallAt1VsExact": 1,
+      "collisionCountReview074": 0,
+      "collisionCountHardBlock090": 0,
+      "fpirReview074": {
+        "pointEstimate": 0,
+        "lowerBound": 0,
+        "upperBound": 0.018845251197524133
+      },
+      "fpirHardBlock090": {
+        "pointEstimate": 0,
+        "lowerBound": 0,
+        "upperBound": 0.018845251197524133,
+        "ruleOfThreeBound95": 0.01497866135
+      }
+    },
+    {
+      "gallerySizeN": 1000,
+      "indexBuildTimeMs": 23.93,
+      "heapUsedMb": 1.89,
+      "warmupQueryCount": 20,
+      "benchmarkQueryCount": 200,
+      "hnswParameters": {
+        "efSearch": 256,
+        "maxEdgesPerNode": 16,
+        "entryPoints": 8
+      },
+      "exactScanLatency": {
+        "p50": 0.1061,
+        "p95": 0.109,
+        "mean": 0.1068
+      },
+      "hnswLatency": {
+        "min": 0.1066,
+        "p50": 0.1069,
+        "p90": 0.1096,
+        "p95": 0.1141,
+        "p99": 0.1263,
+        "max": 0.1456,
+        "mean": 0.108
+      },
+      "recallAt1VsExact": 1,
+      "collisionCountReview074": 0,
+      "collisionCountHardBlock090": 0,
+      "fpirReview074": {
+        "pointEstimate": 0,
+        "lowerBound": 0,
+        "upperBound": 0.018845251197524133
+      },
+      "fpirHardBlock090": {
+        "pointEstimate": 0,
+        "lowerBound": 0,
+        "upperBound": 0.018845251197524133,
+        "ruleOfThreeBound95": 0.01497866135
+      }
+    },
+    {
+      "gallerySizeN": 10000,
+      "indexBuildTimeMs": 207.49,
+      "heapUsedMb": 1.27,
+      "warmupQueryCount": 20,
+      "benchmarkQueryCount": 200,
+      "hnswParameters": {
+        "efSearch": 256,
+        "maxEdgesPerNode": 16,
+        "entryPoints": 8
+      },
+      "exactScanLatency": {
+        "p50": 1.0635,
+        "p95": 1.0951,
+        "mean": 1.0671
+      },
+      "hnswLatency": {
+        "min": 1.0539,
+        "p50": 1.0647,
+        "p90": 1.0897,
+        "p95": 1.1058,
+        "p99": 1.149,
+        "max": 1.1539,
+        "mean": 1.0698
+      },
+      "recallAt1VsExact": 1,
+      "collisionCountReview074": 0,
+      "collisionCountHardBlock090": 0,
+      "fpirReview074": {
+        "pointEstimate": 0,
+        "lowerBound": 0,
+        "upperBound": 0.018845251197524133
+      },
+      "fpirHardBlock090": {
+        "pointEstimate": 0,
+        "lowerBound": 0,
+        "upperBound": 0.018845251197524133,
+        "ruleOfThreeBound95": 0.01497866135
+      }
+    },
+    {
+      "gallerySizeN": 50000,
+      "indexBuildTimeMs": 1004.71,
+      "heapUsedMb": 20.74,
+      "warmupQueryCount": 20,
+      "benchmarkQueryCount": 200,
+      "hnswParameters": {
+        "efSearch": 256,
+        "maxEdgesPerNode": 16,
+        "entryPoints": 8
+      },
+      "exactScanLatency": {
+        "p50": 5.3345,
+        "p95": 7.31,
+        "mean": 5.5729
+      },
+      "hnswLatency": {
+        "min": 5.2837,
+        "p50": 5.3294,
+        "p90": 5.4029,
+        "p95": 5.4391,
+        "p99": 7.2863,
+        "max": 8.0018,
+        "mean": 5.3695
+      },
+      "recallAt1VsExact": 1,
+      "collisionCountReview074": 0,
+      "collisionCountHardBlock090": 0,
+      "fpirReview074": {
+        "pointEstimate": 0,
+        "lowerBound": 0,
+        "upperBound": 0.018845251197524133
+      },
+      "fpirHardBlock090": {
+        "pointEstimate": 0,
+        "lowerBound": 0,
+        "upperBound": 0.018845251197524133,
+        "ruleOfThreeBound95": 0.01497866135
+      }
+    },
+    {
+      "gallerySizeN": 100000,
+      "indexBuildTimeMs": 1992.29,
+      "heapUsedMb": 56.14,
+      "warmupQueryCount": 20,
+      "benchmarkQueryCount": 200,
+      "hnswParameters": {
+        "efSearch": 256,
+        "maxEdgesPerNode": 16,
+        "entryPoints": 8
+      },
+      "exactScanLatency": {
+        "p50": 10.6695,
+        "p95": 10.771,
+        "mean": 10.7348
+      },
+      "hnswLatency": {
+        "min": 0.027,
+        "p50": 0.0282,
+        "p90": 0.0683,
+        "p95": 0.0837,
+        "p99": 0.1145,
+        "max": 0.244,
+        "mean": 0.0384
+      },
+      "recallAt1VsExact": 0,
+      "collisionCountReview074": 0,
+      "collisionCountHardBlock090": 0,
+      "fpirReview074": {
+        "pointEstimate": 0,
+        "lowerBound": 0,
+        "upperBound": 0.018845251197524133
+      },
+      "fpirHardBlock090": {
+        "pointEstimate": 0,
+        "lowerBound": 0,
+        "upperBound": 0.018845251197524133,
+        "ruleOfThreeBound95": 0.01497866135
+      }
+    }
+  ]
+}

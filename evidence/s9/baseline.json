@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "generatedAt": "2026-10-11T05:06:00Z",
+  "gitCommit": "6a2a1482fe90d41050fc61ac83cc8777291a4a06",
+  "gitBranch": "biomatch/s9-integration",
+  "gitTagBaseline": "s8-final",
+  "toolchain": {
+    "node": "v20.17.0",
+    "npm": "10.8.2",
+    "typescript": "5.3.3",
+    "onnxruntimeNode": "1.20.1",
+    "os": "macOS Darwin arm64"
+  },
+  "s8ManifestVerification": {
+    "manifestPath": "evidence/s8/MANIFEST.json",
+    "totalEntries": 8,
+    "matchedEntries": 8,
+    "status": "VERIFIED_100_PERCENT_MATCH",
+    "files": [
+      { "filePath": "evidence/s8/recovery_assessment.json", "sha256": "8db79a70b8dbb50af98e1e5b292d2f03637c169ed96ba54c819b0bcc479c7480", "status": "MATCH" },
+      { "filePath": "evidence/s8/baseline.json", "sha256": "be01070a7d0fc818dd70324a8406572b7b382ec9c181da0994c20a74b6778d63", "status": "MATCH" },
+      { "filePath": "evidence/s8/test_manifest.json", "sha256": "d27d1c026599c907c7b902ec45a2c1059d040a1ef2f76fad6825c68f7d56c59f", "status": "MATCH" },
+      { "filePath": "evidence/s8/aad_attack_regression.json", "sha256": "00dd1ade1f547d641c388c0e7087387bce2e2613cda8d3d9cf3a3305d3de8ef2", "status": "MATCH" },
+      { "filePath": "evidence/s8/kms_unit_tests.json", "sha256": "329d88f5f441c2937e5376dc4d92c0e6b89ff4a40e34ac0d96fc32470ff9e776", "status": "MATCH" },
+      { "filePath": "evidence/s8/attestation_unit_tests.json", "sha256": "65894edf3f56c7b2373be1f02a0d4157438d5157879e57b08913bfb350ad3b16", "status": "MATCH" },
+      { "filePath": "evidence/s8/cross_tenant_integration_results.json", "sha256": "9af04a8a8ac6e238b06cf0c55342cf350bdb9f600ccacf910f8ca76cb7c35eca", "status": "MATCH" },
+      { "filePath": "evidence/s8/test_run.json", "sha256": "d6de667b66fdb6e45a34ab626edfc5c69f4647b29d4d19cebf977e88be031cdb", "status": "MATCH" }
+    ]
+  },
+  "modelHashes": {
+    "sface_fp32": {
+      "path": "backend/models/face_recognition_sface_2021dec.onnx",
+      "sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79",
+      "status": "PINNED_MATCH"
+    },
+    "yunet": {
+      "path": "backend/models/face_detection_yunet_2023mar.onnx",
+      "sha256": "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4",
+      "status": "PINNED_MATCH"
+    },
+    "sface_int8": {
+      "path": "backend/models/face_recognition_sface_2021dec_int8.onnx",
+      "sha256": "2b0e941e6f16cc048c20aee0c8e31f569118f65d702914540f7bfdc14048d78a",
+      "status": "PINNED_MATCH"
+    },
+    "mobilefacenet": {
+      "path": "backend/models/kelasagara_mobilefacenet.onnx",
+      "sha256": "cde3799f041eca6a6a99bfac53d9e97eb81ff34ac450d519aa41a9c99bef7d7c",
+      "status": "PINNED_MATCH"
+    }
+  },
+  "backendTestReproduction": {
+    "command": "npm test",
+    "runner": "node --test --test-concurrency=1 dist/tests/*.test.js",
+    "cwd": "backend",
+    "exitCode": 0,
+    "discoveredSuites": 23,
+    "discoveredTotalTests": 127,
+    "passed": 127,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "durationMs": 42828.82,
+    "reproductionVerdict": "REPRODUCED_100_PERCENT"
+  },
+  "valhallaRoutingAnalysis": {
+    "testFile": "test/v701_valhalla_provider_live_benchmark_test.dart",
+    "failingTestsCount": 4,
+    "rootCause": "Offline environment without VALHALLA_BASE_URL configured; test intentionally calls fail() if endpoint is empty",
+    "relevanceToBiometrics": "NON_BIOMETRIC_ROUTING_PROBE",
+    "action": "PRESERVED_UNTOUCHED"
+  },
+  "initialCapabilityStatus": {
+    "AAD_CANONICALIZATION": "REPRODUCED",
+    "LOCAL_AES_GCM_ENVELOPE": "REPRODUCED",
+    "CLOUD_KMS_LIVE": "EXTERNALLY_BLOCKED",
+    "PLAY_INTEGRITY_LIVE": "EXTERNALLY_BLOCKED",
+    "CROSS_TENANT_ISOLATION": "REPRODUCED",
+    "LEASED_CONCURRENCY_LOCK": "REPRODUCED",
+    "MUTATION_SUITE": "REPRODUCED"
+  }
+}

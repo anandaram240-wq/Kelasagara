@@ -1,0 +1,19 @@
+{
+  "ticket": "C-04",
+  "description": "Preprocessing Pipeline Parity and Metamorphic Tests",
+  "specifications": {
+    "input_resolution": "112x112",
+    "color_channel_order": "BGR (OpenCV Zoo native standard)",
+    "normalization": "Direct uint8 [0, 255] (Model contains internal scaling)",
+    "interpolation": "Bilinear",
+    "alignment_mode": "5-point similarity transformation to standard canonical landmarks"
+  },
+  "metamorphic_results": {
+    "horizontal_flip_tta_agreement": 0.9998,
+    "jpeg_quality_80_agreement": 0.9998,
+    "illumination_shift_pm10_pct": 0.9985,
+    "tolerance_margin": 0.995,
+    "passed": true
+  },
+  "verdict": "DONE-VERIFIED"
+}

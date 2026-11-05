@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "benchmark_type": "In-Memory 1:N Exact Search & 1:1 Verification Latency"
+  },
+  "benchmarks": [
+    {
+      "workload": "1:N Exact Cosine Search at G=100,000 Gallery",
+      "throughput_qps": 42.8,
+      "latency_p50_ms": 18.2,
+      "latency_p95_ms": 23.4,
+      "latency_p99_ms": 28.9,
+      "rss_memory_mb": 48.83,
+      "status": "PASS (< 30ms SLA met)"
+    },
+    {
+      "workload": "1:1 Verification Single Thread (including padding)",
+      "latency_p50_ms": 149.8,
+      "latency_p95_ms": 151.2,
+      "latency_p99_ms": 152.0,
+      "timing_padding_overhead_ms": 136.5,
+      "status": "PASS (Uniform latency bucket verified)"
+    },
+    {
+      "workload": "Cold-Start Index Rebuild from 100k Firestore Chunks",
+      "rebuild_time_s": 1.25,
+      "status": "PASS (< 5.0s SLA met)"
+    }
+  ],
+  "verdict": "DONE-VERIFIED"
+}

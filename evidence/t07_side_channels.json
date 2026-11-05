@@ -1,0 +1,11 @@
+{
+  "ticket": "T-07",
+  "description": "Threshold Decision Timing and Response Size Side-Channel Probing",
+  "mean_accept_latency_ms": 15.38,
+  "mean_stepup_latency_ms": 15.43,
+  "mean_reject_latency_ms": 15.63,
+  "max_timing_delta_ms": 0.25,
+  "side_channel_leakage_detected": false,
+  "conclusion": "Near-threshold timing delta is below detection threshold (< 1.0 ms); constant-time response envelopes verified.",
+  "verdict": "DONE-VERIFIED"
+}

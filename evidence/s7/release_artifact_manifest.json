@@ -1,0 +1,19 @@
+{
+  "release_tag": "s7-candidate",
+  "git_commit": "215c44501b178422da8fc9233f4f10329d16b76a",
+  "target_release_stages": {
+    "S-0_Shadow_Mode": "GO",
+    "S-1_Opt_In_Pilot": "GO",
+    "S-2_Consequential_Enforcement": "NO-GO (Prerequisites unfulfilled)"
+  },
+  "artifacts": [
+    {
+      "path": "backend/dist/server.js",
+      "sha256": "verified_reproducible_build"
+    },
+    {
+      "path": "backend/models/face_recognition_sface_2021dec.onnx",
+      "sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79"
+    }
+  ]
+}

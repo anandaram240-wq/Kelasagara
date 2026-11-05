@@ -1,0 +1,11 @@
+{
+  "key_management_model": "Envelope Encryption with PBKDF2 Master-Derived Keys",
+  "lifecycle_stages": {
+    "provisioning": "Environment secret injection (MASTER_KEY_SECRET)",
+    "derivation": "Per-user key derived via PBKDF2-HMAC-SHA256 with 128-bit random salt",
+    "rotation": "Supported via keyVersion tagging ('k1' -> 'k2') with batch re-encryption",
+    "revocation": "Immediate invalidation upon master key rotation or individual salt deletion",
+    "erasure": "Cryptographic shredding via Firestore document deletion (removes salt and ciphertext)"
+  },
+  "verification_status": "VERIFIED_FAIL_CLOSED"
+}

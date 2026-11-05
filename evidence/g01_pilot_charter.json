@@ -1,0 +1,15 @@
+{
+  "ticket": "G-01",
+  "description": "Staged Exposure Pilot Charter and Non-Goals",
+  "stages": {
+    "S-0": "Shadow Mode (Internal logging only; zero user impact)",
+    "S-1": "Opt-In Limited Pilot (Explicit bilingual consent; 100% Document KYC active)",
+    "S-2": "Limited Production Enforcement (Gated on N=200 in-domain cohort + Ethics Approval)"
+  },
+  "non_goals": [
+    "No Aadhaar Face RD compliance is claimed or represented",
+    "No automated permanent worker ban based on biometric mismatch",
+    "No biometric surveillance or background face identification"
+  ],
+  "verdict": "DONE-VERIFIED"
+}

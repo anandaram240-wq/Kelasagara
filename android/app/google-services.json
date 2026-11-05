@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "993968093461",
+    "firebase_url": "https://kelasagara-f127a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "kelasagara-f127a",
+    "storage_bucket": "kelasagara-f127a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993968093461:android:42f54bccdefdbace47d11c",
+        "android_client_info": {
+          "package_name": "com.kelasagaara.kelasagaara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993968093461-hf2r2lntu97k3nplg8tqq8d1ur8sn252.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kelasagaara.kelasagaara",
+            "certificate_hash": "a5be10b1ee9e5490a33ccaef0f69e3ed2c0d09fb"
+          }
+        },
+        {
+          "client_id": "993968093461-vh0sqa09kgq0f54jfeeqfav6turfrv1i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kelasagaara.kelasagaara",
+            "certificate_hash": "b6f0817735e516a61c5666beec156cded1d0a185"
+          }
+        },
+        {
+          "client_id": "993968093461-u58j0969najb0klgtlevv0qhn0v0hqov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9hVsgU6klVt2LdyQbYD2XJC86g3vlT_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993968093461-u58j0969najb0klgtlevv0qhn0v0hqov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

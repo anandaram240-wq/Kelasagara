@@ -1,0 +1,113 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ── Helpers ────────────────────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function myUid() {
+      return request.auth.uid;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        firestore.get(/databases/(default)/documents/users/$(myUid())).data.role == 'admin';
+    }
+
+    // ── Profile Avatar Photos ──────────────────────────────────────
+    // Path: profile-photos/{uid}/{filename}
+    //
+    // DEF-004 FIX: Added this path (was blocked by catch-all deny).
+    //
+    // WRITE: Only the authenticated owner (uid match)
+    //   - Max 5 MB
+    //   - Must be an image/* MIME type
+    //
+    // READ: Any signed-in user (avatars are displayed to hirers/workers)
+    // DELETE: Owner or admin only
+    match /profile-photos/{uid}/{filename} {
+      allow write: if isSignedIn()
+        && myUid() == uid
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+
+      allow read: if isSignedIn();
+
+      allow delete: if isSignedIn() && (myUid() == uid || isAdmin());
+    }
+
+    // ── Face / Liveness Verification Photos ────────────────────────
+    // Path: face-photos/{uid}/{filename}
+    //
+    // DEF-004 FIX: Added this path (was blocked by catch-all deny).
+    //
+    // These are PRIVATE biometric submissions used during face enrollment.
+    // They must never be publicly readable or hirer-readable.
+    //
+    // WRITE: Only the authenticated owner (uid match)
+    //   - Max 10 MB
+    //   - Must be an image/* MIME type
+    //   - Only during enrollment (client writes the liveness snapshot)
+    //
+    // READ: Only the owner (to re-upload/retry) and admin (for review)
+    // DELETE: Admin only (never client-deleted to preserve audit trail)
+    match /face-photos/{uid}/{filename} {
+      allow write: if isSignedIn()
+        && myUid() == uid
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+
+      allow read: if isSignedIn() && (myUid() == uid || isAdmin());
+
+      allow delete: if isAdmin();
+    }
+
+    // ── Worker Portfolio Images ─────────────────────────────────────
+    // Path: portfolio/{uid}/{filename}
+    //
+    // Portfolio images are shown on public worker profiles.
+    // They are distinct from verification evidence.
+    //
+    // WRITE: Owner only, max 8 MB, image only
+    // READ: Any signed-in user (visible to hirers in search)
+    // DELETE: Owner or admin
+    match /portfolio/{uid}/{filename} {
+      allow write: if isSignedIn()
+        && myUid() == uid
+        && request.resource.size < 8 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+
+      allow read: if isSignedIn();
+
+      allow delete: if isSignedIn() && (myUid() == uid || isAdmin());
+    }
+
+    // ── Assessment Evidence Videos ──────────────────────────────────
+    // Path: assessment-evidence/{uid}/{assessmentId}/{taskId}/{filename}
+    //
+    // WRITE: Only the authenticated worker (uid match)
+    //   - Max 200 MB
+    //   - Must be a video/* MIME type
+    //
+    // READ: Worker can read their own. Admin can read all.
+    match /assessment-evidence/{uid}/{assessmentId}/{taskId}/{filename} {
+
+      allow write: if isSignedIn()
+        && myUid() == uid
+        && request.resource.size < 200 * 1024 * 1024
+        && request.resource.contentType.matches('video/.*');
+
+      allow read: if isSignedIn()
+        && (myUid() == uid || isAdmin());
+
+      allow delete: if isAdmin();
+    }
+
+    // ── Block everything else ────────────────────────────────────────
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

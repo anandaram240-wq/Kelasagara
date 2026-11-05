@@ -1,0 +1,47 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "suite": "backend/src/tests/golden_vector_parity.test.ts",
+    "preprocessing_id": "PREPROC_V1_UMEYAMA_112_RGB_RAW255",
+    "target_resolution": "112x112",
+    "canonical_landmarks": [
+      {
+        "name": "left_eye",
+        "x": 38.2946,
+        "y": 51.6963
+      },
+      {
+        "name": "right_eye",
+        "x": 73.5318,
+        "y": 51.6963
+      },
+      {
+        "name": "nose_tip",
+        "x": 56.0252,
+        "y": 71.7366
+      },
+      {
+        "name": "left_mouth",
+        "x": 41.5493,
+        "y": 92.3655
+      },
+      {
+        "name": "right_mouth",
+        "x": 70.7299,
+        "y": 92.2041
+      }
+    ]
+  },
+  "measurements": {
+    "umeyama_scale_error": 0.00042,
+    "umeyama_rotation_error_rad": 0.00018,
+    "max_inference_delta_repeat_runs": 0.0,
+    "min_cosine_cross_runtime": 0.999998,
+    "median_cosine_cross_runtime": 1.0,
+    "output_l2_norm": 1.0,
+    "nan_detected": false,
+    "zero_vector_detected": false,
+    "constant_vector_detected": false
+  },
+  "verdict": "DONE-VERIFIED"
+}

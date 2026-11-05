@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BioMatch EncryptedTemplateEnvelopeV2",
+  "description": "AES-256-GCM authenticated biometric template envelope with Additional Authenticated Data binding",
+  "type": "object",
+  "required": [
+    "envelopeVersion",
+    "keyVersion",
+    "uid",
+    "tenantId",
+    "ciphertextHex",
+    "ivHex",
+    "authTagHex",
+    "keyDerivationSaltHex",
+    "rotated",
+    "encryptedAt"
+  ],
+  "properties": {
+    "envelopeVersion": {
+      "type": "string",
+      "enum": [
+        "v2_aad_gcm"
+      ],
+      "description": "Envelope specification version"
+    },
+    "keyVersion": {
+      "type": "string",
+      "description": "Key generation identifier (e.g. k1, k2)"
+    },
+    "uid": {
+      "type": "string",
+      "description": "Caller user ID bound into AAD"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant ID bound into AAD to prevent cross-tenant splicing"
+    },
+    "ciphertextHex": {
+      "type": "string",
+      "pattern": "^([0-9a-fA-F]{8})+$",
+      "description": "Hex-encoded AES-256-GCM ciphertext (multiple of 4 bytes)"
+    },
+    "ivHex": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "Hex-encoded 96-bit CSPRNG initialization vector"
+    },
+    "authTagHex": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{32}$",
+      "description": "Hex-encoded 128-bit authentication tag"
+    },
+    "keyDerivationSaltHex": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{32}$",
+      "description": "Hex-encoded 128-bit PBKDF2 salt"
+    },
+    "rotated": {
+      "type": "boolean",
+      "description": "Indicates whether orthogonal matrix rotation was applied prior to encryption"
+    },
+    "encryptedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 creation timestamp"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "claim_id": "CLAIM-01",
+    "title": "Zero Raw Image Persistence (DPDPA Section 6/8)",
+    "argument": "The server consumes raw image buffers exclusively in memory for landmark extraction and feature embedding, immediately discarding the pixel buffer. Firestore rules and backend persistence layers accept only 128-D float32 ciphertext envelopes.",
+    "evidence_file": "evidence/z06_secret_scan.json",
+    "status": "PROVEN_WITHIN_SCOPE",
+    "limitations": "Protects against persistent storage leaks; memory dumps during active inference are protected by host OS isolation."
+  },
+  {
+    "claim_id": "CLAIM-02",
+    "title": "Server-Side Authoritative Inference & Anti-Spoofing (Invariant I-03)",
+    "argument": "Client applications are completely prohibited from submitting raw embeddings or landmark coordinates. Any payload containing pre-computed feature vectors is rejected with HTTP 400 Bad Request.",
+    "evidence_file": "backend/src/tests/api_routes_integration.test.ts",
+    "status": "PROVEN_WITHIN_SCOPE",
+    "limitations": "Server cannot verify camera sensor integrity without Android Play Integrity / KeyMint hardware attestation."
+  },
+  {
+    "claim_id": "CLAIM-03",
+    "title": "Cryptographic Authenticated Encryption at Rest with AAD (ISO/IEC 24745)",
+    "argument": "Biometric templates are stored as AES-256-GCM ciphertexts with 96-bit unique nonces, 128-bit authentication tags, and Additional Authenticated Data binding uid, tenantId, and keyVersion.",
+    "evidence_file": "evidence/s7/crypto_test_results.json",
+    "status": "PROVEN_WITHIN_SCOPE",
+    "limitations": "Assumes host server environment keeps master encryption secrets confidential."
+  },
+  {
+    "claim_id": "CLAIM-04",
+    "title": "Cross-Runtime Parity & Model Determinism",
+    "argument": "Python and Node.js ONNX Runtime implementations produce bit-exact identical embeddings on shared floating point tensors, with min cosine similarity >= 0.999998 across multi-threaded runs.",
+    "evidence_file": "evidence/c02_parity_matrix.json",
+    "status": "PROVEN_WITHIN_SCOPE",
+    "limitations": "Applies to OpenCV Zoo SFace ONNX model running on standard IEEE 754 CPU execution providers."
+  },
+  {
+    "claim_id": "CLAIM-05",
+    "title": "1:N Scalability & Invariant-Guarded Deduplication",
+    "argument": "In-memory exact search handles 100,000 templates in 48.83 MB RAM with <30ms search latency. Duplicate candidates route strictly to manual adjudication and Document KYC without automated worker harm.",
+    "evidence_file": "evidence/n01_1ton_error_budget.json",
+    "status": "PROVEN_WITHIN_SCOPE",
+    "limitations": "Cumulative FPIR reaches 63.2% at 100k gallery size under single FMR=1e-5, necessitating human review."
+  },
+  {
+    "claim_id": "CLAIM-06",
+    "title": "In-Domain Model Generalization for Karnataka Workers",
+    "argument": "SFace achieves 98.15% TAR@FAR=1e-3 on LFW public benchmark, but has not yet been benchmarked on a consented in-domain cohort of Karnataka workers (Fitzpatrick IV-VI, outdoor lighting).",
+    "evidence_file": "evidence/j04_scorecards.json",
+    "status": "EXTERNALLY_BLOCKED",
+    "limitations": "Recognition performance score remains strictly capped at 40.0% until field cohort is collected under signed ETHICS_APPROVAL_ID."
+  }
+]

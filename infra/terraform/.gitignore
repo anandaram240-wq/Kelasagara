@@ -1,0 +1,21 @@
+# Local .terraform directory containing downloaded provider plugins
+.terraform/
+
+# Exclude local state files
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfplan.*
+*.binary
+tfplan*
+tfplan-*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.tfstate.lock.info
+
+# Include the lock file in version control
+!.terraform.lock.hcl

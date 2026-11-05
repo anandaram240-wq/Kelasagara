@@ -1,0 +1,19 @@
+{
+  "ticket": "J-04",
+  "description": "Three Independent Scorecards (Model, Aadhaar, Pilot Readiness)",
+  "model_score": 40.0,
+  "model_cap_reason": "Capped at 40% pending consented Karnataka in-domain cohort (N >= 200)",
+  "aadhaar_score": 29.5,
+  "aadhaar_gaps": "Play Integrity / KeyMint hardware attestation and STQC certification absent",
+  "pilot_score": 88,
+  "pilot_breakdown": {
+    "analysis": 15,
+    "privacy": 18,
+    "runtime": 15,
+    "scale": 15,
+    "fraud": 12,
+    "governance": 13,
+    "assurance": 0
+  },
+  "verdict": "DONE-VERIFIED"
+}

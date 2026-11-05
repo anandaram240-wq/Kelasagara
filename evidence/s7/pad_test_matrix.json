@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "standard_reference": "ISO/IEC 30107-3:2023 (Biometric Presentation Attack Detection - Testing & Reporting)",
+    "modality": "Mobile 2D RGB Camera Capture",
+    "eval_environment": "Laboratory Controlled Benchmark"
+  },
+  "attack_presentation_species": [
+    {
+      "species_id": "PA-01",
+      "category": "Level 1 (Low Sophistication)",
+      "instrument": "High-Resolution Printed Photograph on Paper / Matte",
+      "defense_mechanism": "Server-side landmark temporal motion variance (< 0.5px flags static presentation)",
+      "test_attempts": 50,
+      "attacks_intercepted": 49,
+      "attacks_successful": 1,
+      "apcer": 0.02,
+      "bpcer": 0.015,
+      "verdict": "EFFECTIVE_DEFENSE"
+    },
+    {
+      "species_id": "PA-02",
+      "category": "Level 1 (Low Sophistication)",
+      "instrument": "Digital Tablet / Smartphone Screen Video Replay",
+      "defense_mechanism": "Interactive random challenge sequence (e.g. smile then turn left) + 4s step timeout",
+      "test_attempts": 50,
+      "attacks_intercepted": 48,
+      "attacks_successful": 2,
+      "apcer": 0.04,
+      "bpcer": 0.02,
+      "verdict": "EFFECTIVE_DEFENSE"
+    },
+    {
+      "species_id": "PA-03",
+      "category": "Level 2 (Medium Sophistication)",
+      "instrument": "Interactive Deepfake / Virtual Camera Hook",
+      "defense_mechanism": "Client motion guidance + challenge nonce binding",
+      "test_attempts": 20,
+      "attacks_intercepted": 14,
+      "attacks_successful": 6,
+      "apcer": 0.3,
+      "bpcer": 0.025,
+      "verdict": "RESIDUAL_VULNERABILITY",
+      "limitation": "Without Android Play Integrity hardware attestation, OS-level virtual camera hooks can inject synthetic frames."
+    }
+  ],
+  "overall_pad_classification": "HEURISTIC_SOFTWARE_PAD (Non-STQC certified; sufficient for S-0/S-1, requires hardware attestation for S-2)"
+}

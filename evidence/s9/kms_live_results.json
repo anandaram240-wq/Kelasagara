@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-KMS-LIVE",
+  "timestampUtc": "2026-10-11T05:09:00Z",
+  "status": "EXTERNALLY_BLOCKED",
+  "executionSummary": {
+    "liveKmsInvoked": false,
+    "credentialsFound": false,
+    "providerType": "cloud_kms",
+    "configuredKeyResource": "projects/kelasagara-f127a/locations/asia-south1/keyRings/biomatch-ring/cryptoKeys/template-kek",
+    "environmentCheck": {
+      "GOOGLE_APPLICATION_CREDENTIALS": null,
+      "GCP_PROJECT_ID": "kelasagara-f127a",
+      "KMS_LOCATION": "asia-south1",
+      "KMS_KEY_RING": "biomatch-ring",
+      "KMS_KEY_ID": "template-kek"
+    },
+    "failClosedVerification": {
+      "wrapDekResult": "KMS_UNAVAILABLE_ERROR (UNVERIFIED-LIVE: No Google Cloud credentials found)",
+      "unwrapDekResult": "KMS_UNAVAILABLE_ERROR (UNVERIFIED-LIVE: No Google Cloud credentials found)",
+      "fallbackToPlaintext": false,
+      "passStatusHonored": false
+    }
+  },
+  "iamRequirements": {
+    "requiredRole": "roles/cloudkms.cryptoKeyEncrypterDecrypter",
+    "requiredApi": "cloudkms.googleapis.com",
+    "serviceAccount": "biomatch-backend@kelasagara-f127a.iam.gserviceaccount.com"
+  },
+  "remediationPlan": "Provision GCP service account key or Workload Identity Federation in staging CI environment, configure KMS key ring and crypto key in asia-south1, and execute live end-to-end wrap/unwrap probe."
+}

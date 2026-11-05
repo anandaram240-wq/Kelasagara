@@ -1,0 +1,38 @@
+{
+  "stage": "S7",
+  "timestamp_utc": "2026-10-11T00:55:00Z",
+  "scorecards": {
+    "scorecard_a_recognition_performance": {
+      "score_pct": 40.0,
+      "max_score_pct": 100.0,
+      "status": "BENCHMARK_PROVEN_IN_DOMAIN_CAPPED",
+      "rationale": "SFace achieves 98.15% TAR@1e-3 on LFW; capped at 40% until Karnataka consented field cohort is tested."
+    },
+    "scorecard_b_aadhaar_face_rd_capability": {
+      "score_pct": 29.5,
+      "max_score_pct": 100.0,
+      "status": "PRIVATE_BACKEND_PLUMBING_ONLY",
+      "rationale": "Server contracts and nonces are production-grade; STQC certification and Play Integrity hardware tokens are absent."
+    },
+    "scorecard_c_pilot_readiness": {
+      "score_points": 88.0,
+      "max_points": 100.0,
+      "status": "READY_FOR_CONTROLLED_PILOT",
+      "rationale": "High-assurance software architecture, AES-256-GCM with AAD, 100% Document KYC fallback, and tested 18.5s kill switch."
+    }
+  },
+  "release_decisions": {
+    "stage_s0_shadow_mode": {
+      "verdict": "GO",
+      "justification": "Passive background logging, zero worker friction, zero raw images stored, fail-closed auth."
+    },
+    "stage_s1_opt_in_pilot": {
+      "verdict": "GO",
+      "justification": "Voluntary Kannada/English consent, 100% Document KYC fallback operational, kill switch verified in 18.5s."
+    },
+    "stage_s2_consequential_enforcement": {
+      "verdict": "NO-GO",
+      "justification": "Automatic Rule A-06 Default: Mandatory external field testing on Karnataka workers and ethics board sign-off are pending."
+    }
+  }
+}

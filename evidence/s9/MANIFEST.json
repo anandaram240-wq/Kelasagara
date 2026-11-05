@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "generatedAt": "2026-10-11T05:20:00Z",
+  "gitCommit": "6a2a1482fe90d41050fc61ac83cc8777291a4a06",
+  "gitBranch": "biomatch/s9-integration",
+  "gitTagBaseline": "s8-final",
+  "totalEvidenceFiles": 16,
+  "evidenceFiles": [
+    {
+      "filePath": "evidence/s9/authorization_results.json",
+      "sha256": "2b0842c76bac2e9a7251f30a94743490367eddb894cf90430ed7438cc090f2c4",
+      "sizeBytes": 2133,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/baseline.json",
+      "sha256": "4c10dae802fc1bd8f2f57f53b5c8ecb901b34b0889c809650f67ee8f3fcf526c",
+      "sizeBytes": 3818,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/concurrency_results.json",
+      "sha256": "74c22e6e582288eb556048c328128aa3a6475118f9c1cbc8c044b8c1f0d87899",
+      "sizeBytes": 1619,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/firestore_rules_results.json",
+      "sha256": "3488c0cdaf2ea7c16f72d0545af9f4be0b7a3cfa79ba0fca33435428bbf3c828",
+      "sizeBytes": 1513,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/kms_failure_matrix.json",
+      "sha256": "d4483aa6105276fd341e8418fbc914c94b02256e4617e8e03b18f34613406d5a",
+      "sizeBytes": 4729,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/kms_live_results.json",
+      "sha256": "fbef1e802b2afe046f4840224aab419363db7a0d2e2171b000ff5e35b6cdb87b",
+      "sizeBytes": 1425,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/kms_unit_tests.json",
+      "sha256": "d5791c24958abe7a35d6f37d06f1230ae6172e8fd5096ce521cb8054fa3757db",
+      "sizeBytes": 3173,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/migration_fault_injection.json",
+      "sha256": "beb16594f71a9d941f65512d60077b1a7898c1a999e1693c0ba6545cdf2d82c0",
+      "sizeBytes": 3383,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/migration_state_transitions.json",
+      "sha256": "441224c30b158ff8020d6bb04705ee25db1d1bed0240cc2c4626be21440652da",
+      "sizeBytes": 2560,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/mutation_test_results.json",
+      "sha256": "8173aca89cd579f04d62e9be6e56797bd24ed09a7924541193aa1167eb68183a",
+      "sizeBytes": 2544,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/play_integrity_live.json",
+      "sha256": "e32b89e6b0d93f4a55245d781d83983ec4fc93896d0f4792d61e0dc69fa4c49e",
+      "sizeBytes": 1471,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/play_integrity_unit.json",
+      "sha256": "7ff09f7584166eb52055a7729cb919de4eeb5323826e6aba08d548e02107964b",
+      "sizeBytes": 1884,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/recognition_claims.json",
+      "sha256": "0dd2e52cd663e6f97fc094cb3e87c5d67029632628286bd125ddd4a491267193",
+      "sizeBytes": 2319,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/recovery_results.json",
+      "sha256": "cdfc96bd5d3457d660234e59249867ee070e19ca5ff75c44693f313120fd4a94",
+      "sizeBytes": 1825,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/request_hash_vectors.json",
+      "sha256": "78b38f1f83eff2df271c78f0ce67b8682923796fd75b5eec327bf3e9354a797c",
+      "sizeBytes": 2911,
+      "stage": "S9.5"
+    },
+    {
+      "filePath": "evidence/s9/security_invariants.json",
+      "sha256": "5c26596f3e0a05e4ee9c1fd8c58ddcd8151f7c2959abfe74e98e178a1bb4e469",
+      "sizeBytes": 10399,
+      "stage": "S9.5"
+    }
+  ]
+}

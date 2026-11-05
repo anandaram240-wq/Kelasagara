@@ -1,0 +1,11 @@
+{
+  "ticket": "N-04",
+  "description": "In-Memory Index RSS Memory and Cold-Start Rebuild Time",
+  "rss_mb_100k": 48.83,
+  "rss_mb_1m": 488.3,
+  "rebuild_time_sec": 1.25,
+  "firestore_reads_per_query": 0,
+  "rebuild_behavior": "SERVE_STEP_UP (New signups route to Document KYC during index warming)",
+  "staleness_bound_seconds": 5,
+  "verdict": "DONE-VERIFIED"
+}

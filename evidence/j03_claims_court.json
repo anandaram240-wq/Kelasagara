@@ -1,0 +1,32 @@
+{
+  "ticket": "J-03",
+  "description": "Adversarial Claims Court and Blind Mathematical Re-Derivation",
+  "evaluations": [
+    {
+      "claim": "SFace achieves 98.15% TAR at FAR=1e-3 on LFW",
+      "objection_1": "LFW consists of celebrities under web-scraped conditions, not Indian gig workers.",
+      "objection_2": "LFW protocol does not reflect 1:N deduplication scale.",
+      "objection_3": "Lighting conditions on LFW do not test harsh Karnataka outdoor glare.",
+      "response": "Acknowledged; LFW serves exclusively as algorithmic parity benchmark. Strict 40% cap enforced until in-domain cohort collected.",
+      "verdict": "STANDS-WITH-CAVEAT"
+    },
+    {
+      "claim": "Keyed orthogonal rotation provides ISO/IEC 24745 irreversibility",
+      "objection_1": "Orthogonal rotation is a linear isometry that preserves distances exactly.",
+      "objection_2": "Known-Plaintext Attack (Procrustes) recovers rotation matrix at k=128.",
+      "objection_3": "Pairwise Gram matrices permit cross-tenant identity linkage.",
+      "response": "Objections upheld. Attack T-02 and T-03 confirmed complete cryptographic vulnerability. Claim formally restated.",
+      "verdict": "RESTATED"
+    },
+    {
+      "claim": "1:N deduplication can automatically reject duplicate applicants",
+      "objection_1": "At G=100,000 and FMR=1e-5, FPIR is 63.2% (1 false match per probe).",
+      "objection_2": "Automated rejection would disenfranchise innocent workers.",
+      "objection_3": "DPDPA principles mandate contestability and human review.",
+      "response": "Objections upheld. Deduplication policy strictly updated: duplicate hits NEVER auto-reject; route to human review.",
+      "verdict": "RESTATED"
+    }
+  ],
+  "blind_rederivation_passed": true,
+  "verdict": "DONE-VERIFIED"
+}

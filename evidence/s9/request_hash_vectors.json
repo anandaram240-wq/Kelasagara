@@ -1,0 +1,53 @@
+{
+  "": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-PLAY-INTEGRITY-VECTORS",
+  "canonicalFormula": "SHA-256(nonce:uid:action:captureDigest)",
+  "maxAllowedLengthBytes": 500,
+  "vectors": [
+    {
+      "id": "VEC-01",
+      "nonce": "chal_7f9a2b1c4e6d8f0a1b2c3d4e5f6a7b8c",
+      "uid": "usr_worker_ka_560001",
+      "action": "ENROLLMENT",
+      "captureDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "description": "Standard worker enrollment with empty image digest (boundary test)",
+      "canonicalString": "chal_7f9a2b1c4e6d8f0a1b2c3d4e5f6a7b8c:usr_worker_ka_560001:ENROLLMENT:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteLength": 134,
+      "expectedSha256Hex": "42708e7313e9a3e1910b3235476c9555665176a29f6042341e5f175ce5735f97"
+    },
+    {
+      "id": "VEC-02",
+      "nonce": "chal_a1b2c3d4e5f60718293a4b5c6d7e8f90",
+      "uid": "usr_hirer_blr_00192",
+      "action": "VERIFICATION",
+      "captureDigest": "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e",
+      "description": "Standard 1:1 verification with SHA-256 of synthetic 112x112 JPEG face crop",
+      "canonicalString": "chal_a1b2c3d4e5f60718293a4b5c6d7e8f90:usr_hirer_blr_00192:VERIFICATION:a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e",
+      "byteLength": 135,
+      "expectedSha256Hex": "5defcbff6005daa6341db7d019208f3fa70754b44ebd321c7de0f5609f6d8ce8"
+    },
+    {
+      "id": "VEC-03",
+      "nonce": "chal_99887766554433221100aabbccddeeff",
+      "uid": "usr_special_chars_!@#",
+      "action": "ENROLLMENT",
+      "captureDigest": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+      "description": "Special characters in UID to test canonical string encoding boundary",
+      "canonicalString": "chal_99887766554433221100aabbccddeeff:usr_special_chars_!@#:ENROLLMENT:2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+      "byteLength": 135,
+      "expectedSha256Hex": "33aa06dafbaf8dc2ac0ddd87b6d7df253ff01da759cbd82e175dc031d693690e"
+    },
+    {
+      "id": "VEC-04",
+      "nonce": "chal_uuid_v4_8e1e7f3c-5a9e-4b72-8f19-9a2c1b4d5e6f",
+      "uid": "usr_very_long_karnataka_panchayat_district_worker_id_9928192847192847192847",
+      "action": "STEP_UP_REVERIFICATION",
+      "captureDigest": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "description": "Long identifiers testing max size constraint (under 500 bytes Google Play limit)",
+      "canonicalString": "chal_uuid_v4_8e1e7f3c-5a9e-4b72-8f19-9a2c1b4d5e6f:usr_very_long_karnataka_panchayat_district_worker_id_9928192847192847192847:STEP_UP_REVERIFICATION:4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+      "byteLength": 213,
+      "expectedSha256Hex": "74cb5cc1140ea974eaab46888730bad8a5c53f4604bb7f8267e20fa3f9e743eb"
+    }
+  ]
+}

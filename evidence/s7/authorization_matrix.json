@@ -1,0 +1,59 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "standard_reference": "OWASP API Security Top 10 (2023) & ASVS Level 2"
+  },
+  "endpoints": [
+    {
+      "route": "POST /api/biometrics/challenge",
+      "unauthenticated": "DENY (401)",
+      "worker": "ALLOW (Own UID only)",
+      "hirer": "ALLOW (Own UID only)",
+      "admin": "ALLOW",
+      "cross_user_spoof": "DENY (403)",
+      "rate_limited": "ALLOW (60 req/min limit)"
+    },
+    {
+      "route": "POST /api/biometrics/enroll",
+      "unauthenticated": "DENY (401)",
+      "worker": "ALLOW (Own account)",
+      "hirer": "ALLOW (Own account)",
+      "admin": "ALLOW",
+      "cross_user_spoof": "DENY (403 - Bound to UID)",
+      "payload_cap": "5 MB max"
+    },
+    {
+      "route": "POST /api/biometrics/verify-1to1",
+      "unauthenticated": "DENY (401)",
+      "worker": "ALLOW (Own account)",
+      "hirer": "ALLOW (Own account)",
+      "admin": "ALLOW",
+      "cross_user_spoof": "DENY (403 - Nonce bound to UID)",
+      "timing_padded": "150 ms uniform bucket"
+    },
+    {
+      "route": "POST /api/biometrics/deduplicate-1ton",
+      "unauthenticated": "DENY (401)",
+      "worker": "DENY (403 - Restricted to Server Internal / Admin)",
+      "hirer": "DENY (403)",
+      "admin": "ALLOW",
+      "cross_user_spoof": "DENY (403)"
+    },
+    {
+      "route": "DELETE /api/biometrics/template",
+      "unauthenticated": "DENY (401)",
+      "worker": "ALLOW (Right to Erasure - Own template)",
+      "hirer": "ALLOW (Right to Erasure - Own template)",
+      "admin": "ALLOW",
+      "cross_user_spoof": "DENY (403 - Cannot delete other users' templates)"
+    },
+    {
+      "route": "GET /api/biometrics/health",
+      "unauthenticated": "ALLOW (Public liveness probe)",
+      "worker": "ALLOW",
+      "hirer": "ALLOW",
+      "admin": "ALLOW",
+      "cross_user_spoof": "N/A"
+    }
+  ]
+}

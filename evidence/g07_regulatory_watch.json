@@ -1,0 +1,11 @@
+{
+  "ticket": "G-07",
+  "description": "Regulatory Watch: DPDP Act 2023 & UIDAI Circular Compliance",
+  "tracked_regulations": [
+    "Digital Personal Data Protection Act (DPDPA) 2023 - Ministry of Electronics and IT",
+    "Aadhaar (Targeted Delivery of Financial and other Subsidies, Benefits and Services) Act 2016",
+    "UIDAI Compendium of Regulations on Authentication (2023)"
+  ],
+  "reg_review_required_items": 0,
+  "verdict": "DONE-VERIFIED"
+}

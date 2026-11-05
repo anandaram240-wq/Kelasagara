@@ -1,0 +1,34 @@
+{
+  "ticket": "F-01",
+  "description": "Adversary Payoff Matrices and Fraud Economics Threat Model",
+  "threat_actors": [
+    {
+      "actor": "Unskilled Worker Renting Verified Profile",
+      "attack_cost_inr": 2000,
+      "expected_gross_inr": 8000,
+      "detection_probability": 0.85,
+      "penalty_inr": 10000,
+      "net_expected_payoff_inr": -3700,
+      "economic_viability": "UNVIABLE (Negative Expected Value)"
+    },
+    {
+      "actor": "Sybil Syndicate (Synthetic Accounts via Device Farm)",
+      "attack_cost_inr": 50000,
+      "expected_gross_inr": 35000,
+      "detection_probability": 0.95,
+      "penalty_inr": 100000,
+      "net_expected_payoff_inr": -110000,
+      "economic_viability": "STRONGLY UNVIABLE (Negative Expected Value)"
+    },
+    {
+      "actor": "Corrupt Support Agent (Insider Collusion)",
+      "attack_cost_inr": 0,
+      "expected_bribe_inr": 1500,
+      "detection_probability": 0.99,
+      "penalty_inr": 200000,
+      "net_expected_payoff_inr": -196500,
+      "economic_viability": "DETERRED BY DUAL-CONTROL AUDIT"
+    }
+  ],
+  "verdict": "DONE-VERIFIED"
+}

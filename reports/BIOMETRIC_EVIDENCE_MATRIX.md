@@ -1,0 +1,25 @@
+# KELASAGARA BIOMETRIC ENGINE
+## Biometric Evidence Matrix & Remediation Traceability
+
+**Document Date:** October 23, 2026  
+**Auditor:** Principal Biometric Systems Architect  
+**Scope:** Full-System Traceability across Findings, Code Locations, Changes, and Empirical Evidence  
+
+---
+
+| Finding / Claim ID | Severity | Source File & Line | Corrective Engineering Change | Empirical Test Evidence | Unresolved Limitations / Prerequisites |
+| :--- | :---: | :--- | :--- | :--- | :--- |
+| **SEC-01 (Vault Exposure)** | **CRITICAL** | `firestore.rules:716` | Sealed `biometric_vault/{uid}` rule: `allow read, write: if false;`. Direct client queries denied. | Firestore emulator / rules syntax validation passed. Direct SDK reads return Permission Denied. | Deployment requires authorized Firebase deploy CLI execution (`firebase deploy --only firestore:rules`). |
+| **SEC-02 (Client Gallery Query)**| **CRITICAL** | `biometric_service.dart:1060-1160` | Excised `_db.collection('biometric_vault').limit(500).get()` from `crossAccountCheck` and removed `_directFirestoreEnroll`. | `flutter analyze` passed with 0 issues; 67/67 Flutter biometric tests passed. | None. Client code completely remediated in repository. |
+| **SEC-03 (Client Vector Injection)**| **HIGH** | `backend/src/routes/face_routes.ts` | Installed `checkForbiddenVectorFields` middleware; removed `probeVector` from client payload. | `npm test` Stage S9 Test 2B passed: all client vector fields rejected with HTTP 400 Bad Request. | None. |
+| **SEC-04 (Challenge Replay)** | **HIGH** | `backend/src/services/face_inference.ts` | Implemented atomic single-use nonce consumption bound to UID with 120s TTL. | `npm test` Redteam Test 2 passed: replay attack intercepted and blocked (Invariant I-05). | None. |
+| **SEC-05 (Timing Oracle)** | **MEDIUM** | `backend/src/routes/face_routes.ts` | Enforced constant-time response bucketing padded to $\ge 300\text{ ms}$. | `npm test` Stage S9 Test 5 passed: latency padding verified (151 ms padded to 300 ms). | Adds ~150 ms floor to fast network responses. |
+| **ARC-01 (Contract Mismatch)** | **HIGH** | `face_routes.ts` vs `biometric_service.dart` | Repaired client `crossAccountCheck` to post `{'imageBase64': ...}` matching backend expectations. | `npm test` Stage S9 Test 8 passed: 1:N cross-account check correctly scans gallery and returns status. | None. |
+| **ARC-02 (Model Schism)** | **HIGH** | `face_inference.ts` vs `landmark_embedding.dart` | Established SFace 2021dec ONNX as sole authoritative identity model ($\mathbb{S}^{127}_{\text{SFace}}$). | SFace ONNX SHA-256 verified (`0ba9fbfa...`); 128/128 backend tests passing. | Client landmark extraction retained solely for quality & blink, not recognition. |
+| **STAT-01 (Threshold Conflation)**| **MEDIUM** | `backend/src/config/biometric_config.ts` | Decoupled 1:1 threshold ($\tau = 0.38$) from 1:N threshold ($\tau_{\text{dup}} = 0.74$, $\tau_{\text{hard}} = 0.90$). | Cumulative risk analysis mathematically demonstrated in `BIOMETRIC_MATCHING_EVALUATION_PLAN.md`. | Field trials pending to measure empirical FMR/FNMR on local population. |
+| **CRYP-01 (Delimiter Collision)** | **HIGH** | `backend/src/services/kms_envelope_encryption.ts` | Implemented length-prefixed binary canonical AAD serialization. | `npm test` Stage S8 Test 2 passed: boundary shifting strictly defeated; Stage S3 Mutant 2 killed. | Requires Cloud KMS GCP credentials in production environment. |
+| **QUA-01 (ISO 29794-5 Quality)** | **MEDIUM** | `lib/biometrics/advanced_landmark_analyzer.dart` | Extracted 133 landmarks; enforced IPD $\ge 90$px, $|yaw| \le 5^\circ$, $\sigma^2_L \ge 110$. | Tested across 30 master scenarios in `biometric_v5_master_scenarios_test.dart`. | Lighting variations $< 30\text{ lux}$ require user guidance to move to better light. |
+| **PAD-01 (Presentation Attack)** | **HIGH** | `lib/biometrics/iso30107_pad_controller.dart` | Combined kinematic EAR tracking (5 frames open, 2 closed) with 2D Laplacian texture filter. | Evaluated against CelebA-Spoof: composite APCER 3.64%, BPCER 1.34% for Level 1 attacks. | Level 2 3D silicone mask testing requires specialized physical hardware. |
+| **PRI-01 (DPDPA Right to Erasure)**| **HIGH** | `backend/src/routes/face_routes.ts` | Implemented `DELETE /api/biometrics/template` executing zero-out and index eviction. | `npm test` Stage S9 Test 10 passed: template deleted, audit log committed, cache evicted. | Requires active user authentication. |
+| **LIC-01 (YuNet Licensing)** | **LOW** | `research/V12_MODEL_LICENSE_MANIFEST.csv` | Reclassified YuNet detector license from Apache 2.0 to MIT License. | License text verified in OpenCV Zoo official source repository. | Both MIT and Apache 2.0 permit commercial SaaS operation. |
+| **EMP-01 (Real-World Trials)** | **MEDIUM** | `reports/BIOMETRIC_MATCHING_EVALUATION_PLAN.md` | Replaced synthetic 0% error claims with Clopper-Pearson 95% confidence intervals and protocol. | Verified via Clopper-Pearson binomial statistical formulas. | Formal demographic field trial ($N=2,500$) scheduled for Canary Phase. |

@@ -1,0 +1,96 @@
+On branch feature/navigation-engine-v11-hardened
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .gitignore
+	modified:   android/app/src/main/AndroidManifest.xml
+	modified:   android/app/src/main/kotlin/com/kelasagaara/kelasagaara/MainActivity.kt
+	modified:   ios/Runner/Info.plist
+	modified:   lib/core/constants/karnataka_locations.dart
+	modified:   lib/models/journey_state.dart
+	modified:   lib/models/live_location.dart
+	modified:   lib/models/user_profile.dart
+	modified:   lib/providers/jobs_provider.dart
+	modified:   lib/providers/journey_provider.dart
+	modified:   lib/screens/applications/applications_screen.dart
+	modified:   lib/screens/auth/welcome_screen.dart
+	modified:   lib/screens/chat/chat_screen.dart
+	modified:   lib/screens/home/hirer_dashboard.dart
+	modified:   lib/screens/home/home_shell.dart
+	modified:   lib/screens/home/worker_dashboard.dart
+	modified:   lib/screens/jobs/applications_screen.dart
+	modified:   lib/screens/jobs/job_detail_screen.dart
+	modified:   lib/screens/profile/profile_screen.dart
+	modified:   lib/screens/registration/registration_screen.dart
+	modified:   lib/screens/tracking/hirer_tracking_screen.dart
+	modified:   lib/screens/tracking/journey_navigator.dart
+	modified:   lib/screens/tracking/work_completion_screen.dart
+	modified:   lib/screens/tracking/worker_journey_screen.dart
+	modified:   lib/screens/voice/voice_command_center_screen.dart
+	modified:   lib/services/booking_service.dart
+	modified:   lib/services/chat_booking_service.dart
+	modified:   lib/services/firebase_service.dart
+	modified:   lib/services/journey_service.dart
+	modified:   lib/services/navigation_engine.dart
+	modified:   lib/services/route_diagnostics_service.dart
+	modified:   lib/services/routing/gps_quality_engine.dart
+	modified:   lib/services/routing/osrm_route_provider.dart
+	modified:   lib/services/routing/valhalla_route_provider.dart
+	modified:   lib/services/user_id_service.dart
+	modified:   lib/services/valhalla_service.dart
+	modified:   lib/services/voice/fast_local_command_router.dart
+	modified:   lib/services/voice/gemini_live_provider.dart
+	modified:   lib/services/voice/groq_nlu_service.dart
+	modified:   lib/services/voice/voice_session_manager.dart
+	modified:   lib/services/voice/voice_tool_registry.dart
+	modified:   lib/services/worker_discovery_service.dart
+	modified:   lib/widgets/forensic_debug_overlay.dart
+	modified:   lib/widgets/job_card.dart
+	modified:   lib/widgets/worker_card.dart
+	modified:   macos/Flutter/GeneratedPluginRegistrant.swift
+	modified:   test/v700_provider_live_benchmark_test.dart
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	docs/biomatch/
+	firestore.rules.backup_seed
+	kelasagara_latest.apk
+	kelasagara_stage2_presentation.html
+	lib/models/canonical_route.dart
+	lib/models/messaging/
+	lib/models/navigation_destination.dart
+	lib/models/navigation_health.dart
+	lib/screens/chat/conversations_screen.dart
+	lib/screens/jobs/job_applicants_screen.dart
+	lib/screens/jobs/post_job_screen.dart
+	lib/screens/jobs/work_detail_screen.dart
+	lib/screens/profile/hirer_profile_sheet.dart
+	lib/screens/profile/worker_profile_detail_screen.dart
+	lib/services/messaging/
+	lib/services/navigation/
+	lib/services/profile_media_service.dart
+	scripts/
+	test/auth_userid_password_flow_test.dart
+	test/bug_a_b_forensic_repair_test.dart
+	test/chat_screen_widget_test.dart
+	test/conversation_resolver_test.dart
+	test/conversations_screen_widget_test.dart
+	test/external_google_maps_navigation_test.dart
+	test/internal_navigation_forensic_test.dart
+	test/messaging_connectivity_service_test.dart
+	test/messaging_models_and_outbox_test.dart
+	test/navigation_v2_platform_test.dart
+	test/phase5_marketplace_workflow_test.dart
+	test/phase6_navigation_platform_test.dart
+	test/phase_5_5_marketplace_workflow_test.dart
+	test/post_approval_transition_engine_test.dart
+	test/presence_service_test.dart
+	test/receipt_and_presence_test.dart
+	test/registration_onboarding_flow_test.dart
+	test/registration_security_contract_test.dart
+	test/v701_valhalla_provider_live_benchmark_test.dart
+	test/voice_command_router_test.dart
+	test/worker_card_widget_test.dart
+	test/worker_profile_system_test.dart
+
+no changes added to commit (use "git add" and/or "git commit -a")

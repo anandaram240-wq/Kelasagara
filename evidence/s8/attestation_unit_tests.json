@@ -1,0 +1,86 @@
+{
+  "testSuite": "backend/src/tests/play_integrity_attestation.test.ts",
+  "workPackage": "S8-B",
+  "gapRemediated": "GAP-01 (Play Integrity Attestation & Canonical Request Hash Binding)",
+  "executedAt": "2026-10-11T01:34:43Z",
+  "environment": {
+    "nodeVersion": "v20.17.0",
+    "os": "darwin-arm64",
+    "architecture": "aarch64",
+    "runner": "node:test"
+  },
+  "metrics": {
+    "totalTests": 8,
+    "passedTests": 8,
+    "failedTests": 0,
+    "skippedTests": 0,
+    "durationMs": 67.934458,
+    "successRatePercent": 100.0
+  },
+  "tests": [
+    {
+      "id": "PIA-01",
+      "name": "computes canonical requestHash and verifies identical binding",
+      "status": "PASS",
+      "durationMs": 0.687458,
+      "invariants": ["I-25"],
+      "bindingFormula": "SHA-256(nonce:uid:action:captureDigest)"
+    },
+    {
+      "id": "PIA-02",
+      "name": "evaluates integrity verdict tiers (Strong, Device, Basic)",
+      "status": "PASS",
+      "durationMs": 0.435042,
+      "invariants": ["I-26"],
+      "tiersVerified": ["MEETS_STRONG_INTEGRITY", "MEETS_DEVICE_INTEGRITY", "MEETS_BASIC_INTEGRITY"]
+    },
+    {
+      "id": "PIA-03",
+      "name": "rejects tokens issued for rogue or re-packaged apps",
+      "status": "PASS",
+      "durationMs": 0.1785,
+      "invariants": ["I-26"],
+      "expectedPackage": "com.kelasagara.app"
+    },
+    {
+      "id": "PIA-04",
+      "name": "rejects stale attestation tokens exceeding maximum age limit",
+      "status": "PASS",
+      "durationMs": 0.127083,
+      "invariants": ["I-05", "I-26"],
+      "maxAgeLimitMs": 180000
+    },
+    {
+      "id": "PIA-05",
+      "name": "detects and blocks tokens with mismatched requestHash",
+      "status": "PASS",
+      "durationMs": 0.119,
+      "invariants": ["I-25"],
+      "tamperingIntercepted": true
+    },
+    {
+      "id": "PIA-06",
+      "name": "catches Frida, Xposed hooking, and emulated device signatures",
+      "status": "PASS",
+      "durationMs": 0.147083,
+      "invariants": ["I-26"],
+      "verdict": "EMULATOR_HOOKING_DETECTED"
+    },
+    {
+      "id": "PIA-07",
+      "name": "strictly blocks allowDevBypass in production environment",
+      "status": "PASS",
+      "durationMs": 0.244292,
+      "invariants": ["I-26"],
+      "productionGuaranteed": true
+    },
+    {
+      "id": "PIA-08",
+      "name": "GooglePlayIntegrityVerifier fails closed as UNVERIFIED-LIVE without credentials",
+      "status": "PASS",
+      "durationMs": 0.125042,
+      "statusClassification": "UNVERIFIED-LIVE",
+      "failClosed": true
+    }
+  ]
+}

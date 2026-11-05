@@ -1,0 +1,22 @@
+{
+  "ticket": "J-05",
+  "description": "Official Stage S-0, S-1, and S-2 Go / No-Go Decision",
+  "decisions": {
+    "S-0": {
+      "stage": "Shadow Mode (Internal Passive Observer)",
+      "verdict": "GO",
+      "rationale": "Gates GATE-S6-01 through GATE-S6-07 PASS. Zero user impact, p95 latency 13.26ms < 30ms, zero raw images stored."
+    },
+    "S-1": {
+      "stage": "Opt-In Limited Pilot (Explicit Consent & 100% Fallback)",
+      "verdict": "GO",
+      "rationale": "Gates GATE-S6-08 through GATE-S6-12 PASS. Human KYC review operational, 100% Document KYC alternative active, kill switch verified (18.5s < 60s)."
+    },
+    "S-2": {
+      "stage": "Limited Enforcement (Production Verification Shift)",
+      "verdict": "NO-GO",
+      "rationale": "AUTOMATIC NO-GO (Rule A-06 Default): In-domain consented Karnataka cohort (N=200) uncollected and Institutional Ethics Approval pending."
+    }
+  },
+  "verdict": "DONE-VERIFIED"
+}

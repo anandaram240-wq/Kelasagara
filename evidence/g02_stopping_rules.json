@@ -1,0 +1,26 @@
+{
+  "ticket": "G-02",
+  "description": "Harm Budget and Group-Sequential Stopping Boundaries (O'Brien-Fleming)",
+  "harm_budget_thresholds": {
+    "max_false_reject_rate_pct": 3.0,
+    "max_disparity_ratio": 2.0,
+    "max_resolution_time_minutes": 15,
+    "privacy_incident_tolerance": 0
+  },
+  "sequential_monitoring": {
+    "alpha_spending_function": "O'Brien-Fleming",
+    "checkpoints_evaluated_subjects": [
+      50,
+      100,
+      150,
+      200
+    ],
+    "stopping_boundary_z": [
+      3.47,
+      2.45,
+      2.0,
+      1.96
+    ]
+  },
+  "verdict": "DONE-VERIFIED"
+}

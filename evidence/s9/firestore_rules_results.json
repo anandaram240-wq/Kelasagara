@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-FIRESTORE-RULES",
+  "timestampUtc": "2026-10-11T05:13:15Z",
+  "rulesFile": "firestore.rules",
+  "totalLines": 734,
+  "collectionsAudited": [
+    {
+      "collection": "biometric_vault/{uid}",
+      "lines": "709-714",
+      "clientRead": "DENIED (allow read: if false)",
+      "clientCreate": "DENIED (allow create: if false)",
+      "clientUpdate": "DENIED (allow update: if false)",
+      "clientDelete": "DENIED (allow delete: if false)",
+      "serverBypass": "Firebase Admin SDK via backend microservice only",
+      "verdict": "VERIFIED_ZERO_CLIENT_ACCESS"
+    },
+    {
+      "collection": "biometric_audit_logs/{logId}",
+      "lines": "716-720",
+      "clientRead": "RESTRICTED (isAdmin() only)",
+      "clientWrite": "DENIED (allow create, update, delete: if false)",
+      "serverBypass": "Admin SDK only",
+      "verdict": "VERIFIED_ADMIN_READ_ONLY"
+    },
+    {
+      "collection": "biometric_rate_limits/{uid}",
+      "lines": "722-725",
+      "clientRead": "DENIED (allow read: if false)",
+      "clientWrite": "DENIED (allow write: if false)",
+      "serverBypass": "Admin SDK only",
+      "verdict": "VERIFIED_ZERO_CLIENT_ACCESS"
+    },
+    {
+      "collection": "{document=**} (Default Catch-All)",
+      "lines": "729-731",
+      "clientRead": "DENIED (allow read: if false)",
+      "clientWrite": "DENIED (allow write: if false)",
+      "verdict": "VERIFIED_FAIL_CLOSED_DEFAULT"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-CONCURRENCY",
+  "timestampUtc": "2026-10-11T05:13:30Z",
+  "concurrencyMechanism": "Distributed 60-Second Leased Lock via Firestore Transaction",
+  "testSuite": "backend/dist/tests/cross_tenant_isolation.test.js",
+  "scenariosTested": [
+    {
+      "testId": "CTI-05",
+      "name": "Serializes concurrent enrollment requests and rejects simultaneous collisions",
+      "mechanism": "SessionManager.reserveEnrollmentSession(uid)",
+      "leaseDurationSeconds": 60,
+      "collisionOutcome": "Second concurrent request throws 409 Conflict (ENROLLMENT_IN_PROGRESS)",
+      "verdict": "PASS"
+    },
+    {
+      "testId": "CTI-06",
+      "name": "Allows new enrollment attempt after previous session completes or fails",
+      "mechanism": "SessionManager.releaseEnrollmentSession(uid)",
+      "recoveryOutcome": "Clean release enables subsequent enrollment without artificial delay",
+      "verdict": "PASS"
+    },
+    {
+      "testId": "REPLAY-02",
+      "name": "Attacker attempts replay of consumed nonce",
+      "mechanism": "SessionChallengeService.consumeChallenge(nonce, uid, action)",
+      "collisionOutcome": "Single-use state blocks second execution (Invariant I-05)",
+      "verdict": "PASS"
+    },
+    {
+      "testId": "THEFT-03",
+      "name": "Attacker attempts to use victim's challenge across sessions",
+      "mechanism": "Strict uid identity binding on challenge document",
+      "collisionOutcome": "Cross-user theft blocked with 403 Forbidden (Invariant I-04)",
+      "verdict": "PASS"
+    }
+  ]
+}

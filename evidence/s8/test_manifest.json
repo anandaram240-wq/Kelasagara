@@ -1,0 +1,255 @@
+{
+  "backend_tests": [
+    {
+      "file": "api_routes_integration.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "attack_dry_run.test.js",
+      "suites": 1,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "biometric_backend.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "calibration_decision_engine.test.js",
+      "suites": 1,
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "chaos_fault_injection.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "ci_regression_guard.test.js",
+      "suites": 1,
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "concurrency_vault_store.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "cryptographic_assurance.test.js",
+      "suites": 1,
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "data_architecture_state_machine.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "dpdpa_privacy_compliance.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "fairness_and_robustness.test.js",
+      "suites": 1,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "golden_vector_parity.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "in_memory_index_benchmark.test.js",
+      "suites": 1,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "inference_redundancy.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "invariant_registry_integrity.test.js",
+      "suites": 1,
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "model_bakeoff_selection.test.js",
+      "suites": 1,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "mutation_integrity.test.js",
+      "suites": 1,
+      "tests": 12,
+      "pass": 12,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "phase_b_measurements.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "phase_c_security_and_lifecycle.test.js",
+      "suites": 5,
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "pipeline_audit_ablations.test.js",
+      "suites": 1,
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "quality_and_template_privacy.test.js",
+      "suites": 1,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "real_embedding_index_and_evasion.test.js",
+      "suites": 1,
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "research_model_governance.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "security_hardening.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "server_landmark_liveness.test.js",
+      "suites": 1,
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "stage_s3_mutation_suite.test.js",
+      "suites": 1,
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    },
+    {
+      "file": "test_liveness_injection_bypass.test.js",
+      "suites": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "exit_code": 0
+    }
+  ],
+  "totals": {
+    "files": 27,
+    "suites": 19,
+    "tests": 98,
+    "pass": 98,
+    "fail": 0,
+    "skip": 0
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "ticket": "F-03",
+  "description": "Insider Abuse, Dual-Control Overrides, and Anomaly Monitoring",
+  "mechanisms": [
+    {
+      "mechanism": "Dual-Control Manual Overrides",
+      "rule": "No single admin can approve a flagged biometric duplicate or KYC dispute; requires two independent reviewer cryptographic signatures."
+    },
+    {
+      "mechanism": "Reviewer Statistical Anomaly Engine",
+      "rule": "Automated alarm if a reviewer's approval rate exceeds 2 sigma from team mean or processes > 30 reviews/hour."
+    },
+    {
+      "mechanism": "Tamper-Evident Audit Chain",
+      "rule": "Every biometric match decision logged with SHA-256 hash chaining to Firestore audit collection."
+    }
+  ],
+  "verdict": "DONE-VERIFIED"
+}

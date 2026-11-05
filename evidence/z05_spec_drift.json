@@ -1,0 +1,64 @@
+{
+  "ticket": "Z-05",
+  "description": "Standards and Regulatory Drift Audit across Biometrics, Cryptography, and Privacy Law",
+  "corpus_sha256": "a7a4c18ea327a13fec07aaa1a466299859a1a9026f7c97c6618a0fb5e9c55647",
+  "standards_count": 7,
+  "standards": [
+    {
+      "id": "ISO-19794-5",
+      "title": "ISO/IEC 19794-5:2011 / ISO/IEC 29794-5:2024 (Biometric data interchange formats - Face)",
+      "current_edition": "29794-5:2024 (under transition from 19794-5:2011)",
+      "cited_clause": "Frontal face capture, inter-pupillary distance >= 60px, pose deviation <= 15 deg",
+      "repo_status": "COMPLIANT (Quality gate checks IPD and yaw/pitch)",
+      "drift_detected": false
+    },
+    {
+      "id": "ISO-30107-3",
+      "title": "ISO/IEC 30107-3:2023 (Presentation attack detection - Testing and reporting)",
+      "current_edition": "30107-3:2023",
+      "cited_clause": "APCER / BPCER reporting, Level 1 & Level 2 2D print/replay attack types",
+      "repo_status": "COMPLIANT (PAD evaluator logs APCER/BPCER)",
+      "drift_detected": false
+    },
+    {
+      "id": "ISO-24745",
+      "title": "ISO/IEC 24745:2022 (Biometric information protection)",
+      "current_edition": "24745:2022",
+      "cited_clause": "Irreversibility, Unlinkability, Renewability of biometric templates",
+      "repo_status": "RESTATED (S3 claimed keyed rotation achieves 24745; S6 attack T-02/T-03 refutes cryptographic security)",
+      "drift_detected": true
+    },
+    {
+      "id": "ISO-30136",
+      "title": "ISO/IEC 30136:2018 (Performance testing of biometric template protection schemes)",
+      "current_edition": "30136:2018",
+      "cited_clause": "Mated vs non-mated distance distributions, Gomez-Barrero D_lr unlinkability metric",
+      "repo_status": "APPLIED (Implemented in Track T unlinkability evaluation)",
+      "drift_detected": false
+    },
+    {
+      "id": "UIDAI-FACE-RD-2.0",
+      "title": "UIDAI Face RD Service Specification v2.1",
+      "current_edition": "v2.1 (2023)",
+      "cited_clause": "PID block encryption using UIDAI public certificate, signed device info, PID XML schema",
+      "repo_status": "MAPPED (Contract stubbed; production requires STQC certification)",
+      "drift_detected": false
+    },
+    {
+      "id": "STQC-BDCS",
+      "title": "STQC Biometric Device Certification Scheme for Face RD",
+      "current_edition": "BDCS-03 (2022)",
+      "cited_clause": "Hardware security environment, key storage in TEE/SE, anti-spoofing certification",
+      "repo_status": "NOT CERTIFIED (Documented as gap in Scorecard B)",
+      "drift_detected": false
+    },
+    {
+      "id": "DPDPA-2023",
+      "title": "Digital Personal Data Protection Act, 2023 (India)",
+      "current_edition": "Act No. 22 of 2023 (Rules pending publication)",
+      "cited_clause": "Section 4-9 (Notice, Consent, Purpose Limitation), Section 12 (Erasure), Section 15 (Fiduciary obligations)",
+      "repo_status": "COMPLIANT (Zero raw image retention, envelope crypto-shredding, purpose-limited embeddings)",
+      "drift_detected": false
+    }
+  ]
+}

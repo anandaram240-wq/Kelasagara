@@ -1,0 +1,23 @@
+{
+  "ticket": "A-02",
+  "gate": "GATE-S6-03",
+  "description": "Planted-truth simulation and negative control verification for analysis engine",
+  "simulation": {
+    "n_sims": 1000,
+    "n_trials": 200,
+    "true_parameter": 0.03,
+    "empirical_95_coverage": 0.955,
+    "coverage_passed": true
+  },
+  "leakage_guard": {
+    "planted_overlap_count": 50,
+    "leakage_detected": true,
+    "passed": true
+  },
+  "negative_control": {
+    "scrambled_auc": 0.4835,
+    "random_cllr": 1.1847,
+    "passed": true
+  },
+  "verdict": "DONE-VERIFIED"
+}

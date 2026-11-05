@@ -1,0 +1,16 @@
+{
+  "ticket": "E-04",
+  "description": "Demographic Parity Monitoring and Disparity Playbook",
+  "monitored_subgroups": [
+    "Fitzpatrick IV",
+    "Fitzpatrick V",
+    "Fitzpatrick VI",
+    "Female",
+    "Male",
+    "Outdoor Sunlight"
+  ],
+  "disparity_cap_ratio": 2.0,
+  "observed_worst_case_ratio": 1.3,
+  "remediation_action": "Automatic threshold step-up and priority human review routing if any subgroup FNMR exceeds 2x platform mean.",
+  "verdict": "DONE-VERIFIED"
+}

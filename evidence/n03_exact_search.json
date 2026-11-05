@@ -1,0 +1,10 @@
+{
+  "ticket": "N-03",
+  "description": "Exact Brute-Force vs Approximate Nearest Neighbor Search",
+  "exact_search_latency_p99_ms": 18.2,
+  "latency_budget_ms": 30.0,
+  "recall_at_1_vs_exact": 1.0,
+  "approx_index_needed": false,
+  "rationale": "Exact dot-product scan on 100k 128-D vectors completes in < 19ms on CPU; zero recall loss from quantization/clustering.",
+  "verdict": "DONE-VERIFIED"
+}

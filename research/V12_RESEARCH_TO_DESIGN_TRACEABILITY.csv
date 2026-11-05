@@ -1,0 +1,15 @@
+Research_Paper,Key_Contribution,Architectural_Component,Implementation_File,Enforced_Invariant
+Zhong et al. (2021) SFace,Sigmoid-constrained hypersphere loss for robust 128-d face recognition,Authoritative Feature Extractor,backend/src/services/face_inference.ts,Invariant I-18 (sface_opencv_zoo_v1_primary)
+Deng et al. (2019) ArcFace,Geodesic distance on unit hypersphere S^127,Cosine Metric Calibration,backend/src/services/biometric_matching.ts,Invariant I-01 (||v|| = 1.0)
+Umeyama (1991),Closed-form least-squares Procrustes similarity transform,Facial Crop Affine Normalization,backend/src/services/face_preprocessing.ts,Invariant I-19 (112x112 canonical crop)
+Soukupova & Cech (2016),Eye Aspect Ratio (EAR) for real-time blink detection,Kinematic Liveness Detection,lib/screens/auth/face_enrollment_screen.dart,ISO 30107-3 Kinematic Gating
+Pech-Pacheco et al. (2000),2D discrete Laplacian variance for focus measurement,Sharpness & Defocus Quality Gating,lib/biometrics/iso30107_pad_controller.dart,ISO 29794-5 Sharpness (sigma^2 >= 110)
+ISO/IEC 29794-5:2025,Biometric sample quality metrics for face images,Pre-Inference Quality Evaluator,lib/biometrics/advanced_landmark_analyzer.dart,ISO Quality Gate (IPD >= 90px; Yaw <= 5 deg)
+ISO/IEC 30107-3:2023,Presentation attack detection testing and metrics (APCER/BPCER),Multi-Stage Liveness Controller,lib/biometrics/iso30107_pad_controller.dart,PAD Level 1 Compliance
+ISO/IEC 24745:2022,Biometric information protection and template confidentiality,Sealed Vault & Cloud KMS Encryption,backend/src/services/kms_envelope_encryption.ts,Invariant I-02 (Sealed Vault)
+NIST SP 800-38D,Galois/Counter Mode (AES-GCM) with canonical AAD,Length-Prefixed Binary Canonical AAD,backend/src/services/kms_envelope_encryption.ts,Invariant I-04 (Delimiter Collision Defense)
+UIDAI Face RD v2.0,Registered Device isolation & WADH cryptographic binding,Request Hash Generator,lib/biometrics/integrity_request.dart,WADH Binding (SHA-256 of Nonce+Digest+Liveness)
+DPDPA 2023 Section 8(3),Protection of biometric identifiers and privacy masking,Masked Display ID & Safe Return DTOs,backend/src/services/biometric_matching.ts,DPDPA Identity Masking (KLS-xxx***yyy-1234)
+Grother et al. (2019) NISTIR 8280,Demographic disparities across facial cohorts,Threshold Separation (1:1 vs 1:N),backend/src/config/biometric_config.ts,Cumulative Risk Separation (1:1 @ 0.38 vs 1:N @ 0.74)
+Clopper & Pearson (1934),Binomial confidence intervals for error rates,Statistical Reporting Engine,reports/V12_BENCHMARK_RESULTS.md,95% Binomial Confidence Bounds
+Doddington et al. (1998),Doddington zoo biometric variability categorization,Gray-Zone Ambiguity Handling,backend/src/services/biometric_enrollment.ts,Invariant I-07 (0.65 <= sim < 0.74 Ambiguity Flag)

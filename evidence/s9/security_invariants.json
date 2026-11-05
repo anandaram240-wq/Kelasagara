@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "generatedAt": "2026-10-11T05:07:30Z",
+  "gitCommit": "6a2a1482fe90d41050fc61ac83cc8777291a4a06",
+  "invariantsCount": 14,
+  "invariants": [
+    {
+      "id": "SEC-01",
+      "name": "Request Authenticity",
+      "purpose": "Backend never treats client-decoded Play Integrity token contents as verified evidence without official cryptographic verification.",
+      "enforcingComponent": "backend/src/services/device_attestation.ts (DeviceAttestationService, PlayIntegrityVerifier)",
+      "positiveTest": "play_integrity_attestation.test.ts: should verify legitimate Play Integrity token with valid requestHash",
+      "negativeTest": "play_integrity_attestation.test.ts: should reject token when hooking or emulator signature detected",
+      "failureConsequence": "Attacker on rooted Android emulator can forge attestation verdicts and inject synthetic frames.",
+      "releaseGate": "GATE-06 (Live Google Play Integrity)"
+    },
+    {
+      "id": "SEC-02",
+      "name": "Request Binding",
+      "purpose": "Verified requestHash must equal server's independently calculated SHA-256(nonce:uid:action:captureDigest) digest (<= 500 bytes).",
+      "enforcingComponent": "backend/src/services/device_attestation.ts (computeRequestHash, verifyRequestHash)",
+      "positiveTest": "play_integrity_attestation.test.ts: should verify canonical requestHash binding",
+      "negativeTest": "play_integrity_attestation.test.ts: should reject token when requestHash does not match expected value",
+      "failureConsequence": "Replay of genuine device attestation token across different requests, users, or operations.",
+      "releaseGate": "GATE-06 (Live Google Play Integrity)"
+    },
+    {
+      "id": "SEC-03",
+      "name": "Freshness",
+      "purpose": "Stale or expired attestation tokens or capture frames cannot authorize sensitive biometric operations (max age 180s for token, 60s for capture).",
+      "enforcingComponent": "backend/src/services/device_attestation.ts (timestamp freshness validation)",
+      "positiveTest": "play_integrity_attestation.test.ts: should accept token within 180s freshness window",
+      "negativeTest": "play_integrity_attestation.test.ts: should reject expired attestation token",
+      "failureConsequence": "Replay of recorded authentic biometric transmissions hours or days after capture.",
+      "releaseGate": "GATE-06 / GATE-09"
+    },
+    {
+      "id": "SEC-04",
+      "name": "Single-Use State",
+      "purpose": "A single-use business challenge cannot successfully authorize multiple protected operations.",
+      "enforcingComponent": "backend/src/services/session_challenge_service.ts (consumeChallenge)",
+      "positiveTest": "test_liveness_injection_bypass.test.ts: Legitimate challenge-response passed successfully",
+      "negativeTest": "test_liveness_injection_bypass.test.ts: Replay attack successfully intercepted and blocked (Invariant I-05)",
+      "failureConsequence": "Replay attack authorizing multiple enrollments or identity verifications with one challenge.",
+      "releaseGate": "GATE-09 (Concurrency and Idempotency)"
+    },
+    {
+      "id": "SEC-05",
+      "name": "Envelope Integrity",
+      "purpose": "Modification of ciphertext, nonce, authentication tag or required authenticated context causes immediate rejection.",
+      "enforcingComponent": "backend/src/services/template_privacy.ts (decryptTemplateEnvelope, BIOMATCH_AAD_V1)",
+      "positiveTest": "aad_canonicalization.test.ts: should round-trip canonical AAD with exact binary equivalence",
+      "negativeTest": "aad_canonicalization.test.ts: should reject tampered binary AAD buffer",
+      "failureConsequence": "Ciphertext manipulation or malicious template forgery.",
+      "releaseGate": "GATE-02 (Cryptographic AAD) / GATE-03 (Envelope Encryption)"
+    },
+    {
+      "id": "SEC-06",
+      "name": "Tenant Isolation",
+      "purpose": "A caller cannot access another tenant's biometric record through ordinary application endpoints; cross-tenant AAD binding prevents template transplantation.",
+      "enforcingComponent": "backend/src/services/template_privacy.ts (TAG_TENANT_ID), cross_tenant_isolation.test.ts",
+      "positiveTest": "cross_tenant_isolation.test.ts: Tenant A decrypts Tenant A template successfully",
+      "negativeTest": "cross_tenant_isolation.test.ts: Tenant B cannot decrypt Tenant A template with different tenant AAD context",
+      "failureConsequence": "Cross-tenant biometric linkage and unauthorized identity matching across isolated organizations.",
+      "releaseGate": "GATE-07 (Cross-Tenant Authorization)"
+    },
+    {
+      "id": "SEC-07",
+      "name": "Key Separation",
+      "purpose": "The Cloud KMS KEK is not exported into application plaintext memory. Plaintext DEKs are not persisted and zeroized in RAM immediately after use.",
+      "enforcingComponent": "backend/src/services/kms_key_provider.ts, template_privacy.ts (dek.fill(0))",
+      "positiveTest": "template_migration.test.ts: creates v3_kms_gcm envelope containing wrapped DEK",
+      "negativeTest": "template_migration.test.ts: verifies stored envelope schema contains wrappedDek Buffer, not plaintext DEK",
+      "failureConsequence": "Database compromise leads to catastrophic offline decryption of all stored facial embeddings.",
+      "releaseGate": "GATE-03 / GATE-04 (Live Cloud KMS)"
+    },
+    {
+      "id": "SEC-08",
+      "name": "Migration Atomicity",
+      "purpose": "Migration failures cannot create false success states, silently downgrade security or irrecoverably overwrite source records.",
+      "enforcingComponent": "backend/src/services/template_migration.ts (TemplateMigrationService)",
+      "positiveTest": "template_migration.test.ts: MIG-02: Live migration commits valid v3_kms_gcm record and preserves vector fidelity",
+      "negativeTest": "template_migration.test.ts: MIG-04: Migration fails safely when source ciphertext is corrupted without damaging state",
+      "failureConsequence": "Permanent loss of biometric templates or silent corruption of worker authentication records.",
+      "releaseGate": "GATE-05 (Legacy Data Migration)"
+    },
+    {
+      "id": "SEC-09",
+      "name": "Authorization",
+      "purpose": "Knowing a UID, tenant identifier, document path or challenge ID does not grant permission without valid caller credentials.",
+      "enforcingComponent": "backend/src/routes/biometric_routes.ts (authMiddleware), firestore.rules",
+      "positiveTest": "security_hardening.test.ts: Authenticated requests with valid tokens succeed",
+      "negativeTest": "security_hardening.test.ts: All 4 sensitive biometric endpoints fail-closed with 401 when Authorization header is omitted",
+      "failureConsequence": "Horizontal privilege escalation and unauthenticated access to biometric endpoints.",
+      "releaseGate": "GATE-07 / GATE-08 (Firestore Security Rules)"
+    },
+    {
+      "id": "SEC-10",
+      "name": "Version Integrity",
+      "purpose": "Unsupported envelope and protocol versions are rejected rather than silently reinterpreted.",
+      "enforcingComponent": "backend/src/services/template_privacy.ts (verifyEnvelopeVersion)",
+      "positiveTest": "template_migration.test.ts: MIG-05: Batch migration handles heterogeneous envelope batches",
+      "negativeTest": "template_privacy.ts: throws error when envelope version is unknown or unsupported",
+      "failureConsequence": "Cryptographic downgrade attacks forcing execution of obsolete or vulnerable cipher modes.",
+      "releaseGate": "GATE-03 (Envelope Encryption)"
+    },
+    {
+      "id": "SEC-11",
+      "name": "Audit Privacy",
+      "purpose": "Logs and telemetry cannot contain unrestricted biometric payloads, plaintext DEKs, raw tokens or credentials.",
+      "enforcingComponent": "backend/src/services/tamper_evident_audit.ts, audit_service.ts",
+      "positiveTest": "test_manifest.json: tamper_evident_audit test validates log structure",
+      "negativeTest": "secret_scan.json: 648 files scanned with 0 leaks of embeddings, DEKs, or credentials",
+      "failureConsequence": "Biometric vectors or cryptographic keys leaked into log monitoring systems.",
+      "releaseGate": "GATE-11 (Operational Recovery & Telemetry)"
+    },
+    {
+      "id": "SEC-12",
+      "name": "Fail-Safe Behavior",
+      "purpose": "A required security check cannot fail and then allow the protected operation to proceed as if the check succeeded.",
+      "enforcingComponent": "backend/src/services/biometric_enrollment.ts, device_attestation.ts",
+      "positiveTest": "pipeline_audit_ablations.test.ts: pipeline aborts when any pre-check fails",
+      "negativeTest": "stage_s3_mutation_suite.test.ts: MUTANT-04 Quality gate bypass mutation is KILLED",
+      "failureConsequence": "Fail-open vulnerability allowing substandard or spoofed biometric samples into database.",
+      "releaseGate": "GATE-11 (Operational Recovery)"
+    },
+    {
+      "id": "SEC-13",
+      "name": "Human Review",
+      "purpose": "A biometric duplicate candidate alone cannot trigger an irreversible adverse worker decision; automated matches step up to human KYC.",
+      "enforcingComponent": "backend/src/services/biometric_matching.ts, lib/services/biometric_service.dart",
+      "positiveTest": "biometric_matching.ts: ambiguous match generates review ticket in admin queue",
+      "negativeTest": "invariant I-14 enforcement: high similarity score never triggers immediate wallet forfeiture",
+      "failureConsequence": "Wrongful automated termination of gig worker accounts due to algorithmic false positives.",
+      "releaseGate": "GATE-14 (Consequential Enforcement Authorization)"
+    },
+    {
+      "id": "SEC-14",
+      "name": "Evidence Provenance",
+      "purpose": "Every release claim is supported by an identifiable command, result, artifact and applicable environment.",
+      "enforcingComponent": "evidence/s9/MANIFEST.json, S9_RELEASE_GATES.md",
+      "positiveTest": "baseline.json: all 8 S8 manifest files match exact SHA-256 hashes",
+      "negativeTest": "S9_BASELINE.md: unconfigured live endpoints explicitly classified as EXTERNALLY_BLOCKED",
+      "failureConsequence": "Deployment decisions based on fabricated, outdated, or mock-only test results.",
+      "releaseGate": "GATE-01 / GATE-15 (Evidence-Based Release Decision)"
+    }
+  ]
+}

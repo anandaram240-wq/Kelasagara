@@ -1,0 +1,6 @@
+Model_ID,Artifact_File,Architecture,Task,Licence_Type,Commercial_Use_Allowed,Source_Repository,Verified_SHA256,File_Size_Bytes
+sface_opencv_zoo_v1_primary,models/face_recognition_sface_2021dec.onnx,MobileFaceNet+SigmoidHypersphere,1:1 Verification & 1:N Screening,Apache 2.0,YES,opencv/opencv_zoo,0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79,38696353
+yunet_opencv_zoo_detector,models/face_detection_yunet_2023mar.onnx,MobileNetV2-Lite-Detector,Face Detection & 5-Landmark Regression,MIT,YES,opencv/opencv_zoo,8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4,232589
+google_mlkit_face_detector,google_mlkit_face_detection (v0.13.0),MediaPipe/MobileNetV2,133-Point Facial Contour & Landmark Extraction,Apache 2.0,YES,Google ML Kit SDK,N/A (Dynamic AAR),N/A
+minifasnet_v2_se_pad,assets/models/minifasnet_v2_se.onnx,MobileFaceNet-SE+FFT,Passive ISO 30107-3 Liveness Classification,Apache 2.0,YES,minivision-ai/Silent-Face-Anti-Spoofing,Pending Integration,614400
+indicface128_int8_qdq,models/indicface128_int8_qdq.onnx,MobileFaceNet INT8 QDQ,Secondary / Edge Experimental Matching,Apache 2.0,YES,Local Kelasagara Compilation,cde3799f041eca6a6a99bfac53d9e97eb81ff34ac450d519aa41a9c99bef7d7c,1172885

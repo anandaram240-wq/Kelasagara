@@ -1,0 +1,53 @@
+{
+  "timestamp_utc": "2026-10-11T01:18:25Z",
+  "git_commit": "00645aec249ac0b771ef0c9165216253672a2e9b",
+  "git_tag": "s7-final",
+  "git_branch": "biomatch/s8-verification",
+  "toolchain": {
+    "node": "v24.14.0",
+    "npm": "11.9.0",
+    "python": "3.9.6",
+    "flutter": "3.47.1",
+    "dart": "3.13.1",
+    "os": "macOS Darwin arm64"
+  },
+  "model_hashes": {
+    "sface_fp32": {
+      "path": "backend/models/face_recognition_sface_2021dec.onnx",
+      "sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79",
+      "prefix_matched": "0ba9fbfa"
+    },
+    "yunet": {
+      "path": "backend/models/face_detection_yunet_2023mar.onnx",
+      "sha256": "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4",
+      "prefix_matched": "8f2383e4"
+    }
+  },
+  "backend_test_results": {
+    "compiled_test_files": 27,
+    "suites": 19,
+    "total_tests": 98,
+    "passed": 98,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --test dist/tests/*.test.js",
+    "exit_code": 0
+  },
+  "flutter_test_results": {
+    "total_files": 59,
+    "total_tests": 746,
+    "passed": 737,
+    "skipped": 5,
+    "failed": 4,
+    "failing_file": "test/v701_valhalla_provider_live_benchmark_test.dart",
+    "failure_cause": "Live Valhalla routing server endpoint not configured (VALHALLA_BASE_URL unset)",
+    "biometric_and_contract_tests_passed": 61,
+    "biometric_and_contract_tests_failed": 0
+  },
+  "secret_scan": {
+    "files_scanned": 648,
+    "secrets_found": 0,
+    "unregistered_images_found": 0,
+    "evidence_file": "evidence/z06_secret_scan.json"
+  }
+}

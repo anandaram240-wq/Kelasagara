@@ -1,0 +1,12 @@
+{
+  "ticket": "G-06",
+  "description": "Biometric Data Lifecycle, Retention Schedule, and Crypto-Shredding",
+  "retention_policy": {
+    "raw_face_images": "0 seconds (Erased immediately after feature extraction)",
+    "biometric_templates": "Retained during active account lifecycle only",
+    "audit_hashes": "365 days (Encrypted immutable hash chain)",
+    "deletion_mechanism": "Crypto-shredding: destruction of per-user AES-256 data key"
+  },
+  "dpia_status": "APPROVED_STAGE_S1",
+  "verdict": "DONE-VERIFIED"
+}

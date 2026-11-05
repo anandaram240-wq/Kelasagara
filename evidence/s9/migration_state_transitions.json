@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-MIGRATION-TRANSITIONS",
+  "timestampUtc": "2026-10-11T05:12:00Z",
+  "stateMachine": {
+    "states": [
+      "DISCOVERED",
+      "VALIDATED",
+      "DECRYPTED",
+      "REENCRYPTED",
+      "WRAPPED",
+      "VERIFIED",
+      "COMMITTED",
+      "FAILED"
+    ],
+    "terminalStates": ["COMMITTED", "FAILED"],
+    "invariants": {
+      "SEC-08": "Migration Atomicity: Failures cannot corrupt source record or yield partial commits.",
+      "SEC-10": "Version Integrity: Only valid source versions (v1, v2) transitioned to v3_kms_gcm."
+    }
+  },
+  "transitionMatrix": [
+    {
+      "step": 1,
+      "fromState": "DISCOVERED",
+      "toState": "VALIDATED",
+      "operation": "Validate schema fields (uid, tenantId, ciphertextHex, ivHex, authTagHex)",
+      "failTarget": "FAILED",
+      "rollbackAction": "None required; record unread"
+    },
+    {
+      "step": 2,
+      "fromState": "VALIDATED",
+      "toState": "DECRYPTED",
+      "operation": "Decrypt source record using legacy master key and source AAD mode",
+      "failTarget": "FAILED",
+      "rollbackAction": "Abort; source record remains intact"
+    },
+    {
+      "step": 3,
+      "fromState": "DECRYPTED",
+      "toState": "REENCRYPTED",
+      "operation": "Generate fresh 256-bit CSPRNG DEK; encrypt vector with local AES-256-GCM under BIOMATCH_AAD_V1",
+      "failTarget": "FAILED",
+      "rollbackAction": "Zeroize plaintext DEK; source record untouched"
+    },
+    {
+      "step": 4,
+      "fromState": "REENCRYPTED",
+      "toState": "WRAPPED",
+      "operation": "Wrap DEK with Cloud KMS KEK and canonical AAD context",
+      "failTarget": "FAILED",
+      "rollbackAction": "Zeroize plaintext DEK; source record untouched"
+    },
+    {
+      "step": 5,
+      "fromState": "WRAPPED",
+      "toState": "VERIFIED",
+      "operation": "Pre-commit test unwrap and decrypt; assert floating-point delta == 0.0",
+      "failTarget": "FAILED",
+      "rollbackAction": "Discard candidate v3 envelope; source record untouched"
+    },
+    {
+      "step": 6,
+      "fromState": "VERIFIED",
+      "toState": "COMMITTED",
+      "operation": "Write v3_kms_gcm envelope to Firestore under atomic lease lock; release lease",
+      "failTarget": "FAILED",
+      "rollbackAction": "Firestore transaction rollback; lease auto-expires in 60s"
+    }
+  ],
+  "verificationResults": {
+    "dryRunSupported": true,
+    "idempotentSkipV3": true,
+    "heterogeneousBatches": true,
+    "vectorFidelityVerified": true
+  }
+}

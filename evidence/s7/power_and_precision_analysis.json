@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "sample_size_target": 200,
+    "statistical_power": 0.8,
+    "alpha_significance": 0.05
+  },
+  "power_table": [
+    {
+      "sample_size_N": 50,
+      "mde_pct": 8.48,
+      "power": 0.8,
+      "verdict": "INSUFFICIENT_POWER"
+    },
+    {
+      "sample_size_N": 100,
+      "mde_pct": 4.24,
+      "power": 0.8,
+      "verdict": "BORDERLINE_POWER"
+    },
+    {
+      "sample_size_N": 200,
+      "mde_pct": 2.12,
+      "power": 0.8,
+      "verdict": "ADEQUATE_PLANNED_POWER"
+    },
+    {
+      "sample_size_N": 500,
+      "mde_pct": 0.85,
+      "power": 0.8,
+      "verdict": "HIGH_PRECISION"
+    }
+  ],
+  "ci_estimation_method": "Wilson score interval for binomial proportions & 2,000 resample subject-clustered bootstrap",
+  "justification": "N=200 cohort provides 80% power to detect a 2.12% performance disparity between Fitzpatrick subgroups."
+}

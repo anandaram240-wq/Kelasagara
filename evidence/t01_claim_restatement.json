@@ -1,0 +1,37 @@
+{
+  "ticket": "T-01",
+  "description": "ISO/IEC 24745 and ISO/IEC 30136 Claim Restatement and Threat Model",
+  "s3_claims_quoted": [
+    "Keyed orthogonal rotation R in O(d) provides ISO/IEC 24745 irreversibility and unlinkability by transforming templates prior to storage.",
+    "AES-256-GCM envelope encryption provides cryptographic confidentiality at rest with crypto-shredding on account deletion."
+  ],
+  "classification_vs_24745": {
+    "irreversibility": {
+      "status": "REFUTED_FOR_ROTATION",
+      "rationale": "An orthogonal rotation is an isometry. Given k=128 known public face pairs, Orthogonal Procrustes recovers R exactly, rendering rotation reversible."
+    },
+    "unlinkability": {
+      "status": "REFUTED_FOR_ROTATION",
+      "rationale": "Because rotations preserve inner products identically, pairwise Gram similarity matrices match across tenants with Gomez-Barrero D_lr = 1.0."
+    },
+    "renewability": {
+      "status": "PARTIAL",
+      "rationale": "Drawing a new rotation matrix R' changes stored vectors, but an attacker with historical templates can cross-link them via distance preservation."
+    },
+    "true_production_security": {
+      "mechanism": "AES-256-GCM Envelope Encryption (NIST SP 800-38D)",
+      "status": "COMPLIANT",
+      "rationale": "Strong semantic security under IND-CCA2. Individual ephemeral per-user data keys crypto-shredded upon DPDPA erasure request."
+    }
+  },
+  "attacker_model": {
+    "held_assets": [
+      "Full database dump of rotated embeddings",
+      "SFace ONNX model weights and architecture (public open-source)",
+      "High-resolution public photos of target subjects (e.g. social media, company directories)",
+      "Full database dump of a partner tenant system"
+    ],
+    "capabilities": "Known-Plaintext Attack (KPA) using Orthogonal Procrustes; Cross-tenant Gram matrix isomorphism linkage."
+  },
+  "verdict": "DONE-VERIFIED"
+}

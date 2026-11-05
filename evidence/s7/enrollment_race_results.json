@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "stage": "S7",
+    "timestamp_utc": "2026-10-11T00:50:00Z",
+    "concurrency_mechanism": "Firestore Distributed Lease Lock + Atomic Mutex Transaction",
+    "lock_document": "biometric_enrollment_sessions/{uid}",
+    "lease_timeout_ms": 60000
+  },
+  "scenarios_evaluated": [
+    {
+      "scenario": "Simultaneous Dual-Device Enrollment Probe",
+      "threads": 2,
+      "requests": 2,
+      "outcome": "Exactly 1 enrollment transaction succeeds; 2nd request fails closed with HTTP 409 Conflict ('Another enrollment session is currently in progress').",
+      "double_enrollment_observed": false
+    },
+    {
+      "scenario": "Stale Lease Lock Auto-Recovery",
+      "elapsed_since_start_ms": 65000,
+      "outcome": "Stale lock expired (>60s); second request safely acquires lease and executes cleanly.",
+      "recovery_status": "PASS"
+    },
+    {
+      "scenario": "Rapid Client Disconnect & Retry",
+      "retries": 3,
+      "outcome": "Subsequent retry within active session window detected as duplicate in-progress request.",
+      "status": "IDEMPOTENT_RETRY_GUARDED"
+    }
+  ],
+  "verdict": "DONE-VERIFIED"
+}

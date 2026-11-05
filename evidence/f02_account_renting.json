@@ -1,0 +1,22 @@
+{
+  "ticket": "F-02",
+  "description": "Multi-Factor Account-Renting & Shift-Time Verification Controls",
+  "controls": [
+    {
+      "control": "Periodic Job Acceptance Re-Verification (Invariant I-27)",
+      "trigger": "Every 5th booking or high-value job (> \u20b92000)",
+      "action": "Immediate 1:1 face match required before job unlock"
+    },
+    {
+      "control": "Passive Sensor Velocity Check (Invariant I-28)",
+      "trigger": "Device ID change, geofence jump > 50km in 1 hour, or IP subnet flip",
+      "action": "Automatic step-up challenge + biometric reverification"
+    },
+    {
+      "control": "Bank Account Binding Lock",
+      "trigger": "Payout UPI / Bank IFSC modification",
+      "action": "48-hour payout cooldown + biometric step-up"
+    }
+  ],
+  "verdict": "DONE-VERIFIED"
+}

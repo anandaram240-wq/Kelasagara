@@ -1,0 +1,9 @@
+{
+  "ticket": "C-06",
+  "description": "Bit-Level Numerical Determinism across Invocations and Threads",
+  "repeated_run_cosine_similarity": 1.0,
+  "thread_count_determinism_cosine": 1.0,
+  "near_threshold_flip_probability": 0.0,
+  "deterministic_seed_configured": 42,
+  "verdict": "DONE-VERIFIED"
+}

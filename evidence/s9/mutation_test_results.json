@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S9.5",
+  "workPackage": "S9-MUTATIONS",
+  "timestampUtc": "2026-10-11T05:13:45Z",
+  "testSuite": "backend/dist/tests/stage_s3_mutation_suite.test.js",
+  "totalMutants": 10,
+  "mutantsKilled": 10,
+  "mutantsSurvived": 0,
+  "killRatePercent": 100.0,
+  "mutants": [
+    {
+      "id": "MUTANT-01",
+      "description": "Threshold off-by-one mutation: comparison >= changed to >",
+      "targetInvariant": "Invariant I-07",
+      "verdict": "KILLED",
+      "durationMs": 0.70
+    },
+    {
+      "id": "MUTANT-02",
+      "description": "Unregistered / Prohibited model_id accepted",
+      "targetInvariant": "Invariant I-02, I-18",
+      "verdict": "KILLED",
+      "durationMs": 0.36
+    },
+    {
+      "id": "MUTANT-03",
+      "description": "Flip-TTA silent bypass: horizontal flip augmentation disabled",
+      "targetInvariant": "Invariant I-01",
+      "verdict": "KILLED",
+      "durationMs": 0.13
+    },
+    {
+      "id": "MUTANT-04",
+      "description": "Quality gate bypass mutation: blurry/dark image accepted",
+      "targetInvariant": "Invariant I-12",
+      "verdict": "KILLED",
+      "durationMs": 0.24
+    },
+    {
+      "id": "MUTANT-05",
+      "description": "Cross-user template substitution: user A template returned for user B",
+      "targetInvariant": "Invariant I-01, I-04",
+      "verdict": "KILLED",
+      "durationMs": 0.17
+    },
+    {
+      "id": "MUTANT-06",
+      "description": "Continuous score leakage to client: floating point score in response",
+      "targetInvariant": "Invariant I-01",
+      "verdict": "KILLED",
+      "durationMs": 0.44
+    },
+    {
+      "id": "MUTANT-07",
+      "description": "Intra-session face swap bypass: burst frame 2 contains different face",
+      "targetInvariant": "Invariant I-01",
+      "verdict": "KILLED",
+      "durationMs": 0.26
+    },
+    {
+      "id": "MUTANT-08",
+      "description": "Inverted calibration slope mutation: Platt scaling slope negated",
+      "targetInvariant": "Invariant I-07",
+      "verdict": "KILLED",
+      "durationMs": 0.23
+    },
+    {
+      "id": "MUTANT-09",
+      "description": "Unverified model substitution: arbitrary ONNX file substituted",
+      "targetInvariant": "Invariant I-18",
+      "verdict": "KILLED",
+      "durationMs": 0.21
+    },
+    {
+      "id": "MUTANT-10",
+      "description": "Repeated LOCKBOX access: repeated key unwrap without re-auth",
+      "targetInvariant": "Invariant I-32",
+      "verdict": "KILLED",
+      "durationMs": 1.13
+    }
+  ]
+}

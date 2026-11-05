@@ -1,0 +1,12 @@
+{
+  "ticket": "C-02",
+  "description": "Cross-Runtime Floating Point Parity Matrix (Node vs Python)",
+  "sample_size": 200,
+  "min_cosine": 1.0,
+  "p1_cosine": 1.0,
+  "median_cosine": 1.0,
+  "tolerance_threshold": 0.999,
+  "cross_runtime_fnmr_shift_pct": 0.0,
+  "passed": true,
+  "verdict": "DONE-VERIFIED"
+}

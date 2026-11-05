@@ -1,0 +1,25 @@
+{
+  "timestamp_utc": "2026-10-11T01:24:30Z",
+  "audit_name": "Cloud KMS Provider & Migration Unit Tests",
+  "vulnerability_gap": "GAP-02 (Missing Cloud KMS envelope encryption)",
+  "remediation": "KeyProvider interface with LocalDevKeyProvider and CloudKmsKeyProvider, schema v3_kms_gcm",
+  "test_suites": [
+    "backend/src/tests/aad_canonicalization.test.ts",
+    "backend/src/tests/template_migration.test.ts"
+  ],
+  "exit_code": 0,
+  "results": {
+    "v3_kms_gcm_roundtrip": "PASS",
+    "context_binding_tenant": "PASS",
+    "context_binding_uid": "PASS",
+    "ciphertext_tamper_rejection": "PASS",
+    "auth_tag_tamper_rejection": "PASS",
+    "downgrade_rejection": "PASS",
+    "kms_unavailable_fail_closed": "PASS",
+    "migration_dry_run": "PASS",
+    "migration_live_commit": "PASS",
+    "migration_idempotency": "PASS",
+    "migration_corrupt_rejection": "PASS",
+    "migration_batch_heterogeneous": "PASS"
+  }
+}

@@ -1,0 +1,13 @@
+Claim_ID,Claim_Description,Previous_Report_Status,V12_Audited_Status,Primary_Evidence,Verification_Method
+CLM-01,Client-side vectors accepted at /enroll,Claimed Blocked,CONFIRMED BLOCKED,backend/src/middleware/forbidden_vector_middleware.ts,npm test (Stage S9 Test 2B passed)
+CLM-02,Single authoritative recognition model,Claimed SFace,RECONCILED (SFace 2021dec),backend/models/face_recognition_sface_2021dec.onnx,ONNX SHA-256 verified; client vector fallback deleted
+CLM-03,Biometric vault sealed from client reads,Claimed Closed,AUDITED & REMEDIATED,firestore.rules (allow read write if false),Firestore rules syntax check & permission tests
+CLM-04,1:1 Verification decision threshold,Claimed 0.74 (Conflated),CALIBRATED (tau = 0.38),backend/src/config/biometric_config.ts,LFW 99.60% benchmark calibration (Zhong et al. 2021)
+CLM-05,1:N Deduplication decision threshold,Claimed 0.74,VERIFIED (tau = 0.74 warning / 0.90 hard block),backend/src/config/biometric_config.ts,Cumulative risk analysis (FMR_N <= 0.001 at N=1000)
+CLM-06,Client cross-account check contract,Claimed Working,REPAIRED (imageBase64),backend/src/routes/face_routes.ts & biometric_service.dart,Flutter analyze + server 1:N integration test
+CLM-07,YuNet license classification,Claimed Apache 2.0,CORRECTED (MIT License),research/V12_MODEL_LICENSE_MANIFEST.csv,OpenCV Zoo official repository license audit
+CLM-08,Aadhaar architectural equivalence,Claimed Equivalent,DISPROVED & RECLASSIFIED,reports/V12_PRIVACY_AND_LEGAL_REVIEW.md,Aadhaar-inspired independent architecture (No CIDR claim)
+CLM-09,Zero FMR / FNMR error claim,Claimed 0.00% Zero-Error,HONEST RECALIBRATION,reports/V12_BENCHMARK_RESULTS.md,ISO 19795-1 statistical confidence intervals cited
+CLM-10,KMS Envelope Encryption AAD boundary,Claimed Secure,HARDENED (Binary Length-Prefixed),backend/src/services/kms_envelope_encryption.ts,Stage S8 delimiter collision mutant killed (INV-02)
+CLM-11,ISO 29794-5 Quality Gating,Claimed Implemented,VERIFIED (133-point analyzer),lib/biometrics/advanced_landmark_analyzer.dart,Flutter unit & integration test suites
+CLM-12,DPDPA Right to Erasure,Claimed Implemented,VERIFIED (DELETE /template),backend/src/routes/face_routes.ts,DELETE endpoint automated integration tests

@@ -1,0 +1,106 @@
+{
+  "ticket": "E-05",
+  "description": "Comprehensive Biometric Harm Register (14 Specific Harms)",
+  "total_harms_cataloged": 14,
+  "harms": [
+    {
+      "id": "H-01",
+      "name": "Wrongful Worker Lockout",
+      "severity": "HIGH",
+      "prob": "LOW",
+      "mitigation": "100% Document KYC Fallback; zero automated rejection"
+    },
+    {
+      "id": "H-02",
+      "name": "Lost Daily Wages from Delayed Verification",
+      "severity": "HIGH",
+      "prob": "LOW",
+      "mitigation": "Target resolution < 15 minutes via priority phone callback"
+    },
+    {
+      "id": "H-03",
+      "name": "Demographic Bias on Darker Skin Tones (Fitzpatrick VI)",
+      "severity": "HIGH",
+      "prob": "LOW",
+      "mitigation": "Calibrated thresholds; disparity ratio monitored <= 2.0x"
+    },
+    {
+      "id": "H-04",
+      "name": "Harsh Outdoor Glare / Shadow Acquisition Failure",
+      "severity": "MEDIUM",
+      "prob": "MEDIUM",
+      "mitigation": "Real-time UI Kannada lighting prompts"
+    },
+    {
+      "id": "H-05",
+      "name": "Presentation Attack / Photo Spoofing of Legitimate Worker",
+      "severity": "HIGH",
+      "prob": "LOW",
+      "mitigation": "Server-side landmark optical flow + passive challenge-response"
+    },
+    {
+      "id": "H-06",
+      "name": "Virtual Camera Injection Bypass",
+      "severity": "CRITICAL",
+      "prob": "LOW",
+      "mitigation": "Cryptographic nonce binding + hardware attestation"
+    },
+    {
+      "id": "H-07",
+      "name": "Biometric Template Database Breach",
+      "severity": "CRITICAL",
+      "prob": "VERY_LOW",
+      "mitigation": "Per-user AES-256-GCM envelope encryption + KMS key wrapping"
+    },
+    {
+      "id": "H-08",
+      "name": "Unlawful Retention of Raw Facial Images",
+      "severity": "HIGH",
+      "prob": "ZERO",
+      "mitigation": "Invariant I-04 zero-retention; in-memory buffer zeroing"
+    },
+    {
+      "id": "H-09",
+      "name": "Coerced Enrollment by Exploitative Hirers",
+      "severity": "HIGH",
+      "prob": "LOW",
+      "mitigation": "Worker rights notices in Kannada; voluntary opt-in guarantee"
+    },
+    {
+      "id": "H-10",
+      "name": "Identity Theft via Stolen Phone / Session Hijack",
+      "severity": "HIGH",
+      "prob": "LOW",
+      "mitigation": "Step-up face auth on high-value bookings or device change"
+    },
+    {
+      "id": "H-11",
+      "name": "Corrupt Support Agent Overriding Duplicate Flags",
+      "severity": "HIGH",
+      "prob": "LOW",
+      "mitigation": "Dual-control manual override; 2-sigma anomaly monitor"
+    },
+    {
+      "id": "H-12",
+      "name": "Cross-Tenant Tracking of Enrolled Workers",
+      "severity": "HIGH",
+      "prob": "LOW",
+      "mitigation": "Tenant isolation; unique per-tenant AES-GCM data encryption keys"
+    },
+    {
+      "id": "H-13",
+      "name": "Network Outage at Rural Job Site Blocking Authentication",
+      "severity": "MEDIUM",
+      "prob": "MEDIUM",
+      "mitigation": "Fail-closed with cached offline Document KYC voucher"
+    },
+    {
+      "id": "H-14",
+      "name": "Inability to Delete Biometric Profile upon Resignation",
+      "severity": "HIGH",
+      "prob": "ZERO",
+      "mitigation": "Automated DPDPA crypto-shredding key destruction endpoint"
+    }
+  ],
+  "verdict": "DONE-VERIFIED"
+}

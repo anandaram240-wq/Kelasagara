@@ -1,0 +1,18 @@
+{
+  "ticket": "F-04",
+  "description": "Privacy-Safe Binned Fraud Telemetry and Alerting",
+  "score_binning": {
+    "policy": "Continuous float cosine scores NEVER emitted to client or third-party loggers",
+    "bins": [
+      "STRONG_MATCH",
+      "MARGINAL_MATCH",
+      "STEP_UP_REQUIRED",
+      "DEFINITIVE_NON_MATCH"
+    ]
+  },
+  "alerting_rules": [
+    "Trigger Tier 2 alert if 5 consecutive failed matches occur on same account",
+    "Trigger Tier 1 alert if duplicate candidate matches multiple existing accounts in 1 hour"
+  ],
+  "verdict": "DONE-VERIFIED"
+}

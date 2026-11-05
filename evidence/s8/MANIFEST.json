@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "stage": "S8",
+  "generatedAt": "2026-10-11T04:56:00Z",
+  "gitSha": "00645aec249ac0b771ef0c9165216253672a2e9b",
+  "branch": "biomatch/s8-verification",
+  "evidenceFiles": [
+    {
+      "filePath": "evidence/s8/recovery_assessment.json",
+      "sha256": "8db79a70b8dbb50af98e1e5b292d2f03637c169ed96ba54c819b0bcc479c7480",
+      "producingCommand": "git status / git diff",
+      "workPackage": "S8-G00",
+      "description": "Baseline freeze, recovery verification, and uncommitted change preservation assessment"
+    },
+    {
+      "filePath": "evidence/s8/baseline.json",
+      "sha256": "be01070a7d0fc818dd70324a8406572b7b382ec9c181da0994c20a74b6778d63",
+      "producingCommand": "shasum -a 256 models/* && git rev-parse HEAD",
+      "workPackage": "S8-A",
+      "description": "Ground-truth model binary SHA-256 hashes, test counts, and environment parameters"
+    },
+    {
+      "filePath": "evidence/s8/test_manifest.json",
+      "sha256": "d27d1c026599c907c7b902ec45a2c1059d040a1ef2f76fad6825c68f7d56c59f",
+      "producingCommand": "find backend/src/tests -name '*.test.ts'",
+      "workPackage": "S8-A",
+      "description": "Authoritative inventory of backend test suites, categories, and invariants"
+    },
+    {
+      "filePath": "evidence/s8/aad_attack_regression.json",
+      "sha256": "00dd1ade1f547d641c388c0e7087387bce2e2613cda8d3d9cf3a3305d3de8ef2",
+      "producingCommand": "node --test dist/tests/aad_canonicalization.test.js",
+      "workPackage": "S8-C",
+      "description": "Verification of BIOMATCH_AAD_V1 length-prefixed binary canonical encoding and collision elimination"
+    },
+    {
+      "filePath": "evidence/s8/kms_unit_tests.json",
+      "sha256": "329d88f5f441c2937e5376dc4d92c0e6b89ff4a40e34ac0d96fc32470ff9e776",
+      "producingCommand": "node --test dist/tests/template_migration.test.js",
+      "workPackage": "S8-C",
+      "description": "Cloud KMS KeyProvider interface and 7-stage template migration state machine verification"
+    },
+    {
+      "filePath": "evidence/s8/attestation_unit_tests.json",
+      "sha256": "65894edf3f56c7b2373be1f02a0d4157438d5157879e57b08913bfb350ad3b16",
+      "producingCommand": "node --test dist/tests/play_integrity_attestation.test.js",
+      "workPackage": "S8-B",
+      "description": "Google Play Integrity attestation verdict tiers and canonical requestHash binding verification"
+    },
+    {
+      "filePath": "evidence/s8/cross_tenant_integration_results.json",
+      "sha256": "9af04a8a8ac6e238b06cf0c55342cf350bdb9f600ccacf910f8ca76cb7c35eca",
+      "producingCommand": "node --test dist/tests/cross_tenant_isolation.test.js",
+      "workPackage": "S8-D",
+      "description": "Cross-tenant IDOR, envelope splicing, wrapped-DEK substitution, and concurrency lock verification"
+    },
+    {
+      "filePath": "evidence/s8/test_run.json",
+      "sha256": "d6de667b66fdb6e45a34ab626edfc5c69f4647b29d4d19cebf977e88be031cdb",
+      "producingCommand": "npm test (node --test --test-concurrency=1 dist/tests/*.test.js)",
+      "workPackage": "S8-E",
+      "description": "Full 127/127 backend end-to-end regression and adversarial suite execution records"
+    }
+  ]
+}

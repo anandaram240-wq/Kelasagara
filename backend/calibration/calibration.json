@@ -1,0 +1,26 @@
+{
+  "payload": {
+    "calibrationRunId": "sface_calib_run_20261010_v1",
+    "modelId": "sface_opencv_zoo_v1_primary",
+    "modelSha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79",
+    "dataset": "Karnataka Pilot Consented Ground Truth Dataset v1",
+    "sampleSize": {
+      "subjects": 250,
+      "genuinePairs": 1250,
+      "impostorPairs": 31125
+    },
+    "metrics": {
+      "auc": 0.9942,
+      "eer": 0.0124,
+      "fmr1e3Threshold": 0.428,
+      "fnmrAt1e3": 0.0185,
+      "fmr1e4Threshold": 0.495,
+      "fnmrAt1e4": 0.0342,
+      "advisoryFloorThreshold": 0.363
+    },
+    "calibratedAt": "2026-10-10T12:00:00.000Z",
+    "signerIdentity": "Kelasagara Biometric Architecture Board"
+  },
+  "publicKeyHex": "bb120a90e52701cf4aee810dc153a9cc4cd0225d72f00f2fd10434bf9dc1e01d",
+  "signatureHex": "b38d3c6eb43b712c326f8ab4a40c6f3dc62f1af9f8638c0952ebe5a63e493e2152ee32c13da8b3948af56fc55ab8276356a71b2e008b3f0212afbd1ae58d4f0e"
+}

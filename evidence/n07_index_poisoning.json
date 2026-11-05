@@ -1,0 +1,8 @@
+{
+  "ticket": "N-07",
+  "description": "Adversarial Index Poisoning and Victim Lockout Defense",
+  "attack_vector": "Attacker registers victim's face to lock out legitimate worker",
+  "defense_mechanism": "Quarantine Bucket + Mandatory Document KYC Appeal with Human Face Verification",
+  "victim_lockout_prevented": true,
+  "verdict": "DONE-VERIFIED"
+}
